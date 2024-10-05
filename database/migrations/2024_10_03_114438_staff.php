@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('nickname');
             $table->enum('employment_type', ['part_time', 'full_time']);
-            $table->enum('position', ['bar', 'kitchen']);
+            $table->enum('position', ['bar', 'kitchen', 'flexible']);
             $table->decimal('rate', 10, 2)->nullable();
             $table->timestamps();
         });
