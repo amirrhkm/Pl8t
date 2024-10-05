@@ -51,29 +51,11 @@
                     <x-form-field class="sm:col-span-4">
                         <x-form-label for="position">Position</x-form-label>
                         <div class="mt-2">
-                          <fieldset>
-                            <div class="flex items-center mb-4">
-                              <input id="position-option-1" type="radio" name="position" id="position" value="bar" class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600">
-                              <label for="et-option-1" class="block ms-2  text-sm font-medium text-black-500 dark:text-black-300">
-                                Bar
-                              </label>
-                            </div>
-
-                            <div class="flex items-center mb-4">
-                              <input id="position-option-2" type="radio" name="position" id="position" value="kitchen" class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600">
-                              <label for="et-option-2" class="block ms-2  text-sm font-medium text-black-500 dark:text-black-300">
-                                Kitchen
-                              </label>
-                            </div>
-
-                            <div class="flex items-center mb-4">
-                              <input id="position-option-3" type="radio" name="position" id="position" value="flexible" class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600">
-                              <label for="et-option-2" class="block ms-2  text-sm font-medium text-black-500 dark:text-black-300">
-                                Flexible
-                              </label>
-                            </div>
-
-                          </fieldset>
+                          <select id="position" name="position" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="bar">Bar</option>
+                            <option value="kitchen">Kitchen</option>
+                            <option value="flexible">Bar/Kitchen</option>
+                          </select>
                           <x-form-error name='position'></x-form-error>
                         </div>
                     </x-form-field>
@@ -81,7 +63,7 @@
                     <x-form-field class="sm:col-span-4">
                         <x-form-label for="rate">Rate (RM/hour)</x-form-label>
                         <div class="mt-2">
-                            <x-form-input type="text" name="rate" id="rate" placeholder="7.5" required />
+                            <x-form-input type="text" name="rate" id="rate" placeholder="7.5" />
                             <x-form-error name='rate'></x-form-error>
                         </div>
                     </x-form-field>
