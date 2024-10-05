@@ -10,14 +10,17 @@ class StaffController extends Controller
     public function index()
     {
         $staff = Staff::all();
-        return view('staff.index', [
-            'staff' => $staff,
-        ]);
+        return view('staff.index', ['staffs' => $staff]);
     }
 
     public function create()
     {
         return view('staff.create');
+    }
+
+    public function show(Staff $staff)
+    {
+        return view('staff.details', ['staff' => $staff]);
     }
 
     public function store(Request $request)
@@ -26,7 +29,7 @@ class StaffController extends Controller
             'name' => 'required|string|max:255',
             'nickname' => 'required|string|max:255',
             'employment_type' => 'required|in:part_time,full_time',
-            'position' => 'required|in:barista,kitchen',
+            'position' => 'required|in:bar,kitchen,flexible',
         ]);
     
         if ($request->employment_type === 'part_time') {
