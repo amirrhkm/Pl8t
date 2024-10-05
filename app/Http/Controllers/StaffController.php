@@ -20,7 +20,7 @@ class StaffController extends Controller
 
     public function show(Staff $staff)
     {
-        return view('staff.details', ['staff' => $staff]);
+        return view('staff.detail', ['staff' => $staff]);
     }
 
     public function store(Request $request)
@@ -30,17 +30,8 @@ class StaffController extends Controller
             'nickname' => 'required|string|max:255',
             'employment_type' => 'required|in:part_time,full_time',
             'position' => 'required|in:bar,kitchen,flexible',
+            'rate' => 'nullable|numeric|min:0',
         ]);
-    
-        if ($request->employment_type === 'part_time') {
-            $request->validate([
-                'rate' => 'required|numeric|min:0',
-            ]);
-        } else {
-            $request->validate([
-                'rate' => 'nullable|numeric|min:0',
-            ]);
-        }
 
         Staff::create($validated);
 
@@ -58,18 +49,9 @@ class StaffController extends Controller
         'name' => 'required|string|max:255',
         'nickname' => 'required|string|max:255',
         'employment_type' => 'required|in:part_time,full_time',
-        'position' => 'required|in:barista,kitchen',
+        'position' => 'required|in:bar,kitchen,flexible',
+        'rate' => 'nullable|numeric|min:0',
     ]);
-
-    if ($request->employment_type === 'part_time') {
-        $request->validate([
-            'rate' => 'required|numeric|min:0',
-        ]);
-    } else {
-        $request->validate([
-            'rate' => 'nullable|numeric|min:0',
-        ]);
-    }
 
     $staff->update($request->all());
 
