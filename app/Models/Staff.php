@@ -9,7 +9,7 @@ class Staff extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'employment_type', 'position', 'rate'];
+    protected $fillable = ['name', 'nickname', 'employment_type', 'position', 'rate'];
 
     public function shifts()
     {

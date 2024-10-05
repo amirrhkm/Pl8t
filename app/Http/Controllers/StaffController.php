@@ -10,7 +10,9 @@ class StaffController extends Controller
     public function index()
     {
         $staff = Staff::all();
-        return view('staff.index', compact('staff'));
+        return view('staff.index', [
+            'staff' => $staff,
+        ]);
     }
 
     public function create()
@@ -22,10 +24,20 @@ class StaffController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'nickname' => 'required|string|max:255',
             'employment_type' => 'required|in:part_time,full_time',
             'position' => 'required|in:barista,kitchen',
-            'rate' => 'required|numeric|min:0',
         ]);
+    
+        if ($request->employment_type === 'part_time') {
+            $request->validate([
+                'rate' => 'required|numeric|min:0',
+            ]);
+        } else {
+            $request->validate([
+                'rate' => 'nullable|numeric|min:0',
+            ]);
+        }
 
         Staff::create($validated);
 
@@ -38,18 +50,29 @@ class StaffController extends Controller
     }
 
     public function update(Request $request, Staff $staff)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'employment_type' => 'required|in:part_time,full_time',
-            'position' => 'required|in:barista,kitchen',
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'nickname' => 'required|string|max:255',
+        'employment_type' => 'required|in:part_time,full_time',
+        'position' => 'required|in:barista,kitchen',
+    ]);
+
+    if ($request->employment_type === 'part_time') {
+        $request->validate([
             'rate' => 'required|numeric|min:0',
         ]);
-
-        $staff->update($validated);
-
-        return redirect()->route('staff.index')->with('success', 'Staff updated successfully.');
+    } else {
+        $request->validate([
+            'rate' => 'nullable|numeric|min:0',
+        ]);
     }
+
+    $staff->update($request->all());
+
+    return redirect('/staff/'. $staff->id)->with('success', 'Staff updated successfully.');
+}
+
 
     public function destroy(Staff $staff)
     {

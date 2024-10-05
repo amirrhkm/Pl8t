@@ -11,9 +11,10 @@ return new class extends Migration
         Schema::create('staff', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('nickname');
             $table->enum('employment_type', ['part_time', 'full_time']);
             $table->enum('position', ['bar', 'kitchen']);
-            $table->decimal('rate', 10, 2);
+            $table->decimal('rate', 10, 2)->nullable();
             $table->timestamps();
         });
     }
