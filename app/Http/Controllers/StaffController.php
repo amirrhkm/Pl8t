@@ -55,7 +55,7 @@ class StaffController extends Controller
 
     $staff->update($request->all());
 
-    return redirect('/staff/'. $staff->id)->with('success', 'Staff updated successfully.');
+    return redirect()->route('staff.index')->with('success', 'Staff updated successfully.');
 }
 
 
