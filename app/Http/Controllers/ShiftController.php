@@ -5,13 +5,26 @@ namespace App\Http\Controllers;
 use App\Models\Shift;
 use App\Models\Staff;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class ShiftController extends Controller
 {
     public function index()
     {
-        $shifts = Shift::with('staff')->get();
-        return view('shifts.index', compact('shifts'));
+        return view('shift.index');
+    }
+
+    public function monthView($year, $month)
+    {
+        $startDate = Carbon::create($year, $month, 1);
+        $endDate = $startDate->copy()->endOfMonth();
+
+        $shifts = Shift::whereBetween('date', [$startDate, $endDate])
+            ->with('staff')
+            ->get()
+            ->groupBy('date');
+
+        return view('shift.month', compact('shifts', 'year', 'month'));
     }
 
     public function create()
