@@ -12,7 +12,7 @@
             <tbody>
                 @foreach ($shifts as $date => $dayShifts)
                     <tr>
-                        <td class="py-2 px-4 border-b align-top">{{ $date }}</td>
+                        <td class="py-2 px-4 border-b align-top">{{ Carbon\Carbon::parse($date)->format('Y-m-d') }}</td>
                         <td class="py-2 px-4 border-b">
                             @foreach ($dayShifts as $shift)
                                 <div class="mb-2">
