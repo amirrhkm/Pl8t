@@ -7,6 +7,7 @@
                 <tr>
                     <th class="py-2 px-4 border-b text-left">Date</th>
                     <th class="py-2 px-4 border-b text-left">Staff Working Hours</th>
+                    <th class="py-2 px-4 border-b text-left">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,6 +36,9 @@
                                     @endif
                                 @endforeach
                             @endif
+                        </td>
+                        <td class="py-2 px-4 border-b">
+                            <a href="{{ route('shift.create', ['date' => $date]) }}" class="text-blue-500 hover:underline">Add Staff</a>
                         </td>
                     </tr>
                 @endforeach
