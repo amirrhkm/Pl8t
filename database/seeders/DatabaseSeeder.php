@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Staff;
+use App\Models\Shift;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
+use Carbon\Carbon;
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -13,11 +14,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        Staff::factory()->count(1)->create();
+        Shift::factory()
+            ->count(365)
+            ->sequence(fn ($sequence) => ['date' => Carbon::createFromFormat('Y-m-d', '2024-01-01')
+            ->addDays($sequence->index)->format('Y-m-d')])
+            ->create();
     }
 }
