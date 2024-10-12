@@ -12,7 +12,7 @@
                     <x-form-field>
                         <x-form-label for="name">Name</x-form-label>
                         <div class="mt-2">
-                            <x-form-input type="text" name="name" id="name" placeholder="Amir Nurhakim Bin Mohd Zaid" required />
+                            <x-form-input type="text" name="name" id="name" placeholder="Staff's Full Name" required />
                             <x-form-error name='name'></x-form-error>
                         </div>
                     </x-form-field>
@@ -20,7 +20,7 @@
                     <x-form-field class="sm:col-span-4">
                         <x-form-label for="nickname">Nickname</x-form-label>
                         <div class="mt-2">
-                            <x-form-input type="text" name="nickname" id="nickname" placeholder="Amir" required />
+                            <x-form-input type="text" name="nickname" id="nickname" placeholder="Staff's Nickname" required />
                             <x-form-error name='nickname'></x-form-error>
                         </div>
                     </x-form-field>
@@ -51,11 +51,11 @@
                     <x-form-field class="sm:col-span-4">
                         <x-form-label for="position">Position</x-form-label>
                         <div class="mt-2">
-                          <select id="position" name="position" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option value="bar">Bar</option>
-                            <option value="kitchen">Kitchen</option>
-                            <option value="flexible">Bar/Kitchen</option>
-                          </select>
+                        <select id="position" name="position" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5">
+                          <option value="bar">Bar</option>
+                          <option value="kitchen">Kitchen</option>
+                          <option value="flexible">Bar/Kitchen</option>
+                        </select>
                           <x-form-error name='position'></x-form-error>
                         </div>
                     </x-form-field>
