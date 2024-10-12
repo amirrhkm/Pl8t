@@ -17,8 +17,8 @@ class ShiftFactory extends Factory
         return [
             'staff_id' => 1,
             'date' => $date,
-            'start_time' => "07:30:00"->format('H:i'),
-            'end_time' => "16:00:00"->format('H:i'),
+            'start_time' => '07:30:00',
+            'end_time' => '16:00:00',
             'total_hours' => 7.5,
             'overtime_hours' => 0,
             'is_public_holiday' => false,
