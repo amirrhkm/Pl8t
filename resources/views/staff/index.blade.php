@@ -14,6 +14,7 @@
             </thead>
             <tbody>
                 @foreach ($staffs->where('employment_type', 'full_time') as $member)
+                    @if ($member->name !== "admin")
                     <tr>
                         <td class="py-2 px-4 border-b">{{ $member->name }}</td>
                         <td class="py-2 px-4 border-b">{{ $member->nickname }}</td>
@@ -34,6 +35,7 @@
                             </div>
                         </td>
                     </tr>
+                    @endif
                 @endforeach
             </tbody>
         </table>
