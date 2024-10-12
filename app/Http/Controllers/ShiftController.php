@@ -27,26 +27,36 @@ class ShiftController extends Controller
         return view('shift.month', compact('shifts', 'year', 'month'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
+        $date = $request->query('date');
         $staff = Staff::all();
-        return view('shifts.create', compact('staff'));
+
+        return view('shift.create', compact('date', 'staff'));
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'staff_id' => 'required|exists:staff,id',
-            'date' => 'required|date',
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i|after:start_time',
-            'is_public_holiday' => 'boolean',
+        $start_time = Carbon::createFromFormat('H:i', $request->start_time);
+        $end_time = Carbon::createFromFormat('H:i', $request->end_time);
+        $total_hours = $end_time->diffInHours($start_time);
+        $overtime_hours = max(0, $total_hours - 8);
+
+        Shift::create([
+            'staff_id' => $request->staff_id,
+            'date' => $request->date,
+            'start_time' => $start_time,
+            'end_time' => $end_time,
+            'total_hours' => $total_hours,
+            'overtime_hours' => $overtime_hours,
+            'is_public_holiday' => false,
         ]);
 
-        $shift = Shift::create($validated);
-        $shift->calculateHours();
+        $year = Carbon::parse($request->date)->year;
+        $month = Carbon::parse($request->date)->month;
 
-        return redirect()->route('shifts.index')->with('success', 'Shift created successfully.');
+        return redirect()->route('shift.month', ['year' => $year, 'month' => $month])
+                        ->with('success', 'Shift added successfully.');
     }
 
     public function edit(Shift $shift)
