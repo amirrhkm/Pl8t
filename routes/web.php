@@ -11,3 +11,5 @@ Route::view('/staff/shifts', 'staff.shifts');
 
 Route::get('/shift', [ShiftController::class, 'index'])->name('shift.index');
 Route::get('/shift/{year}/{month}', [ShiftController::class, 'monthView'])->name('shift.month');
+Route::get('/shift/create', [ShiftController::class, 'create'])->name('shift.create');
+Route::post('/shift', [ShiftController::class, 'store'])->name('shift.store');
