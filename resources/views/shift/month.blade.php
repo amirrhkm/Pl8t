@@ -12,19 +12,29 @@
             <tbody>
                 @foreach ($shifts as $date => $dayShifts)
                     <tr>
-                        <td class="py-2 px-4 border-b align-top">{{ Carbon\Carbon::parse($date)->format('Y-m-d') }}</td>
+                        <td class="py-2 px-4 border-b align-top">{{ Carbon\Carbon::parse($date)->format('d') }}</td>
                         <td class="py-2 px-4 border-b">
-                            @foreach ($dayShifts as $shift)
+                            @if (count($dayShifts) === 1 && $dayShifts[0]->staff->name === "admin")
                                 <div class="mb-2">
-                                    @if ($shift->staff)
-                                        <strong>{{ $shift->staff->name }} ({{ $shift->staff->nickname }}):</strong>
-                                    @else
-                                        <strong>Unknown Staff:</strong>
-                                    @endif
-                                    {{ Carbon\Carbon::parse($shift->start_time)->format('H:i') }} - 
-                                    {{ Carbon\Carbon::parse($shift->end_time)->format('H:i') }}
+                                    No Staff Assigned
                                 </div>
-                            @endforeach
+                            @else
+                                @foreach ($dayShifts as $shift)
+                                    @if ($shift->staff && $shift->staff->name !== "admin")
+                                        <div class="mb-2">
+                                            <strong>{{ $shift->staff->nickname }}:</strong>
+                                            {{ Carbon\Carbon::parse($shift->start_time)->format('H:i') }} - 
+                                            {{ Carbon\Carbon::parse($shift->end_time)->format('H:i') }}
+                                        </div>
+                                    @elseif (!$shift->staff)
+                                        <div class="mb-2">
+                                            <strong>Unknown Staff:</strong>
+                                            {{ Carbon\Carbon::parse($shift->start_time)->format('H:i') }} - 
+                                            {{ Carbon\Carbon::parse($shift->end_time)->format('H:i') }}
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @endif
                         </td>
                     </tr>
                 @endforeach
