@@ -28,7 +28,7 @@
 
         <div class="mb-4">
             <label for="break_duration" class="block text-sm font-medium text-gray-700">Break Duration (hours)</label>
-            <input type="number" step="1" name="break_duration" id="break_duration" class="p-2 mt-1 block w-1/2" value="0">
+            <input type="number" step="0.5" name="break_duration" id="break_duration" class="p-2 mt-1 block w-1/2" value="0">
         </div>
 
         <button type="submit" class="bg-blue-500 text-white px-4 py-2">Add Shift</button>
