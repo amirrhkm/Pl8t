@@ -14,8 +14,9 @@ return new class extends Migration
             $table->date('date');
             $table->time('start_time');
             $table->time('end_time');
+            $table->decimal('break_duration', 5, 2)->default(0);
             $table->decimal('total_hours', 5, 2);
-            $table->decimal('overtime_hours', 5, 2);
+            $table->decimal('overtime_hours', 5, 2)->default(0);
             $table->boolean('is_public_holiday')->default(false);
             $table->timestamps();
         });
