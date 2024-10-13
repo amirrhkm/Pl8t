@@ -100,4 +100,14 @@ class ShiftController extends Controller
         return redirect()->route('shift.month', ['year' => $year, 'month' => $month])
                         ->with('success', 'Shift deleted successfully.');
     }
+
+    public function togglePublicHoliday(Request $request)
+    {
+        $date = $request->input('date');
+        $isPublicHoliday = $request->has('is_public_holiday');
+
+        Shift::where('date', $date)->update(['is_public_holiday' => $isPublicHoliday]);
+
+        return back()->with('success', 'Public holiday status updated successfully.');
+    }
 }
