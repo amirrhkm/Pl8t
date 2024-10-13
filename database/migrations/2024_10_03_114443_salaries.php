@@ -13,9 +13,10 @@ return new class extends Migration
             $table->foreignId('staff_id')->constrained()->onDelete('cascade');
             $table->integer('month');
             $table->integer('year');
-            $table->decimal('total_hours', 8, 2);
-            $table->decimal('total_overtime_hours', 8, 2);
-            $table->decimal('total_public_holiday_hours', 8, 2);
+            $table->decimal('total_reg_hours', 8, 2);
+            $table->decimal('total_reg_ot_hours', 8, 2);
+            $table->decimal('total_ph_hours', 8, 2);
+            $table->decimal('total_ph_ot_hours', 10, 2);
             $table->decimal('total_salary', 10, 2);
             $table->timestamps();
             $table->unique(['staff_id', 'month', 'year']);
