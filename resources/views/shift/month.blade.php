@@ -26,6 +26,12 @@
                                             <strong>{{ $shift->staff->nickname }}:</strong>
                                             {{ Carbon\Carbon::parse($shift->start_time)->format('H:i') }} - 
                                             {{ Carbon\Carbon::parse($shift->end_time)->format('H:i') }}
+                                            <a href="{{ route('shift.edit', $shift->id) }}" class="text-blue-500 hover:underline ml-2">Edit</a>
+                                            <form action="{{ route('shift.destroy', $shift->id) }}" method="POST" class="inline ml-2">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-red-500 hover:underline" onclick="return confirm('Are you sure you want to delete this shift?')">Delete</button>
+                                            </form>
                                         </div>
                                     @elseif (!$shift->staff)
                                         <div class="mb-2">
