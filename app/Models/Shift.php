@@ -9,12 +9,13 @@ class Shift extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['staff_id', 'date', 'start_time', 'end_time', 'total_hours', 'overtime_hours', 'is_public_holiday'];
+    protected $fillable = ['staff_id', 'date', 'start_time', 'end_time', 'total_hours', 'break_duration', 'overtime_hours', 'is_public_holiday'];
 
     protected $casts = [
         'date' => 'date',
         'start_time' => 'datetime',
         'end_time' => 'datetime',
+        'break_duration' => 'decimal',
         'is_public_holiday' => 'boolean',
     ];
 
