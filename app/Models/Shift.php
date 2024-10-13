@@ -15,7 +15,7 @@ class Shift extends Model
         'date' => 'date',
         'start_time' => 'datetime',
         'end_time' => 'datetime',
-        'break_duration' => 'decimal',
+        'break_duration' => 'float',
         'is_public_holiday' => 'boolean',
     ];
 
