@@ -26,3 +26,5 @@ Route::get('/shift/{year}/{month}', [ShiftController::class, 'monthView'])
     ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
 Route::delete('/shift/{shift}', [ShiftController::class, 'destroy'])
     ->name('shift.destroy');
+Route::get('/staff/{staff}/shifts', [StaffController::class, 'shifts'])
+    ->name('staff.shift');
