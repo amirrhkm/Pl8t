@@ -6,10 +6,23 @@ use App\Http\Controllers\ShiftController;
 
 Route::view('/', 'home');
 
+//Staff Routes
 Route::resource('staff', StaffController::class);
 Route::view('/staff/shifts', 'staff.shifts');
 
-Route::get('/shift', [ShiftController::class, 'index'])->name('shift.index');
-Route::get('/shift/{year}/{month}', [ShiftController::class, 'monthView'])->name('shift.month');
-Route::get('/shift/create', [ShiftController::class, 'create'])->name('shift.create');
-Route::post('/shift', [ShiftController::class, 'store'])->name('shift.store');
+//Shift Routes
+Route::get('/shift', [ShiftController::class, 'index'])
+    ->name('shift.index');
+Route::get('/shift/create', [ShiftController::class, 'create'])
+    ->name('shift.create');
+Route::post('/shift', [ShiftController::class, 'store'])
+    ->name('shift.store');
+Route::get('/shift/{shift}/edit', [ShiftController::class, 'edit'])
+    ->name('shift.edit');
+Route::put('/shift/{shift}', [ShiftController::class, 'update'])
+    ->name('shift.update');
+Route::get('/shift/{year}/{month}', [ShiftController::class, 'monthView'])
+    ->name('shift.month')
+    ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
+Route::delete('/shift/{shift}', [ShiftController::class, 'destroy'])
+    ->name('shift.destroy');
