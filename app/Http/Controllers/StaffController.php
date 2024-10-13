@@ -44,24 +44,30 @@ class StaffController extends Controller
     }
 
     public function update(Request $request, Staff $staff)
-{
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'nickname' => 'required|string|max:255',
-        'employment_type' => 'required|in:part_time,full_time',
-        'position' => 'required|in:bar,kitchen,flexible',
-        'rate' => 'nullable|numeric|min:0',
-    ]);
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'nickname' => 'required|string|max:255',
+            'employment_type' => 'required|in:part_time,full_time',
+            'position' => 'required|in:bar,kitchen,flexible',
+            'rate' => 'nullable|numeric|min:0',
+        ]);
 
-    $staff->update($request->all());
+        $staff->update($request->all());
 
-    return redirect()->route('staff.index')->with('success', 'Staff updated successfully.');
-}
+        return redirect()->route('staff.index')->with('success', 'Staff updated successfully.');
+    }
 
 
     public function destroy(Staff $staff)
     {
         $staff->delete();
         return redirect()->route('staff.index')->with('success', 'Staff deleted successfully.');
+    }
+
+    public function shifts(Staff $staff)
+    {
+        $staff->load('shifts');
+        return view('staff.shift', compact('staff'));
     }
 }
