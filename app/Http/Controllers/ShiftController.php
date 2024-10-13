@@ -39,7 +39,7 @@ class ShiftController extends Controller
     {
         $start_time = Carbon::createFromFormat('H:i', $request->start_time);
         $end_time = Carbon::createFromFormat('H:i', $request->end_time);
-        $total_hours = $end_time->diffInHours($start_time);
+        $total_hours = ($start_time->diffInHours($end_time)) - $request->break_duration;
         $overtime_hours = max(0, $total_hours - 8);
 
         Shift::create([
@@ -47,6 +47,7 @@ class ShiftController extends Controller
             'date' => $request->date,
             'start_time' => $start_time,
             'end_time' => $end_time,
+            'break_duration' => $request->break_duration,
             'total_hours' => $total_hours,
             'overtime_hours' => $overtime_hours,
             'is_public_holiday' => false,
