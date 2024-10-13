@@ -19,6 +19,7 @@ class ShiftFactory extends Factory
             'date' => $date,
             'start_time' => '07:30:00',
             'end_time' => '16:00:00',
+            'break_duration' => 1,
             'total_hours' => 7.5,
             'overtime_hours' => 0,
             'is_public_holiday' => false,
