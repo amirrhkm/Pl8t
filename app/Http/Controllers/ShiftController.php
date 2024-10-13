@@ -60,31 +60,44 @@ class ShiftController extends Controller
                         ->with('success', 'Shift added successfully.');
     }
 
-    public function edit(Shift $shift)
+    public function edit($id)
     {
-        $staff = Staff::all();
-        return view('shifts.edit', compact('shift', 'staff'));
+        $shift = Shift::with('staff')->findOrFail($id);
+        return view('shift.edit', compact('shift'));
     }
 
-    public function update(Request $request, Shift $shift)
+    public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'staff_id' => 'required|exists:staff,id',
-            'date' => 'required|date',
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i|after:start_time',
-            'is_public_holiday' => 'boolean',
+        $shift = Shift::findOrFail($id);
+
+        $start_time = Carbon::createFromFormat('H:i', $request->start_time);
+        $end_time = Carbon::createFromFormat('H:i', $request->end_time);
+        $break_duration = $request->break_duration;
+        $total_hours = $start_time->diffInHours($end_time) - $break_duration;
+        $overtime_hours = max(0, $total_hours - 8);
+
+        $shift->update([
+            'start_time' => $start_time,
+            'end_time' => $end_time,
+            'break_duration' => $break_duration,
+            'total_hours' => $total_hours,
+            'overtime_hours' => $overtime_hours,
         ]);
 
-        $shift->update($validated);
-        $shift->calculateHours();
+        $year = Carbon::parse($shift->date)->year;
+        $month = Carbon::parse($shift->date)->month;
 
-        return redirect()->route('shifts.index')->with('success', 'Shift updated successfully.');
+        return redirect()->route('shift.month', ['year' => $year, 'month' => $month])
+                        ->with('success', 'Shift updated successfully.');
     }
 
     public function destroy(Shift $shift)
     {
+        $year = Carbon::parse($shift->date)->year;
+        $month = Carbon::parse($shift->date)->month;
+
         $shift->delete();
-        return redirect()->route('shifts.index')->with('success', 'Shift deleted successfully.');
+        return redirect()->route('shift.month', ['year' => $year, 'month' => $month])
+                        ->with('success', 'Shift deleted successfully.');
     }
 }
