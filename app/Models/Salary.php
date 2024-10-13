@@ -9,7 +9,7 @@ class Salary extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['staff_id', 'month', 'year', 'total_hours', 'total_overtime_hours', 'total_public_holiday_hours', 'total_salary'];
+    protected $fillable = ['staff_id', 'month', 'year', 'total_reg_hours', 'total_reg_ot_hours', 'total_ph_hours', 'total_ph_ot_hours', 'total_salary'];
 
     public function staff()
     {
