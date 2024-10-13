@@ -2,6 +2,57 @@
 
 This web application is designed to help F&B (Food & Beverage) managers efficiently manage staff schedules, track working hours, and calculate salaries. It's particularly useful for businesses with variable shift patterns and different pay rates for regular hours, overtime, and public holidays.
 
+## Development Environment Setup
+
+To set up the development environment for this project, follow these steps:
+
+### Prerequisites
+
+- PHP 8.1 or higher
+- Composer
+- Node.js and npm
+- MySQL or MariaDB
+
+### Installation
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/amirrhkm/tally-up.git
+   cd tally-up
+   ```
+
+2. Install PHP dependencies:
+   ```
+   composer install
+   ```
+
+3. Install JavaScript dependencies:
+   ```
+   npm install
+   ```
+
+4. Create a copy of the `.env.example` file and rename it to `.env`:
+   ```
+   cp .env.example .env
+   ```
+
+5. Run database migrations:
+   ```
+   php artisan migrate
+   ```
+
+6. Seed the database with sample data (optional):
+   ```
+   php artisan db:seed
+   ```
+
+7. Start the development server:
+    ```
+    php artisan serve
+    ```
+
+The application should now be accessible at `http://localhost:8000`.
+
 ## Key Features
 
 1. Staff Management
