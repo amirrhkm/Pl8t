@@ -28,3 +28,5 @@ Route::delete('/shift/{shift}', [ShiftController::class, 'destroy'])
     ->name('shift.destroy');
 Route::get('/staff/{staff}/shifts', [StaffController::class, 'shifts'])
     ->name('staff.shift');
+Route::post('/shift/toggle-public-holiday', [ShiftController::class, 'togglePublicHoliday'])
+    ->name('shift.togglePublicHoliday');
