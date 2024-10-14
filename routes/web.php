@@ -26,7 +26,9 @@ Route::get('/shift/{year}/{month}', [ShiftController::class, 'monthView'])
     ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
 Route::delete('/shift/{shift}', [ShiftController::class, 'destroy'])
     ->name('shift.destroy');
-Route::get('/staff/{staff}/shifts', [StaffController::class, 'shifts'])
+Route::get('/staff/{staff}/shifts/{year}/{month}', [StaffController::class, 'shift'])
     ->name('staff.shift');
 Route::post('/shift/toggle-public-holiday', [ShiftController::class, 'togglePublicHoliday'])
     ->name('shift.togglePublicHoliday');
+Route::get('/staff/{staff}/shifts', [StaffController::class, 'wildcard'])
+    ->name('staff.wildcard');
