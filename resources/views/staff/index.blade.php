@@ -21,7 +21,7 @@
                         <td class="py-2 px-4 border-b">{{ $member->formattedPosition() }}</td>
                         <td class="py-2 px-4 border-b">
                             <div class="flex justify-end space-x-2">
-                                <a href="{{ route('staff.shift', $member->id) }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                                <a href="{{ route('staff.wildcard', $member->id) }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                                     View Shifts
                                 </a>
                                 <a href="{{ route('staff.edit', $member->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -64,7 +64,7 @@
                         <td class="py-2 px-4 border-b">{{ $member->rate }}</td>
                         <td class="py-2 px-4 border-b">
                             <div class="flex justify-end space-x-2">
-                                <a href="{{ route('staff.shift', $member->id) }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                                <a href="{{ route('staff.wildcard', $member->id) }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                                     View Shifts
                                 </a>
                                 <a href="{{ route('staff.edit', $member->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
