@@ -84,10 +84,7 @@ class ShiftController extends Controller
             'overtime_hours' => $overtime_hours,
         ]);
 
-        $year = Carbon::parse($shift->date)->year;
-        $month = Carbon::parse($shift->date)->month;
-
-        return redirect()->route('shift.month', ['year' => $year, 'month' => $month])
+        return redirect()->route('shift.details', ['date' => $shift->date])
                         ->with('success', 'Shift updated successfully.');
     }
 
@@ -109,5 +106,11 @@ class ShiftController extends Controller
         Shift::where('date', $date)->update(['is_public_holiday' => $isPublicHoliday]);
 
         return back()->with('success', 'Public holiday status updated successfully.');
+    }
+
+    public function details($date)
+    {
+        $shifts = Shift::where('date', $date)->with('staff')->get();
+        return view('shift.details', compact('shifts', 'date'));
     }
 }
