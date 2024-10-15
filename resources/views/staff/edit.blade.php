@@ -1,99 +1,81 @@
 <x-layout>
-    <x-slot:heading>
-        Edit Staff: {{ $staff->name }}
-    </x-slot:heading>
+    <x-slot:heading>Edit Staff: {{ $staff->name }}</x-slot:heading>
+    
+    <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-500 to-indigo-600 p-6">
+            <h2 class="text-2xl font-bold text-white">Edit Staff Details</h2>
+            <p class="text-blue-100 mt-2">Update {{ $staff->name }}'s information below</p>
+        </div>
 
-    <form method="POST" action="/staff/{{ $staff->id }}">
-        @csrf
-        @method('PATCH')
-
-        <div class="space-y-12">
-            <div class="border-b border-gray-900/10 pb-12">
-                <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        <form method="POST" action="/staff/{{ $staff->id }}" class="p-6">
+            @csrf
+            @method('PATCH')
+            <div class="space-y-6">
+                <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+                    <x-form-field>
+                        <x-form-label for="name" class="text-gray-700">Full Name</x-form-label>
+                        <x-form-input type="text" name="name" id="name" value="{{ $staff->name }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                        <x-form-error name='name'></x-form-error>
+                    </x-form-field>
 
                     <x-form-field>
-                        <x-form-label for="name">Name</x-form-label>
-                        <div class="mt-2">
-                            <x-form-input  type="text" name="name" id="name" value="{{ $staff->name }}" required />
-                            <x-form-error name='name'></x-form-error>
-                        </div>
-                    </x-form-field>
-
-                    <x-form-field>
-                        <x-form-label for="name">Nickname</x-form-label>
-                        <div class="mt-2">
-                            <x-form-input  type="text" name="nickname" id="nickname" value="{{ $staff->nickname }}" required />
-                            <x-form-error name='name'></x-form-error>
-                        </div>
-                    </x-form-field>
-
-                    <x-form-field class="sm:col-span-4">
-                        <x-form-label for="employment_type">Employment Type</x-form-label>
-                        <div class="mt-2">
-                          <fieldset>
-                            <div class="flex items-center mb-4">
-                              <input id="et-option-1" type="radio" name="employment_type" id= "employment_type" value="full_time" class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600">
-                              <label for="et-option-1" class="block ms-2  text-sm font-medium text-black-500 dark:text-black-300">
-                                Full Time
-                              </label>
-                            </div>
-
-                            <div class="flex items-center mb-4">
-                              <input id="et-option-2" type="radio" name="employment_type" id= "employment_type" value="part_time" class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600">
-                              <label for="et-option-2" class="block ms-2  text-sm font-medium text-black-500 dark:text-black-300">
-                                Part Time
-                              </label>
-                            </div>
-
-                          </fieldset>
-                          <x-form-error name='employment_type'></x-form-error>
-                        </div>
-                    </x-form-field>
-
-                    <x-form-field class="sm:col-span-4">
-                        <x-form-label for="position">Position</x-form-label>
-                        <div class="mt-2">
-                          <select id="position" name="position" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option value="bar">Bar</option>
-                            <option value="kitchen">Kitchen</option>
-                            <option value="flexible">Bar/Kitchen</option>
-                          </select>
-                          <x-form-error name='position'></x-form-error>
-                        </div>
-                    </x-form-field>
-
-                    <x-form-field class="sm:col-span-4">
-                        <x-form-label for="rate">Rate (RM/hour)</x-form-label>
-                        <div class="mt-2">
-                            <x-form-input type="text" name="rate" value="{{ $staff->rate }}" id="rate" placeholder="7.5" />
-                            <x-form-error name='rate'></x-form-error>
-                        </div>
+                        <x-form-label for="nickname" class="text-gray-700">Nickname</x-form-label>
+                        <x-form-input type="text" name="nickname" id="nickname" value="{{ $staff->nickname }}" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                        <x-form-error name='nickname'></x-form-error>
                     </x-form-field>
                 </div>
+
+                <x-form-field>
+                    <x-form-label class="text-gray-700">Employment Type</x-form-label>
+                    <div class="mt-2 space-y-2">
+                        <div class="flex items-center">
+                            <input id="et-option-1" type="radio" name="employment_type" value="full_time" {{ $staff->employment_type === 'full_time' ? 'checked' : '' }} class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300">
+                            <label for="et-option-1" class="ml-3 block text-sm font-medium text-gray-700">Full Time</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input id="et-option-2" type="radio" name="employment_type" value="part_time" {{ $staff->employment_type === 'part_time' ? 'checked' : '' }} class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300">
+                            <label for="et-option-2" class="ml-3 block text-sm font-medium text-gray-700">Part Time</label>
+                        </div>
+                    </div>
+                    <x-form-error name='employment_type'></x-form-error>
+                </x-form-field>
+
+                <x-form-field>
+                    <x-form-label for="position" class="text-gray-700">Position</x-form-label>
+                    <select id="position" name="position" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                        <option value="bar" {{ $staff->position === 'bar' ? 'selected' : '' }}>Bar</option>
+                        <option value="kitchen" {{ $staff->position === 'kitchen' ? 'selected' : '' }}>Kitchen</option>
+                        <option value="flexible" {{ $staff->position === 'flexible' ? 'selected' : '' }}>Bar/Kitchen</option>
+                    </select>
+                    <x-form-error name='position'></x-form-error>
+                </x-form-field>
+
+                <x-form-field>
+                    <x-form-label for="rate" class="text-gray-700">Rate (RM/hour)</x-form-label>
+                    <x-form-input type="text" name="rate" id="rate" value="{{ $staff->rate }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                    <x-form-error name='rate'></x-form-error>
+                </x-form-field>
             </div>
 
             <div class="mt-6 flex items-center justify-between gap-x-6">
-                <div class="flex items-center">
-                    <button
-                        type="submit"
-                        form="delete-form"
-                        class="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Delete
-                    </button>
-                </div>
-
+                <button
+                    type="submit"
+                    form="delete-form"
+                    class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                    onclick="return confirm('Are you sure you want to delete this staff member?');"
+                >
+                    Delete
+                </button>
                 <div class="flex items-center gap-x-6">
-                    <a href="/staff" class="text-sm font-semibold leading-6 text-gray-900">Cancel</a>
-                    <div>
-                        <x-form-button>Update</x-form-button>
-                    </div>
+                    <a href="/staff" class="text-sm font-semibold text-gray-600 hover:text-gray-900">Cancel</a>
+                    <x-form-button class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Update</x-form-button>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 
     <form method="POST" class="hidden" action="/staff/{{ $staff->id }}" id="delete-form">
         @csrf
         @method('DELETE')
     </form>
-
 </x-layout>
