@@ -1,32 +1,57 @@
 <x-layout>
     <x-slot:heading>Edit Shift for {{ Carbon\Carbon::parse($shift->date)->format('d F Y') }}</x-slot:heading>
 
-    <form action="{{ route('shift.update', $shift->id) }}" method="POST">
-        @csrf
-        @method('PUT')
-        <input type="hidden" name="date" value="{{ $shift->date }}">
-        <input type="hidden" name="staff_id" value="{{ $shift->staff_id }}">
+    <div class="flex space-x-6">
+        <div class="bg-white bg-opacity-30 p-6 rounded-lg shadow flex-grow">
+            <form action="{{ route('shift.update', $shift->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+                <input type="hidden" name="date" value="{{ $shift->date }}">
+                <input type="hidden" name="staff_id" value="{{ $shift->staff_id }}">
 
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Staff</label>
-            <p class="mt-1 p-2 block w-1/2 bg-gray-100 rounded">{{ $shift->staff->name }}</p>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-white">Staff</label>
+                    <p class="mt-1 p-2 block w-full bg-gray-100 rounded">{{ $shift->staff->name }}</p>
+                </div>
+
+                <div class="mb-4">
+                    <label for="start_time" class="block text-sm font-medium text-white">Start Time</label>
+                    <input type="time" name="start_time" id="start_time" class="mt-1 block w-full" value="{{ $shift->start_time->format('H:i') }}">
+                </div>
+
+                <div class="mb-4">
+                    <label for="end_time" class="block text-sm font-medium text-white">End Time</label>
+                    <input type="time" name="end_time" id="end_time" class="mt-1 block w-full" value="{{ $shift->end_time->format('H:i') }}">
+                </div>
+
+                <div class="mb-4">
+                    <label for="break_duration" class="block text-sm font-medium text-white">Break Duration (hours)</label>
+                    <input type="number" step="0.5" name="break_duration" id="break_duration" class="p-2 mt-1 block w-full" value="{{ $shift->break_duration }}">
+                </div>
+
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Update Shift</button>
+                </div>
+            </form>
         </div>
 
-        <div class="mb-4">
-            <label for="start_time" class="block text-sm font-medium text-gray-700">Start Time</label>
-            <input type="time" name="start_time" id="start_time" class="mt-1 block w-1/2" value="{{ $shift->start_time->format('H:i') }}">
+        <div class="bg-white bg-opacity-30 p-6 rounded-lg shadow w-64">
+            <h3 class="text-sm font-medium text-white mb-2">Shortcut Buttons:</h3>
+            <div class="space-y-2">
+                <button type="button" class="bg-green-500 text-white px-3 py-1 rounded w-full" onclick="setShift('07:30', '16:00', 1)">7:30 AM - 4:00 PM (Opening)</button>
+                <button type="button" class="bg-gradient-to-r from-green-500 to-orange-500 text-white px-3 py-1 rounded w-full" onclick="setShift('10:30', '23:00', 1.5)">10:30 AM - 11:00 PM (Middle)</button>
+                <button type="button" class="bg-orange-500 text-white px-3 py-1 rounded w-full" onclick="setShift('14:30', '23:00', 1)">2:30 PM - 11:00 PM (Closing)</button>
+                <button type="button" class="bg-orange-500 text-white px-3 py-1 rounded w-full" onclick="setShift('18:00', '23:00', 0)">6:00 PM - 11:00 PM (Closing)</button>
+                <button type="button" class="bg-red-500 text-white px-3 py-1 rounded w-full" onclick="setShift('07:30', '23:00', 2)">7:30 AM - 11:00 PM (Opening-Closing)</button>
+            </div>
         </div>
+    </div>
 
-        <div class="mb-4">
-            <label for="end_time" class="block text-sm font-medium text-gray-700">End Time</label>
-            <input type="time" name="end_time" id="end_time" class="mt-1 block w-1/2" value="{{ $shift->end_time->format('H:i') }}">
-        </div>
-
-        <div class="mb-4">
-            <label for="break_duration" class="block text-sm font-medium text-gray-700">Break Duration (hours)</label>
-            <input type="number" step="0.5" name="break_duration" id="break_duration" class="p-2 mt-1 block w-1/2" value="{{ $shift->break_duration }}">
-        </div>
-
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2">Update Shift</button>
-    </form>
+    <script>
+        function setShift(startTime, endTime, breakDuration) {
+            document.getElementById('start_time').value = startTime;
+            document.getElementById('end_time').value = endTime;
+            document.getElementById('break_duration').value = breakDuration;
+        }
+    </script>
 </x-layout>
