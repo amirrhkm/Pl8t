@@ -1,7 +1,7 @@
 <x-layout>
     <x-slot:heading>Shift Details for {{ $staff->name }}</x-slot:heading>
 
-    <div class="overflow-x-auto mb-8">
+    <div class="overflow-x-auto mb-8 rounded-lg shadow">
         <table class="min-w-full bg-white">
             <thead class="bg-gray-100">
                 <tr>
