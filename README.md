@@ -9,9 +9,8 @@ To set up the development environment for this project, follow these steps:
 ### Prerequisites
 
 - PHP 8.1 or higher
-- Composer
-- Node.js and npm
-- MySQL or MariaDB
+- Composer 2
+- SQLite
 
 ### Installation
 
@@ -26,27 +25,30 @@ To set up the development environment for this project, follow these steps:
    composer install
    ```
 
-3. Install JavaScript dependencies:
-   ```
-   npm install
-   ```
-
-4. Create a copy of the `.env.example` file and rename it to `.env`:
+3. Create a copy of the `.env.example` file and rename it to `.env`, and make sure to set the correct database configuration to use `sqlite`:
    ```
    cp .env.example .env
    ```
+   ```.env
+   DB_CONNECTION=sqlite
+   ```
 
-5. Run database migrations:
+4. Run database migrations, to view the database, setup `TablePlus` and import the `database.sqlite` file from the `database` folder:
    ```
    php artisan migrate
    ```
 
-6. Seed the database with sample data (optional):
+6. Seed the database with sample data, this will create shift handler for the UI interface (required):
    ```
    php artisan db:seed
    ```
 
-7. Start the development server:
+7. Generate a new application key:
+   ```
+   php artisan key:generate
+   ```
+
+8. Start the development server:
     ```
     php artisan serve
     ```
