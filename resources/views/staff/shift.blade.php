@@ -52,25 +52,60 @@
                     <td class="py-2 px-4 border-b font-bold">{{ $month_ph_hours }}</td>
                     <td class="py-2 px-4 border-b font-bold">{{ $month_ph_ot_hours }}</td>
                 </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="mt-8 bg-white rounded-lg shadow p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-bold">Payslip for {{ $staff->name }}</h2>
+            <a href="{{ route('staff.payslip.download', ['staff' => $staff->id, 'month' => $monthShifts->first()->start_time->format('Y-m')]) }}" 
+               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Download Payslip
+            </a>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <p><strong>Employee Name:</strong> {{ $staff->name }}</p>
+                <p><strong>Month:</strong> {{ $monthShifts->first()->start_time->format('F Y') }}</p>
+                <p><strong>Rate:</strong> RM {{ $staff->rate }}</p>
+            </div>
+            <div>
+                <p><strong>Regular Hours:</strong> {{ $month_reg_hours }}</p>
+                <p><strong>Overtime Hours:</strong> {{ $month_reg_ot_hours }}</p>
+                <p><strong>Public Holiday Hours:</strong> {{ $month_ph_hours }}</p>
+                <p><strong>Public Holiday Overtime Hours:</strong> {{ $month_ph_ot_hours }}</p>
+            </div>
+        </div>
+        <table class="w-full mt-4">
+            <thead>
                 <tr>
-                    <td colspan="6" class="py-2 px-4 text-right">Regular Pay:</td>
-                    <td class="py-2 px-4">RM {{ number_format($reg_pay, 2) }}</td>
+                    <th class="text-left">Earnings</th>
+                    <th class="text-right">Amount (RM)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Regular Pay</td>
+                    <td class="text-right">{{ number_format($reg_pay, 2) }}</td>
                 </tr>
                 <tr>
-                    <td colspan="6" class="py-2 px-4 text-right">Regular Overtime Pay:</td>
-                    <td class="py-2 px-4">RM {{ number_format($reg_ot_pay, 2) }}</td>
+                    <td>Regular Overtime Pay</td>
+                    <td class="text-right">{{ number_format($reg_ot_pay, 2) }}</td>
                 </tr>
                 <tr>
-                    <td colspan="6" class="py-2 px-4 text-right">Public Holiday Pay:</td>
-                    <td class="py-2 px-4">RM {{ number_format($ph_pay, 2) }}</td>
+                    <td>Public Holiday Pay</td>
+                    <td class="text-right">{{ number_format($ph_pay, 2) }}</td>
                 </tr>
                 <tr>
-                    <td colspan="6" class="py-2 px-4 text-right">Public Holiday Overtime Pay:</td>
-                    <td class="py-2 px-4">RM {{ number_format($ph_ot_pay, 2) }}</td>
+                    <td>Public Holiday Overtime Pay</td>
+                    <td class="text-right">{{ number_format($ph_ot_pay, 2) }}</td>
                 </tr>
-                <tr>
-                    <td colspan="6" class="py-2 px-4 border-b font-bold text-right">Total Salary:</td>
-                    <td class="py-2 px-4 border-b font-bold">RM {{ number_format($total_salary, 2) }}</td>
+            </tbody>
+            <tfoot>
+                <tr class="font-bold">
+                    <td>Total Salary</td>
+                    <td class="text-right">{{ number_format($total_salary, 2) }}</td>
                 </tr>
             </tfoot>
         </table>
