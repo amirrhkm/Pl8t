@@ -3,8 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\ShiftController;
+use App\Http\Controllers\HomeController;
 
-Route::view('/', 'home');
+//Home Routes
+Route::get('/', [HomeController::class, 'index'])
+    ->name('home');
 
 //Staff Routes
 Route::resource('staff', StaffController::class);
