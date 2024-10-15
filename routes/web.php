@@ -35,3 +35,5 @@ Route::post('/shift/toggle-public-holiday', [ShiftController::class, 'togglePubl
     ->name('shift.togglePublicHoliday');
 Route::get('/staff/{staff}/shifts', [StaffController::class, 'wildcard'])
     ->name('staff.wildcard');
+Route::get('/shift/details/{date}', [ShiftController::class, 'details'])
+    ->name('shift.details');
