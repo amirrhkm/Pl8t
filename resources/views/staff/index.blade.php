@@ -1,15 +1,15 @@
 <x-layout>
     <x-slot:heading>Staff List</x-slot:heading>
     
-    <h2 class="text-xl font-bold mb-4">Full-Time Staff</h2>
-    <div class="overflow-x-auto mb-8">
-        <table class="min-w-full bg-white">
-            <thead class="bg-gray-100">
+    <h2 class="text-xl font-bold mb-4 text-white">Full-Time Staff</h2>
+    <div class="overflow-x-auto mb-8 rounded-lg shadow">
+        <table class="min-w-full bg-white rounded-lg">
+            <thead class="bg-gray-100 rounded-t-lg">
                 <tr>
-                    <th class="py-2 px-4 border-b text-left">Name</th>
+                    <th class="py-2 px-4 border-b text-left rounded-tl-lg">Name</th>
                     <th class="py-2 px-4 border-b text-left">Nickname</th>
                     <th class="py-2 px-4 border-b text-left">Position</th>
-                    <th class="py-2 px-4 border-b text-left"></th>
+                    <th class="py-2 px-4 border-b text-left rounded-tr-lg"></th>
                 </tr>
             </thead>
             <tbody>
@@ -43,16 +43,16 @@
         </table>
     </div>
 
-    <h2 class="text-xl font-bold mb-4">Part-Time Staff</h2>
-    <div class="overflow-x-auto">
-        <table class="min-w-full bg-white">
-            <thead class="bg-gray-100">
+    <h2 class="text-xl font-bold mb-4 text-white">Part-Time Staff</h2>
+    <div class="overflow-x-auto rounded-lg shadow">
+        <table class="min-w-full bg-white rounded-lg">
+            <thead class="bg-gray-100 rounded-t-lg">
                 <tr>
-                    <th class="py-2 px-4 border-b text-left">Name</th>
+                    <th class="py-2 px-4 border-b text-left rounded-tl-lg">Name</th>
                     <th class="py-2 px-4 border-b text-left">Nickname</th>
                     <th class="py-2 px-4 border-b text-left">Position</th>
                     <th class="py-2 px-4 border-b text-left">Rate (RM)</th>
-                    <th class="py-2 px-4 border-b text-left"></th>
+                    <th class="py-2 px-4 border-b text-left rounded-tr-lg"></th>
                 </tr>
             </thead>
             <tbody>
@@ -86,8 +86,8 @@
     </div>
 
     <div class="mt-8 flex justify-center">
-       <a href="{{ route('staff.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-           Create New Staff
-       </a>
-   </div>
+        <a href="{{ route('staff.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+            Create New Staff
+        </a>
+    </div>
 </x-layout>
