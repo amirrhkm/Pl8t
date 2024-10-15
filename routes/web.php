@@ -37,3 +37,7 @@ Route::get('/staff/{staff}/shifts', [StaffController::class, 'wildcard'])
     ->name('staff.wildcard');
 Route::get('/shift/details/{date}', [ShiftController::class, 'details'])
     ->name('shift.details');
+
+//Payslip Routes
+Route::get('/staff/{staff}/payslip/{month}', [StaffController::class, 'downloadPayslip'])
+    ->name('staff.payslip.download');
