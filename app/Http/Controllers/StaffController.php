@@ -6,6 +6,7 @@ use App\Models\Staff;
 use App\Models\Salary;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class StaffController extends Controller
 {
@@ -174,5 +175,49 @@ class StaffController extends Controller
         }
 
         return view('staff.wildcard', compact('staff', 'monthlyData'));
+    }
+
+    public function downloadPayslip(Staff $staff, $yearMonth)
+    {
+        [$year, $month] = explode('-', $yearMonth);
+        $date = Carbon::createFromDate($year, $month, 1);
+        $monthShifts = $staff->shifts()
+            ->whereYear('date', $year)
+            ->whereMonth('date', $month)
+            ->orderBy('date')
+            ->get();
+
+        $month_reg_hours = 0;
+        $month_reg_ot_hours = 0;
+        $month_ph_hours = 0;
+        $month_ph_ot_hours = 0;
+
+        foreach ($monthShifts as $shift) {
+            $hours = $shift->start_time->diffInHours($shift->end_time) - $shift->break_duration;
+            $otHours = max(0, $hours - 8);
+
+            if ($shift->is_public_holiday) {
+                $month_ph_hours += $hours;
+                $month_ph_ot_hours += $otHours;
+            } else {
+                $month_reg_hours += $hours;
+                $month_reg_ot_hours += $otHours;
+            }
+        }
+
+        $reg_pay = $month_reg_hours * $staff->rate;
+        $reg_ot_pay = $month_reg_ot_hours * 10;
+        $ph_pay = $month_ph_hours * $staff->rate * 2;
+        $ph_ot_pay = $month_ph_ot_hours * 10 * 2;
+        
+        $total_salary = $reg_pay + $reg_ot_pay + $ph_pay + $ph_ot_pay;
+
+        $pdf = PDF::loadView('staff.payslip-pdf', compact(
+            'staff', 'monthShifts', 'date', 'year', 'month',
+            'month_reg_hours', 'month_reg_ot_hours', 'month_ph_hours', 'month_ph_ot_hours',
+            'reg_pay', 'reg_ot_pay', 'ph_pay', 'ph_ot_pay', 'total_salary'
+        ));
+
+        return $pdf->download("payslip-{$staff->name}-{$year}-{$month}.pdf");
     }
 }
