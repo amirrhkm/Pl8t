@@ -95,10 +95,11 @@ class StaffController extends Controller
             }
         }
 
+        $ot_rate = $staff->employment_type === 'part_time' ? 10 : 11;
         $reg_pay = $month_reg_hours * $staff->rate;
-        $reg_ot_pay = $month_reg_ot_hours * 10;
+        $reg_ot_pay = $month_reg_ot_hours * $ot_rate;
         $ph_pay = $month_ph_hours * $staff->rate * 2;
-        $ph_ot_pay = $month_ph_ot_hours * 10 * 2;
+        $ph_ot_pay = $month_ph_ot_hours * $ot_rate * 2;
         
         $total_salary = $reg_pay + $reg_ot_pay + $ph_pay + $ph_ot_pay;
         
@@ -151,10 +152,11 @@ class StaffController extends Controller
         foreach ($monthlyData as $yearMonth => &$data) {
             [$year, $month] = explode('-', $yearMonth);
             
+            $ot_rate = $staff->employment_type === 'part_time' ? 10 : 11;
             $data['reg_pay'] = $data['reg_hours'] * $staff->rate;
-            $data['reg_ot_pay'] = $data['reg_ot_hours'] * 10;
+            $data['reg_ot_pay'] = $data['reg_ot_hours'] * $ot_rate;
             $data['ph_pay'] = $data['ph_hours'] * $staff->rate * 2;
-            $data['ph_ot_pay'] = $data['ph_ot_hours'] * 10 * 2;
+            $data['ph_ot_pay'] = $data['ph_ot_hours'] * $ot_rate * 2;
             
             $total_salary = $data['reg_pay'] + $data['reg_ot_pay'] + $data['ph_pay'] + $data['ph_ot_pay'];
 
@@ -205,10 +207,11 @@ class StaffController extends Controller
             }
         }
 
+        $ot_rate = $staff->employment_type === 'part_time' ? 10 : 11;
         $reg_pay = $month_reg_hours * $staff->rate;
-        $reg_ot_pay = $month_reg_ot_hours * 10;
+        $reg_ot_pay = $month_reg_ot_hours * $ot_rate;
         $ph_pay = $month_ph_hours * $staff->rate * 2;
-        $ph_ot_pay = $month_ph_ot_hours * 10 * 2;
+        $ph_ot_pay = $month_ph_ot_hours * $ot_rate * 2;
         
         $total_salary = $reg_pay + $reg_ot_pay + $ph_pay + $ph_ot_pay;
 
@@ -218,6 +221,6 @@ class StaffController extends Controller
             'reg_pay', 'reg_ot_pay', 'ph_pay', 'ph_ot_pay', 'total_salary'
         ));
 
-        return $pdf->download("payslip-{$staff->name}-{$year}-{$month}.pdf");
+        return $pdf->download("payslip-bbc078-p15-{$staff->nickname}-{$year}-{$month}.pdf");
     }
 }
