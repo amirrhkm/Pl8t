@@ -5,13 +5,13 @@
         <table class="min-w-full bg-white">
             <thead class="bg-gray-100">
                 <tr>
-                    <th class="py-2 px-4 border-b text-left">Date</th>
-                    <th class="py-2 px-4 border-b text-left">Start Time</th>
-                    <th class="py-2 px-4 border-b text-left">End Time</th>
-                    <th class="py-2 px-4 border-b text-left">Regular Hours</th>
-                    <th class="py-2 px-4 border-b text-left">Regular OT Hours</th>
-                    <th class="py-2 px-4 border-b text-left">PH Hours</th>
-                    <th class="py-2 px-4 border-b text-left">PH OT Hours</th>
+                    <th class="py-2 px-4 border-b text-left text-center">Date</th>
+                    <th class="py-2 px-4 border-b text-left text-center">Start Time</th>
+                    <th class="py-2 px-4 border-b text-left text-center">End Time</th>
+                    <th class="py-2 px-4 border-b text-left text-center">Regular Hours</th>
+                    <th class="py-2 px-4 border-b text-left text-center">Regular OT Hours</th>
+                    <th class="py-2 px-4 border-b text-left text-center">PH Hours</th>
+                    <th class="py-2 px-4 border-b text-left text-center">PH OT Hours</th>
                 </tr>
             </thead>
             <tbody>
@@ -20,10 +20,10 @@
                         $hours = $shift->start_time->diffInHours($shift->end_time) - $shift->break_duration;
                         $otHours = max(0, $hours - 8);
 
-                        $reg_hours = 0;
-                        $reg_ot_hours = 0;
-                        $ph_hours = 0;
-                        $ph_ot_hours = 0;
+                        $reg_hours = 0.0;
+                        $reg_ot_hours = 0.0;
+                        $ph_hours = 0.0;
+                        $ph_ot_hours = 0.0;
 
                         if ($shift->is_public_holiday) {
                             $ph_hours = $hours;
@@ -34,23 +34,23 @@
                         }
                     @endphp
                     <tr>
-                        <td class="py-2 px-4 border-b">{{ Carbon\Carbon::parse($shift->date)->format('d/m') }}</td>
-                        <td class="py-2 px-4 border-b">{{ $shift->start_time->format('H:i') }}</td>
-                        <td class="py-2 px-4 border-b">{{ $shift->end_time->format('H:i') }}</td>
-                        <td class="py-2 px-4 border-b">{{ $reg_hours }}</td>
-                        <td class="py-2 px-4 border-b">{{ $reg_ot_hours }}</td>
-                        <td class="py-2 px-4 border-b">{{ $ph_hours }}</td>
-                        <td class="py-2 px-4 border-b">{{ $ph_ot_hours }}</td>
+                        <td class="py-2 px-4 border-b text-center">{{ Carbon\Carbon::parse($shift->date)->format('d/m') }}</td>
+                        <td class="py-2 px-4 border-b text-center">{{ $shift->start_time->format('H:i') }}</td>
+                        <td class="py-2 px-4 border-b text-center">{{ $shift->end_time->format('H:i') }}</td>
+                        <td class="py-2 px-4 border-b text-center">{{ $reg_hours }}</td>
+                        <td class="py-2 px-4 border-b text-center">{{ $reg_ot_hours }}</td>
+                        <td class="py-2 px-4 border-b text-center">{{ $ph_hours }}</td>
+                        <td class="py-2 px-4 border-b text-center">{{ $ph_ot_hours }}</td>
                     </tr>
                 @endforeach
             </tbody>
             <tfoot class="bg-gray-100">
                 <tr>
-                    <td colspan="3" class="py-2 px-4 border-b font-bold text-right">Total:</td>
-                    <td class="py-2 px-4 border-b font-bold">{{ $month_reg_hours }}</td>
-                    <td class="py-2 px-4 border-b font-bold">{{ $month_reg_ot_hours }}</td>
-                    <td class="py-2 px-4 border-b font-bold">{{ $month_ph_hours }}</td>
-                    <td class="py-2 px-4 border-b font-bold">{{ $month_ph_ot_hours }}</td>
+                    <td colspan="3" class="py-2 px-4 border-b font-bold text-right">Total Hours:</td>
+                    <td class="py-2 px-4 border-b font-bold text-center">{{ $month_reg_hours }}</td>
+                    <td class="py-2 px-4 border-b font-bold text-center">{{ $month_reg_ot_hours }}</td>
+                    <td class="py-2 px-4 border-b font-bold text-center">{{ $month_ph_hours }}</td>
+                    <td class="py-2 px-4 border-b font-bold text-center">{{ $month_ph_ot_hours }}</td>
                 </tr>
             </tfoot>
         </table>
@@ -59,7 +59,7 @@
     <div class="mt-8 bg-white rounded-lg shadow p-6">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-2xl font-bold">Payslip for {{ $staff->name }}</h2>
-            <a href="{{ route('staff.payslip.download', ['staff' => $staff->id, 'month' => $monthShifts->first()->start_time->format('Y-m')]) }}" 
+            <a href="{{ route('staff.payslip.download', ['staff' => $staff->id, 'month' => $monthShifts->first()->date->format('Y-m')]) }}" 
                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Download Payslip
             </a>
@@ -67,7 +67,7 @@
         <div class="grid grid-cols-2 gap-4">
             <div>
                 <p><strong>Employee Name:</strong> {{ $staff->name }}</p>
-                <p><strong>Month:</strong> {{ $monthShifts->first()->start_time->format('F Y') }}</p>
+                <p><strong>Month:</strong> {{ $monthShifts->first()->date->format('F Y') }}</p>
                 <p><strong>Rate:</strong> RM {{ $staff->rate }}</p>
             </div>
             <div>
