@@ -1,5 +1,6 @@
 <x-layout>
-    <x-slot:heading>Shift Details for {{ $staff->name }}</x-slot:heading>
+    <x-slot:heading>{{ $staff->name }}</x-slot:heading>
+    <x-slot:description>{{ $date->format('F') }} Shift Details</x-slot:description>
 
     <div class="overflow-x-auto mb-8 rounded-lg shadow">
         <table class="min-w-full bg-white">
@@ -68,7 +69,9 @@
             <div>
                 <p><strong>Employee Name:</strong> {{ $staff->name }}</p>
                 <p><strong>Month:</strong> {{ $monthShifts->first()->date->format('F Y') }}</p>
-                <p><strong>Rate:</strong> RM {{ $staff->rate }}</p>
+                @if($staff->employment_type === 'part_time')
+                    <p><strong>Rate:</strong> RM {{ $staff->rate }}</p>
+                @endif
             </div>
             <div>
                 <p><strong>Regular Hours:</strong> {{ $month_reg_hours }}</p>
@@ -85,26 +88,37 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Regular Pay</td>
-                    <td class="text-right">{{ number_format($reg_pay, 2) }}</td>
-                </tr>
-                <tr>
-                    <td>Regular Overtime Pay</td>
-                    <td class="text-right">{{ number_format($reg_ot_pay, 2) }}</td>
-                </tr>
-                <tr>
-                    <td>Public Holiday Pay</td>
-                    <td class="text-right">{{ number_format($ph_pay, 2) }}</td>
-                </tr>
-                <tr>
-                    <td>Public Holiday Overtime Pay</td>
-                    <td class="text-right">{{ number_format($ph_ot_pay, 2) }}</td>
-                </tr>
+                @if($staff->employment_type === 'part_time')
+                    <tr>
+                        <td>Regular Pay</td>
+                        <td class="text-right">{{ number_format($reg_pay, 2) }}</td>
+                    </tr>
+                    <tr>
+                        <td>Regular Overtime Pay</td>
+                        <td class="text-right">{{ number_format($reg_ot_pay, 2) }}</td>
+                    </tr>
+                    <tr>
+                        <td>Public Holiday Pay</td>
+                        <td class="text-right">{{ number_format($ph_pay, 2) }}</td>
+                    </tr>
+                    <tr>
+                        <td>Public Holiday Overtime Pay</td>
+                        <td class="text-right">{{ number_format($ph_ot_pay, 2) }}</td>
+                    </tr>
+                @else
+                    <tr>
+                        <td>Regular Overtime Pay</td>
+                        <td class="text-right">{{ number_format($reg_ot_pay, 2) }}</td>
+                    </tr>
+                    <tr>
+                        <td>Public Holiday Overtime Pay</td>
+                        <td class="text-right">{{ number_format($ph_ot_pay, 2) }}</td>
+                    </tr>
+                @endif
             </tbody>
             <tfoot>
                 <tr class="font-bold">
-                    <td>Total Salary</td>
+                    <td>{{ $staff->employment_type === 'part_time' ? 'Total Salary' : 'Total Overtime Pay' }}</td>
                     <td class="text-right">{{ number_format($total_salary, 2) }}</td>
                 </tr>
             </tfoot>
