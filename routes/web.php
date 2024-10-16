@@ -16,6 +16,8 @@ Route::view('/staff/shifts', 'staff.shifts');
 //Shift Routes
 Route::get('/shift', [ShiftController::class, 'index'])
     ->name('shift.index');
+Route::get('/shift/today', [ShiftController::class, 'today'])
+    ->name('shift.today');
 Route::get('/shift/create', [ShiftController::class, 'create'])
     ->name('shift.create');
 Route::post('/shift', [ShiftController::class, 'store'])
