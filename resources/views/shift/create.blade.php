@@ -1,5 +1,6 @@
 <x-layout>
-    <x-slot:heading>Add Staff for {{ Carbon\Carbon::parse($date)->format('d F Y') }}</x-slot:heading>
+    <x-slot:heading>Shift Central</x-slot:heading>
+    <x-slot:description>Add member to {{ Carbon\Carbon::parse($date)->format('d F Y') }} shift</x-slot:description>
 
     <div class="flex space-x-6">
         <div class="bg-white bg-opacity-30 p-6 rounded-lg shadow flex-grow">
@@ -11,7 +12,7 @@
                     <label for="staff_id" class="block text-sm font-medium text-white">Staff</label>
                     <select name="staff_id" id="staff_id" class="p-2 mt-1 block w-full">
                         @foreach ($staff as $member)
-                            @if ($member->name !== "admin")
+                            @if ($member->name !== "admin" && !$member->shifts->contains('date', $date))
                                 <option value="{{ $member->id }}">{{ $member->name }}</option>
                             @endif
                         @endforeach
@@ -21,11 +22,17 @@
                 <div class="mb-4">
                     <label for="start_time" class="block text-sm font-medium text-white">Start Time</label>
                     <input type="time" name="start_time" id="start_time" class="mt-1 block w-full">
+                    @error('start_time')
+                        <div class="invalid-feedback text-red-500 text-xs">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="mb-4">
                     <label for="end_time" class="block text-sm font-medium text-white">End Time</label>
                     <input type="time" name="end_time" id="end_time" class="mt-1 block w-full">
+                    @error('end_time')
+                        <div class="invalid-feedback text-red-500 text-xs">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="mb-4">
