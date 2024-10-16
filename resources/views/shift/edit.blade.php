@@ -1,5 +1,6 @@
 <x-layout>
-    <x-slot:heading>Edit Shift for {{ Carbon\Carbon::parse($shift->date)->format('d F Y') }}</x-slot:heading>
+    <x-slot:heading>Shift Central</x-slot:heading>
+    <x-slot:description>Edit {{ Carbon\Carbon::parse($shift->date)->format('d F Y') }} shift</x-slot:description>
 
     <div class="flex space-x-6">
         <div class="bg-white bg-opacity-30 p-6 rounded-lg shadow flex-grow">
