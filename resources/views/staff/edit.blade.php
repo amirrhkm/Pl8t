@@ -1,9 +1,10 @@
 <x-layout>
-    <x-slot:heading>Edit Staff: {{ $staff->name }}</x-slot:heading>
+    <x-slot:heading>Team Hub</x-slot:heading>
+    <x-slot:description>{{ $staff->name }}</x-slot:description>
     
     <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
         <div class="bg-gradient-to-r from-blue-500 to-indigo-600 p-6">
-            <h2 class="text-2xl font-bold text-white">Edit Staff Details</h2>
+            <h2 class="text-2xl font-bold text-white">Member Details</h2>
             <p class="text-blue-100 mt-2">Update {{ $staff->name }}'s information below</p>
         </div>
 
