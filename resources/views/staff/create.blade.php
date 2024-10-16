@@ -1,10 +1,11 @@
 <x-layout>
-    <x-slot:heading>Add New Staff</x-slot:heading>
+    <x-slot:heading>Team Hub</x-slot:heading>
+    <x-slot:description>Let's welcome the new member!</x-slot:description>
     
     <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
         <div class="bg-gradient-to-r from-blue-500 to-indigo-600 p-6">
-            <h2 class="text-2xl font-bold text-white">Add New Staff to BBC078 P15</h2>
-            <p class="text-blue-100 mt-2">Complete the new staff's details below</p>
+            <h2 class="text-2xl font-bold text-white">New Member Registration</h2>
+            <p class="text-blue-100 mt-2">Complete the new member's details below</p>
         </div>
 
         <form method="POST" action="/staff" class="p-6">
@@ -41,7 +42,7 @@
 
                 <x-form-field>
                     <x-form-label for="position" class="text-gray-700">Position</x-form-label>
-                    <select id="position" name="position" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                    <select id="position" name="position" class="mt-1 block w-1/2 pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                         <option value="bar">Bar</option>
                         <option value="kitchen">Kitchen</option>
                         <option value="flexible">Bar/Kitchen</option>
