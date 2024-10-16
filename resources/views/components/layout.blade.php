@@ -28,8 +28,8 @@
                             </div>
                             <div class="hidden md:block">
                                 <div class="ml-10 flex items-baseline space-x-4">
-                                    <a href="/staff" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Staff</a>
-                                    <a href="/shift" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Shift</a>
+                                    <a href="/staff" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Team Hub</a>
+                                    <a href="/shift" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Shift Central</a>
                                 </div>
                             </div>
                         </div>
@@ -38,10 +38,9 @@
             </nav>
         
             <header class="bg-transparent">
-                <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex justify-center">
-                    <div class="bg-white bg-opacity-90 shadow rounded-lg p-4 inline-block">
-                        <h1 class="text-3xl font-bold tracking-tight text-gray-900">{{ $heading }}</h1>
-                    </div>
+                <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                    <h1 class="text-4xl font-bold text-white text-center drop-shadow-lg">{{ $heading }}</h1>
+                    <p class="text-xl text-white text-center mt-2 drop-shadow-md">{{ $description ?? '' }}</p>
                 </div>
             </header>
             
