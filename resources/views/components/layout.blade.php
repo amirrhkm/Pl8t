@@ -33,6 +33,12 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="hidden md:block">
+                            <div class="ml-4 flex items-center md:ml-6">
+                                <a href="{{ route('login') }}" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Login</a>
+                                <a href="{{ route('register') }}" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Register</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </nav>
