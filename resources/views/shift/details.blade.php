@@ -1,5 +1,6 @@
 <x-layout>
-    <x-slot:heading>Shift Details for {{ Carbon\Carbon::parse($date)->format('d F Y') }}</x-slot:heading>
+    <x-slot:heading>Shift Central</x-slot:heading>
+    <x-slot:description>{{ Carbon\Carbon::parse($date)->format('d F Y') }}</x-slot:description>
 
     <div class="flex justify-center mb-4">
         <div class="bg-white rounded-lg shadow p-4">
@@ -9,7 +10,7 @@
                 <label class="mr-2">Public Holiday:</label>
                 <label class="switch">
                     <input type="checkbox" name="is_public_holiday" onchange="this.form.submit()" 
-                        {{ $shifts->first()->is_public_holiday ? 'checked' : '' }}>
+                        {{ $isPublicHoliday ? 'checked' : '' }}>
                     <span class="slider round"></span>
                 </label>
             </form>
