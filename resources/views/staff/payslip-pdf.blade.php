@@ -14,12 +14,18 @@
 </head>
 <body>
     <h1>Payslip for {{ $staff->name }}</h1>
+    <p><strong>Payslip ID:</strong> BBC078-P15-{{ $staff->id }}-{{ $year }}-{{ $month }}</p>
     <p><strong>Month:</strong> {{ $date->format('F Y') }}</p>
     <p><strong>Position:</strong> {{ ucfirst($staff->position) }}</p>
     <p><strong>Employment Type:</strong> {{ ucfirst(str_replace('_', ' ', $staff->employment_type)) }}</p>
-    <p><strong>Base Rate:</strong> RM {{ number_format($staff->rate, 2) }} per hour</p>
+    @if($staff->employment_type === 'part_time')
+        <p><strong>Base Rate:</strong> RM {{ number_format($staff->rate, 2) }} per hour</p>
+    @endif
 
-    <h2>Hours Worked</h2>
+    @php
+        $ot_rate = $staff->employment_type === 'part_time' ? 10 : 11;
+    @endphp
+    <h2>Hours Contribution</h2>
     <table>
         <tr>
             <th>Type</th>
@@ -36,7 +42,7 @@
         <tr>
             <td>Regular Overtime</td>
             <td>{{ number_format($month_reg_ot_hours, 2) }}</td>
-            <td>RM 10.00</td>
+            <td>RM {{ number_format($ot_rate, 2) }}</td>
             <td>RM {{ number_format($reg_ot_pay, 2) }}</td>
         </tr>
         <tr>
@@ -48,7 +54,7 @@
         <tr>
             <td>Public Holiday Overtime</td>
             <td>{{ number_format($month_ph_ot_hours, 2) }}</td>
-            <td>RM 20.00</td>
+            <td>RM {{ number_format($ot_rate * 2, 2) }}</td>
             <td>RM {{ number_format($ph_ot_pay, 2) }}</td>
         </tr>
     </table>
@@ -59,18 +65,22 @@
             <th>Description</th>
             <th>Amount</th>
         </tr>
+        @if($staff->employment_type === 'part_time')
         <tr>
             <td>Regular Pay</td>
             <td>RM {{ number_format($reg_pay, 2) }}</td>
         </tr>
+        @endif
         <tr>
             <td>Regular Overtime Pay</td>
             <td>RM {{ number_format($reg_ot_pay, 2) }}</td>
         </tr>
+        @if($staff->employment_type === 'part_time')
         <tr>
             <td>Public Holiday Pay</td>
             <td>RM {{ number_format($ph_pay, 2) }}</td>
         </tr>
+        @endif
         <tr>
             <td>Public Holiday Overtime Pay</td>
             <td>RM {{ number_format($ph_ot_pay, 2) }}</td>
@@ -81,6 +91,8 @@
         </tr>
     </table>
 
+    <div style="page-break-before: always;"></div>
+    
     <h2>Shift Details</h2>
     <table>
         <tr>
