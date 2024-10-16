@@ -11,7 +11,15 @@ class ShiftController extends Controller
 {
     public function index()
     {
-        return view('shift.index');
+        $totalShiftsThisMonth = Shift::whereMonth('date', now()->month)->count();
+        $upcomingShifts = Shift::where('date', '>=', now())->count();
+        $staffOnDutyToday = Shift::whereDate('date', today())->count();
+
+        $recentActivities = Shift::latest()->take(5)->get()->map(function ($shift) {
+            return "Add " . $shift->staff->nickname . " on " . $shift->date->format('M d, Y') . " shift";
+        });
+
+        return view('shift.index', compact('totalShiftsThisMonth', 'upcomingShifts', 'staffOnDutyToday', 'recentActivities'));
     }
 
     public function monthView($year, $month)
@@ -37,6 +45,11 @@ class ShiftController extends Controller
 
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i|after:start_time',
+        ]);
+
         $start_time = Carbon::createFromFormat('H:i', $request->start_time);
         $end_time = Carbon::createFromFormat('H:i', $request->end_time);
         $total_hours = ($start_time->diffInHours($end_time)) - $request->break_duration;
@@ -45,18 +58,15 @@ class ShiftController extends Controller
         Shift::create([
             'staff_id' => $request->staff_id,
             'date' => $request->date,
-            'start_time' => $start_time,
-            'end_time' => $end_time,
+            'start_time' => $validatedData['start_time'],
+            'end_time' => $validatedData['end_time'],
             'break_duration' => $request->break_duration,
             'total_hours' => $total_hours,
             'overtime_hours' => $overtime_hours,
             'is_public_holiday' => false,
         ]);
 
-        $year = Carbon::parse($request->date)->year;
-        $month = Carbon::parse($request->date)->month;
-
-        return redirect()->route('shift.month', ['year' => $year, 'month' => $month])
+        return redirect()->route('shift.details', ['date' => $request->date])
                         ->with('success', 'Shift added successfully.');
     }
 
@@ -70,6 +80,11 @@ class ShiftController extends Controller
     {
         $shift = Shift::findOrFail($id);
 
+        $validatedData = $request->validate([
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i|after:start_time',
+        ]);
+
         $start_time = Carbon::createFromFormat('H:i', $request->start_time);
         $end_time = Carbon::createFromFormat('H:i', $request->end_time);
         $break_duration = $request->break_duration;
@@ -77,8 +92,8 @@ class ShiftController extends Controller
         $overtime_hours = max(0, $total_hours - 8);
 
         $shift->update([
-            'start_time' => $start_time,
-            'end_time' => $end_time,
+            'start_time' => $validatedData['start_time'],
+            'end_time' => $validatedData['end_time'],
             'break_duration' => $break_duration,
             'total_hours' => $total_hours,
             'overtime_hours' => $overtime_hours,
@@ -90,11 +105,9 @@ class ShiftController extends Controller
 
     public function destroy(Shift $shift)
     {
-        $year = Carbon::parse($shift->date)->year;
-        $month = Carbon::parse($shift->date)->month;
-
+        $date = $shift->date;
         $shift->delete();
-        return redirect()->route('shift.month', ['year' => $year, 'month' => $month])
+        return redirect()->route('shift.details', ['date' => $date])
                         ->with('success', 'Shift deleted successfully.');
     }
 
@@ -110,7 +123,17 @@ class ShiftController extends Controller
 
     public function details($date)
     {
-        $shifts = Shift::where('date', $date)->with('staff')->get();
-        return view('shift.details', compact('shifts', 'date'));
+        $carbonDate = Carbon::parse($date)->startOfDay();
+        $shifts = Shift::whereDate('date', $carbonDate)->with('staff')->get();
+        $isPublicHoliday = $shifts->isNotEmpty() ? $shifts->first()->is_public_holiday : false;
+        return view('shift.details', compact('shifts', 'date', 'isPublicHoliday'));
+    }
+
+    public function today()
+    {
+        $date = now()->toDateString();
+        $shifts = Shift::whereDate('date', $date)->with('staff')->get();
+        $isPublicHoliday = $shifts->isNotEmpty() ? $shifts->first()->is_public_holiday : false;
+        return view('shift.details', compact('shifts', 'date', 'isPublicHoliday'));
     }
 }
