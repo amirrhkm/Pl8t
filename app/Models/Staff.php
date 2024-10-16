@@ -17,9 +17,9 @@ class Staff extends Model
     ];
 
     const POSITIONS = [
-        'bar' => 'Bar',
-        'kitchen' => 'Kitchen',
-        'flexible' => 'Bar/Kitchen',
+        'bar' => 'Barista',
+        'kitchen' => 'Kitchen Crew',
+        'flexible' => 'Flexible',
     ];
 
     public function shifts()
