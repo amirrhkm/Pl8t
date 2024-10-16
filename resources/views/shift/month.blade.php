@@ -1,5 +1,6 @@
 <x-layout>
-    <x-slot:heading>Shifts for {{ Carbon\Carbon::create($year, $month, 1)->format('F Y') }}</x-slot:heading>
+    <x-slot:heading>Shift Central</x-slot:heading>
+    <x-slot:description>{{ Carbon\Carbon::create($year, $month, 1)->format('F Y') }}</x-slot:description>
 
     <div class="flex justify-center">
         <div class="w-3/4 overflow-x-auto rounded-lg shadow">
