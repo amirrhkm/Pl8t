@@ -31,8 +31,6 @@ class HomeController extends Controller
 
             $hoursPercentageChange = $this->calculateHoursPercentageChange();
 
-            $avgDailyAttendance = $this->calculateAvgDailyAttendance();
-
             $totalPartTimeStaffSalaryThisMonth = $this->calculateTotalPartTimeStaffSalaryThisMonth();
 
             $salaryPercentageChange = $this->calculateSalaryPercentageChange();
@@ -56,7 +54,6 @@ class HomeController extends Controller
                 'totalStaff',
                 'activeShiftsToday',
                 'totalHoursThisMonth',
-                'avgDailyAttendance',
                 'upcomingHolidays',
                 'topStaffByHours',
                 'totalPartTimeStaffSalaryThisMonth',
@@ -72,36 +69,14 @@ class HomeController extends Controller
         }
     }
 
-    private function calculateAvgDailyAttendance()
-    {
-        $startOfMonth = now()->startOfMonth();
-        $endOfMonth = now()->endOfMonth();
-        $totalDays = now()->daysInMonth;
-
-        $totalAttendance = Shift::whereBetween('date', [$startOfMonth, $endOfMonth])
-            ->select('staff_id', 'date')
-            ->groupBy('staff_id', 'date')
-            ->get()
-            ->count();
-
-        $totalStaff = Staff::count();
-        
-        if ($totalStaff == 0) {
-            return 0;
-        }
-
-        $avgAttendance = ($totalAttendance / ($totalDays * $totalStaff)) * 100;
-
-        return round($avgAttendance, 2);
-    }
-
     private function calculateTotalPartTimeStaffSalaryThisMonth()
     {
         $currentMonth = now()->month;
         $currentYear = now()->year;
 
         $query = Salary::whereHas('staff', function ($query) {
-                $query->where('employment_type', 'part_time');
+                $query->where('employment_type', 'part_time')
+                      ->where('name', '!=', 'admin');
             })
             ->where('month', $currentMonth)
             ->where('year', $currentYear);
