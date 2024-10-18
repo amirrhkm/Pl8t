@@ -28,13 +28,13 @@
 
                 <x-form-field>
                     <x-form-label class="text-gray-700">Employment Type</x-form-label>
-                    <div class="mt-2 space-y-2">
+                    <div class="mt-2 space-y-3">
                         <div class="flex items-center">
-                            <input id="et-option-1" type="radio" name="employment_type" value="full_time" {{ $staff->employment_type === 'full_time' ? 'checked' : '' }} class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300">
+                            <input id="et-option-1" type="radio" name="employment_type" value="full_time" class="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300" {{ $staff->employment_type === 'full_time' ? 'checked' : '' }} class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300">
                             <label for="et-option-1" class="ml-3 block text-sm font-medium text-gray-700">Full Time</label>
                         </div>
                         <div class="flex items-center">
-                            <input id="et-option-2" type="radio" name="employment_type" value="part_time" {{ $staff->employment_type === 'part_time' ? 'checked' : '' }} class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300">
+                            <input id="et-option-2" type="radio" name="employment_type" value="part_time" class="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300" {{ $staff->employment_type === 'part_time' ? 'checked' : '' }} class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300">
                             <label for="et-option-2" class="ml-3 block text-sm font-medium text-gray-700">Part Time</label>
                         </div>
                     </div>
@@ -44,9 +44,9 @@
                 <x-form-field>
                     <x-form-label for="position" class="text-gray-700">Position</x-form-label>
                     <select id="position" name="position" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                        <option value="bar" {{ $staff->position === 'bar' ? 'selected' : '' }}>Bar</option>
-                        <option value="kitchen" {{ $staff->position === 'kitchen' ? 'selected' : '' }}>Kitchen</option>
-                        <option value="flexible" {{ $staff->position === 'flexible' ? 'selected' : '' }}>Bar/Kitchen</option>
+                        <option value="bar" {{ $staff->position === 'bar' ? 'selected' : '' }}>Barista</option>
+                        <option value="kitchen" {{ $staff->position === 'kitchen' ? 'selected' : '' }}>Kitchen Crew</option>
+                        <option value="flexible" {{ $staff->position === 'flexible' ? 'selected' : '' }}>Barista + Kitchen Crew</option>
                     </select>
                     <x-form-error name='position'></x-form-error>
                 </x-form-field>
@@ -54,6 +54,7 @@
                 <x-form-field>
                     <x-form-label for="rate" class="text-gray-700">Rate (RM/hour)</x-form-label>
                     <x-form-input type="text" name="rate" id="rate" value="{{ $staff->rate }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                    <p class="text-gray-500 text-xs pt-1">*Only applicable for Part-Time members</p>
                     <x-form-error name='rate'></x-form-error>
                 </x-form-field>
             </div>
