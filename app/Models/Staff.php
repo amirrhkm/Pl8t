@@ -19,7 +19,7 @@ class Staff extends Model
     const POSITIONS = [
         'bar' => 'Barista',
         'kitchen' => 'Kitchen Crew',
-        'flexible' => 'Flexible',
+        'flexible' => 'Barista + Kitchen Crew',
     ];
 
     public function shifts()
