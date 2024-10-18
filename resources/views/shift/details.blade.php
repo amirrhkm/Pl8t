@@ -89,7 +89,7 @@
     <div class="mt-8 flex justify-center space-x-4">
         <a href="{{ route('shift.week', ['date' => $date]) }}" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition duration-300 ease-in-out font-semibold">Back to Week</a>
         <a href="{{ route('shift.month', ['year' => Carbon\Carbon::parse($date)->year, 'month' => Carbon\Carbon::parse($date)->month]) }}" class="bg-teal-600 text-white px-6 py-2 rounded-lg hover:bg-teal-700 transition duration-300 ease-in-out font-semibold">Back to Month</a>
-        <a href="{{ route('shift.create', ['date' => $date]) }}" class="bg-amber-500 text-white px-6 py-2 rounded-lg hover:bg-amber-600 transition duration-300 ease-in-out font-semibold">Add Staff</a>
+        <a href="{{ route('shift.create', ['date' => $date, 'is_public_holiday' => $isPublicHoliday]) }}" class="bg-amber-500 text-white px-6 py-2 rounded-lg hover:bg-amber-600 transition duration-300 ease-in-out font-semibold">Add Staff</a>
     </div>
 </x-layout>
 
