@@ -12,9 +12,11 @@
                     <label for="staff_id" class="block text-sm font-medium text-white">Staff</label>
                     <select name="staff_id" id="staff_id" class="p-2 mt-1 block w-full">
                         @foreach ($staff as $member)
-                            @if ($member->name !== "admin" && !$member->shifts->contains('date', $date))
-                                <option value="{{ $member->id }}">{{ $member->name }}</option>
-                            @endif
+                        @if ($member->name !== "admin" && !$member->shifts->contains(function($shift) use ($date) {
+                            return $shift->date->isSameDay(Carbon\Carbon::parse($date));
+                        }))
+                            <option value="{{ $member->id }}">{{ $member->name }}</option>
+                        @endif
                         @endforeach
                     </select>
                 </div>
