@@ -11,15 +11,85 @@ class ShiftController extends Controller
 {
     public function index()
     {
-        $totalShiftsThisMonth = Shift::whereMonth('date', now()->month)->count();
-        $upcomingShifts = Shift::where('date', '>=', now())->count();
-        $staffOnDutyToday = Shift::whereDate('date', today())->count();
+        $totalShiftsThisMonth = Shift::whereMonth('date', now()->month)
+            ->whereHas('staff', function ($query) {
+                $query->where('name', '!=', 'admin');
+            })
+            ->count();
 
-        $recentActivities = Shift::latest()->take(5)->get()->map(function ($shift) {
-            return "Add " . $shift->staff->nickname . " on " . $shift->date->format('M d, Y') . " shift";
-        });
+        $upcomingShifts = Shift::where('date', '>=', now())
+            ->whereHas('staff', function ($query) {
+                $query->where('name', '!=', 'admin');
+            })
+            ->count();
 
-        return view('shift.index', compact('totalShiftsThisMonth', 'upcomingShifts', 'staffOnDutyToday', 'recentActivities'));
+        $staffOnDutyToday = Shift::whereDate('date', today())
+            ->whereHas('staff', function ($query) {
+                $query->where('name', '!=', 'admin');
+            })
+            ->count();
+
+        $weekStart = now()->startOfWeek();
+        $weekEnd = $weekStart->copy()->endOfWeek();
+
+        $weeklyShifts = Shift::join('staff', 'shifts.staff_id', '=', 'staff.id')
+            ->whereBetween('shifts.date', [$weekStart, $weekEnd])
+            ->where('staff.name', '!=', 'admin')
+            ->select('shifts.*')
+            ->get()
+            ->groupBy(function ($shift) {
+                return $shift->date->format('Y-m-d');
+            });
+
+        $totalOvertimeHours = $this->calculateTotalOvertimeHours();
+
+        $staffAvailability = $this->calculateStaffAvailability();
+
+        return view('shift.index', compact(
+            'totalShiftsThisMonth',
+            'upcomingShifts',
+            'staffOnDutyToday',
+            'weeklyShifts',
+            'totalOvertimeHours',
+            'staffAvailability'
+        ));
+    }
+
+    private function calculateTotalOvertimeHours()
+    {
+        $startOfMonth = now()->startOfMonth();
+        $endOfMonth = now()->endOfMonth();
+
+        return Shift::whereBetween('date', [$startOfMonth, $endOfMonth])
+            ->whereHas('staff', function ($query) {
+                $query->where('name', '!=', 'admin');
+            })
+            ->sum('overtime_hours');
+    }
+
+    private function calculateStaffAvailability()
+    {
+        $startOfWeek = now()->startOfWeek();
+        $endOfWeek = now()->endOfWeek();
+
+        $totalStaff = Staff::where('name', '!=', 'admin')->count();
+
+        $staffWithShifts = Shift::whereBetween('date', [$startOfWeek, $endOfWeek])
+            ->whereHas('staff', function ($query) {
+                $query->where('name', '!=', 'admin');
+            })
+            ->distinct('staff_id')
+            ->count('staff_id');
+
+        $percentageWithShifts = ($staffWithShifts / $totalStaff) * 100;
+
+        if ($percentageWithShifts > 80) {
+            return 1; 
+        } elseif ($percentageWithShifts > 70) {
+            return 2; 
+        } else {
+            return 3; 
+        }
     }
 
     public function monthView($year, $month)
@@ -33,6 +103,23 @@ class ShiftController extends Controller
             ->groupBy('date');
 
         return view('shift.month', compact('shifts', 'year', 'month'));
+    }
+
+    public function weekView()
+    {
+        $startOfWeek = now()->startOfWeek();
+        $endOfWeek = now()->endOfWeek();
+
+        $weeklyShifts = Shift::join('staff', 'shifts.staff_id', '=', 'staff.id')
+            ->whereBetween('shifts.date', [$startOfWeek, $endOfWeek])
+            ->where('staff.name', '!=', 'admin')
+            ->select('shifts.*')
+            ->get()
+            ->groupBy(function ($shift) {
+                return $shift->date->format('Y-m-d');
+            });
+
+        return view('shift.week', compact('weeklyShifts'));
     }
 
     public function create(Request $request)
