@@ -123,10 +123,11 @@ class ShiftController extends Controller
         return redirect()->back()->with('success', 'Shifts cleared successfully.');
     }
 
-    public function weekView()
+    public function weekView(Request $request)
     {
-        $startOfWeek = now()->startOfWeek();
-        $endOfWeek = now()->endOfWeek();
+        $date = $request->query('date');
+        $startOfWeek = Carbon::parse($date)->startOfWeek();
+        $endOfWeek = Carbon::parse($date)->endOfWeek();
 
         $weeklyShifts = Shift::join('staff', 'shifts.staff_id', '=', 'staff.id')
             ->whereBetween('shifts.date', [$startOfWeek, $endOfWeek])
@@ -137,7 +138,7 @@ class ShiftController extends Controller
                 return $shift->date->format('Y-m-d');
             });
 
-        return view('shift.week', compact('weeklyShifts'));
+        return view('shift.week', compact('weeklyShifts', 'date'));
     }
 
     public function clearWeek()
@@ -157,9 +158,10 @@ class ShiftController extends Controller
     public function create(Request $request)
     {
         $date = $request->query('date');
+        $isPublicHoliday = $request->query('is_public_holiday');
         $staff = Staff::all();
 
-        return view('shift.create', compact('date', 'staff'));
+        return view('shift.create', compact('date', 'staff', 'isPublicHoliday'));
     }
 
     public function store(Request $request)
@@ -168,6 +170,8 @@ class ShiftController extends Controller
             'start_time' => 'required|date_format:H:i',
             'end_time' => 'required|date_format:H:i|after:start_time',
         ]);
+
+        $public_holiday = $request->is_public_holiday;
 
         $start_time = Carbon::createFromFormat('H:i', $request->start_time);
         $end_time = Carbon::createFromFormat('H:i', $request->end_time);
@@ -182,7 +186,7 @@ class ShiftController extends Controller
             'break_duration' => $request->break_duration,
             'total_hours' => $total_hours,
             'overtime_hours' => $overtime_hours,
-            'is_public_holiday' => false,
+            'is_public_holiday' => $public_holiday,
         ]);
 
         return redirect()->route('shift.details', ['date' => $request->date])
