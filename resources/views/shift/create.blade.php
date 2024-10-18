@@ -11,14 +11,19 @@
                 <div class="mb-4">
                     <label for="staff_id" class="block text-sm font-medium text-white">Staff</label>
                     <select name="staff_id" id="staff_id" class="p-2 mt-1 block w-full">
+                        @php $availableStaff = 0; @endphp
                         @foreach ($staff as $member)
-                        @if ($member->name !== "admin" && !$member->shifts->contains(function($shift) use ($date) {
-                            return $shift->date->isSameDay(Carbon\Carbon::parse($date));
-                        }))
-                            <option value="{{ $member->id }}">{{ $member->name }}</option>
-                        @endif
+                            @if ($member->name !== "admin" && !$member->shifts->contains(function($shift) use ($date) {
+                                return $shift->date->isSameDay(Carbon\Carbon::parse($date));
+                            }))
+                                <option value="{{ $member->id }}">{{ $member->name }}</option>
+                                @php $availableStaff++; @endphp
+                            @endif
                         @endforeach
                     </select>
+                    @if ($availableStaff === 0)
+                        <p class="text-red-500 text-sm mt-2">No staff members available for this shift.</p>
+                    @endif
                 </div>
 
                 <div class="mb-4">
@@ -43,7 +48,7 @@
                 </div>
 
                 <div class="flex justify-end">
-                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Add Shift</button>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded {{ $availableStaff === 0 ? 'opacity-50 cursor-not-allowed' : '' }}" {{ $availableStaff === 0 ? 'disabled' : '' }}>Add Shift</button>
                 </div>
             </form>
         </div>
