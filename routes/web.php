@@ -39,8 +39,12 @@ Route::put('/shift/{shift}', [ShiftController::class, 'update'])
 Route::get('/shift/{year}/{month}', [ShiftController::class, 'monthView'])
     ->name('shift.month')
     ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
+Route::post('/shift/clear-month', [ShiftController::class, 'clearMonth'])
+    ->name('shift.clear-month');
 Route::get('/shift/week', [ShiftController::class, 'weekView'])
     ->name('shift.week');
+Route::post('/shifts/clear-week', [ShiftController::class, 'clearWeek'])
+    ->name('shift.clear-week');
 Route::delete('/shift/{shift}', [ShiftController::class, 'destroy'])
     ->name('shift.destroy');
 Route::get('/staff/{staff}/shifts/{year}/{month}', [StaffController::class, 'shift'])
