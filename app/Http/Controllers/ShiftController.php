@@ -81,7 +81,11 @@ class ShiftController extends Controller
             ->distinct('staff_id')
             ->count('staff_id');
 
-        $percentageWithShifts = ($staffWithShifts / $totalStaff) * 100;
+        if ($totalStaff > 0) {
+            $percentageWithShifts = ($staffWithShifts / $totalStaff) * 100;
+        } else {
+            $percentageWithShifts = 0;
+        }
 
         if ($percentageWithShifts > 80) {
             return 1; 
@@ -105,6 +109,20 @@ class ShiftController extends Controller
         return view('shift.month', compact('shifts', 'year', 'month'));
     }
 
+    public function clearMonth()
+    {
+        $startDate = Carbon::create(now()->year, now()->month, 1);
+        $endDate = $startDate->copy()->endOfMonth();
+
+        Shift::whereBetween('start_time', [$startDate, $endDate])
+            ->whereDoesntHave('staff', function ($query) {
+                $query->where('name', 'admin');
+            })
+            ->delete();
+
+        return redirect()->back()->with('success', 'Shifts cleared successfully.');
+    }
+
     public function weekView()
     {
         $startOfWeek = now()->startOfWeek();
@@ -120,6 +138,20 @@ class ShiftController extends Controller
             });
 
         return view('shift.week', compact('weeklyShifts'));
+    }
+
+    public function clearWeek()
+    {
+        $startOfWeek = now()->startOfWeek();
+        $endOfWeek = now()->endOfWeek();
+
+        Shift::whereBetween('start_time', [$startOfWeek, $endOfWeek])
+            ->whereDoesntHave('staff', function ($query) {
+                $query->where('name', 'admin');
+            })
+            ->delete();
+
+        return redirect()->back()->with('success', 'Shifts cleared successfully.');
     }
 
     public function create(Request $request)
@@ -203,7 +235,9 @@ class ShiftController extends Controller
         $date = $request->input('date');
         $isPublicHoliday = $request->has('is_public_holiday');
 
-        Shift::where('date', $date)->update(['is_public_holiday' => $isPublicHoliday]);
+        $carbonDate = Carbon::parse($date)->startOfDay();
+
+        Shift::whereDate('date', $carbonDate)->update(['is_public_holiday' => $isPublicHoliday]);
 
         return back()->with('success', 'Public holiday status updated successfully.');
     }
@@ -212,7 +246,8 @@ class ShiftController extends Controller
     {
         $carbonDate = Carbon::parse($date)->startOfDay();
         $shifts = Shift::whereDate('date', $carbonDate)->with('staff')->get();
-        $isPublicHoliday = $shifts->isNotEmpty() ? $shifts->first()->is_public_holiday : false;
+        $isPublicHoliday = $shifts->first()->is_public_holiday;
+
         return view('shift.details', compact('shifts', 'date', 'isPublicHoliday'));
     }
 
