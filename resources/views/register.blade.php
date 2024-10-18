@@ -1,5 +1,5 @@
 <x-layout>
-    <x-slot name="heading">Register</x-slot>
+    <x-slot name="heading">Welcome to Tally Up!</x-slot>
     <x-slot name="description">Create a new account to get started.</x-slot>
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
