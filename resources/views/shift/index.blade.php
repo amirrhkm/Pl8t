@@ -68,9 +68,9 @@
                 <h3 class="text-lg font-semibold mb-4 text-gray-700">Quick Actions</h3>
                 <div class="space-y-3">
                     <a href="{{ route('shift.today', ['date' => now()->format('Y-m-d')]) }}" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
-                        Today's Shifts
+                        This Day
                     </a>
-                    <a href="{{ route('shift.week') }}" class="block w-full text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
+                    <a href="{{ route('shift.week', ['date' => now()->format('Y-m-d')]) }}" class="block w-full text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
                         This Week
                     </a>
                     <a href="{{ route('shift.month', ['year' => date('Y'), 'month' => date('m')]) }}" class="block w-full text-center bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
