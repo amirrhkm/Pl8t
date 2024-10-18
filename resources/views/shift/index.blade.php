@@ -70,9 +70,17 @@
                     <a href="{{ route('shift.today', ['date' => now()->format('Y-m-d')]) }}" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
                         This Day
                     </a>
-                    <a href="{{ route('shift.week', ['date' => now()->format('Y-m-d')]) }}" class="block w-full text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
-                        This Week
-                    </a>
+                    <div class="flex space-x-2">
+                        <a href="{{ route('shift.week', ['date' => now()->subWeek()->format('Y-m-d')]) }}" class="text-sm flex-1 text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
+                            Last Week
+                        </a>
+                        <a href="{{ route('shift.week', ['date' => now()->format('Y-m-d')]) }}" class="text-sm flex-1 text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
+                            This Week
+                        </a>
+                        <a href="{{ route('shift.week', ['date' => now()->addWeek()->format('Y-m-d')]) }}" class="text-sm flex-1 text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
+                            Next Week
+                        </a>
+                    </div>
                     <a href="{{ route('shift.month', ['year' => date('Y'), 'month' => date('m')]) }}" class="block w-full text-center bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
                         This Month
                     </a>
