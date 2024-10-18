@@ -7,7 +7,7 @@
             <div class="flex flex-col sm:flex-row justify-between items-center mb-4">
                 <h2 class="text-2xl font-bold text-indigo-800 mb-2 sm:mb-0">This Week's Shifts</h2>
                 <p class="text-sm font-semibold text-indigo-600 bg-white px-3 py-1 rounded-full shadow-sm">
-                    {{ now()->startOfWeek()->format('d M') }} - {{ now()->endOfWeek()->format('d M Y') }}
+                    {{ Carbon\Carbon::parse($date)->startOfWeek()->format('d M') }} - {{ Carbon\Carbon::parse($date)->endOfWeek()->format('d M Y') }}
                 </p>
             </div>
 
@@ -23,11 +23,12 @@
                         </thead>
                         <tbody>
                             @php
-                                $currentWeek = now()->startOfWeek();
+                                $startOfWeek = Carbon\Carbon::parse($date)->startOfWeek();
+                                $endOfWeek = Carbon\Carbon::parse($date)->endOfWeek();
                             @endphp
                             @foreach(range(0, 6) as $dayOffset)
                                 @php
-                                    $currentDay = $currentWeek->copy()->addDays($dayOffset);
+                                    $currentDay = $startOfWeek->copy()->addDays($dayOffset);
                                     $dateKey = $currentDay->format('Y-m-d');
                                     $isToday = $currentDay->isToday();
                                 @endphp
