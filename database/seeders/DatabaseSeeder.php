@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Staff;
 use App\Models\Shift;
+use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
@@ -14,6 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        User::factory()->count(1)->create();
         Staff::factory()->count(1)->create();
         Shift::factory()
             ->count(366) //2024 is a Leap Year
