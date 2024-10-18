@@ -73,12 +73,12 @@
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl">
                 <h3 class="text-xl font-semibold mb-4 text-indigo-800">Team Hub</h3>
                 <p class="text-gray-600 mb-4">Manage staff profiles, roles, and payroll.</p>
-                <a href="/staff" class="inline-block bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition duration-300 ease-in-out">View Staff</a>
+                    <a href="/staff" class="inline-block bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition duration-300 ease-in-out">Manage Members</a>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl">
                 <h3 class="text-xl font-semibold mb-4 text-indigo-800">Shift Central</h3>
                 <p class="text-gray-600 mb-4">Organize schedules, track hours, and optimize workforce.</p>
-                <a href="/shift" class="inline-block bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition duration-300 ease-in-out">View Shifts</a>
+                    <a href="/shift" class="inline-block bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition duration-300 ease-in-out">Manage Shifts</a>
             </div>
         </div>
     </div>
