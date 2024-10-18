@@ -47,8 +47,10 @@
                     <input type="number" step="0.5" name="break_duration" id="break_duration" class="p-2 mt-1 block w-full" value="0">
                 </div>
 
+                <input type="hidden" name="is_public_holiday" value="{{ $isPublicHoliday }}">
+                
                 <div class="flex justify-end">
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded {{ $availableStaff === 0 ? 'opacity-50 cursor-not-allowed' : '' }}" {{ $availableStaff === 0 ? 'disabled' : '' }}>Add Shift</button>
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded {{ $availableStaff === 0 ? 'opacity-50 cursor-not-allowed' : '' }}" {{ $availableStaff === 0 ? 'disabled' : '' }}>Add Shift</button>
                 </div>
             </form>
         </div>
