@@ -25,9 +25,10 @@ class UserFactory extends Factory
     {
         return [
             'name' => 'admin',
-            'email' => 'admin@tally.com',
+            'email' => 'admin@tally-up.my',
+            'staff_id' => 1,
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('admin123'),
+            'password' => Hash::make('BBC078.admin'),
             'remember_token' => Str::random(10),
         ];
     }
