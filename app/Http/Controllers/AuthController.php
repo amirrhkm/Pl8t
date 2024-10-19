@@ -6,6 +6,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Staff;
+use App\Models\Shift;
+use App\Models\Salary;
 
 class AuthController extends Controller
 {
@@ -20,12 +23,18 @@ class AuthController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'password' => ['required'],
         ]);
-
+    
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/');
+            
+            if (Auth::user()->name === 'admin') {
+                return redirect('/home');
+            } else {
+                $staff = Staff::where('nickname', Auth::user()->name)->first();
+                return redirect()->route('crew.dashboard', ['name' => $staff->name]);
+            }
         }
-
+    
         return back()->withErrors([
             'name' => 'The provided credentials do not match our records.',
         ]);
