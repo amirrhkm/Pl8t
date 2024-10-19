@@ -15,12 +15,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->count(1)->create();
         Staff::factory()->count(1)->create();
         Shift::factory()
             ->count(366) //2024 is a Leap Year
             ->sequence(fn ($sequence) => ['date' => Carbon::createFromFormat('Y-m-d', '2024-01-01')
             ->addDays($sequence->index)->format('Y-m-d')])
             ->create();
+        User::factory()->count(1)->create();
     }
 }
