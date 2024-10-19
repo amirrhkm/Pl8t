@@ -5,10 +5,12 @@ use App\Http\Controllers\StaffController;
 use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CrewController;
 
-Route::get('/login', [AuthController::class, 'showLoginForm'])
+
+Route::get('/', [AuthController::class, 'showLoginForm'])
     ->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])
     ->name('register');
 Route::post('/register', [AuthController::class, 'register']);
@@ -16,8 +18,12 @@ Route::post('/logout', [AuthController::class, 'logout'])
     ->name('logout');
 
 //Home Routes
-Route::get('/', [HomeController::class, 'index'])
+Route::get('/home', [HomeController::class, 'index'])
     ->name('home');
+
+//Crew Routes
+Route::get('/crew/dashboard/{name}', [CrewController::class, 'show'])
+    ->name('crew.dashboard');
 
 //Staff Routes
 Route::resource('staff', StaffController::class);
