@@ -30,7 +30,7 @@ class AuthController extends Controller
             if (Auth::user()->name === 'admin') {
                 return redirect('/home');
             } else {
-                $staff = Staff::where('nickname', Auth::user()->name)->first();
+                $staff = Staff::where('id', Auth::user()->staff_id)->first();
                 return redirect()->route('crew.dashboard', ['name' => $staff->name]);
             }
         }
@@ -42,7 +42,8 @@ class AuthController extends Controller
 
     public function showRegistrationForm()
     {
-        return view('register');
+        $staffMembers = Staff::whereDoesntHave('user')->get();
+        return view('register', compact('staffMembers'));
     }
 
     public function register(Request $request)
@@ -51,12 +52,14 @@ class AuthController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'staff_id' => ['required', 'exists:staff,id'],
         ]);
 
         $user = User::create([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']),
+            'password' => $validatedData['password'],
+            'staff_id' => $validatedData['staff_id'],
         ]);
 
         Auth::login($user);
@@ -72,5 +75,33 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    public function showAccountSettings()
+    {
+        $user = Auth::user();
+        $name = $user->staff->name ?? $user->name;
+        return view('account-settings', compact('user', 'name'));
+    }
+
+    public function updateAccountSettings(Request $request)
+    {
+        $user = Auth::user();
+        
+        $validatedData = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $user->name = $validatedData['name'];
+        $name = $user->staff->name ?? $user->name;
+        
+        if (!empty($validatedData['password'])) {
+            $user->password = Hash::make($validatedData['password']);
+        }
+
+        $user->save();
+
+        return redirect()->route('account.settings')->with('success', 'Account settings updated successfully.');
     }
 }
