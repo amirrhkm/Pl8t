@@ -32,6 +32,11 @@ class Staff extends Model
         return $this->hasMany(Salary::class);
     }
 
+    public function user()
+    {
+        return $this->hasOne(User::class, 'staff_id', 'id');
+    }
+
     public function formattedEmploymentType()
     {
         return self::EMPLOYMENT_TYPES[$this->employment_type] ?? $this->employment_type;
