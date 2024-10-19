@@ -18,6 +18,9 @@
                     <div class="mt-1">
                         <input id="email" name="email" type="email" autocomplete="email" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     </div>
+                    @error('email')
+                        <div class="invalid-feedback text-red-500 text-xs">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div>
@@ -25,6 +28,9 @@
                     <div class="mt-1">
                         <input id="password" name="password" type="password" autocomplete="new-password" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     </div>
+                    @error('password')
+                        <div class="invalid-feedback text-red-500 text-xs">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div>
