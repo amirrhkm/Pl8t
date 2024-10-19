@@ -6,6 +6,7 @@ use App\Models\Shift;
 use App\Models\Staff;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Models\Salary;
 
 class ShiftController extends Controller
 {
@@ -189,6 +190,9 @@ class ShiftController extends Controller
             'is_public_holiday' => $public_holiday,
         ]);
 
+        $staff = Staff::findOrFail($request->staff_id);
+        $this->updateSalary($staff);
+
         return redirect()->route('shift.details', ['date' => $request->date])
                         ->with('success', 'Shift added successfully.');
     }
@@ -222,6 +226,9 @@ class ShiftController extends Controller
             'overtime_hours' => $overtime_hours,
         ]);
 
+        $staff = Staff::findOrFail($request->staff_id);
+        $this->updateSalary($staff);
+        
         return redirect()->route('shift.details', ['date' => $shift->date])
                         ->with('success', 'Shift updated successfully.');
     }
@@ -261,5 +268,61 @@ class ShiftController extends Controller
         $shifts = Shift::whereDate('date', $date)->with('staff')->get();
         $isPublicHoliday = $shifts->isNotEmpty() ? $shifts->first()->is_public_holiday : false;
         return view('shift.details', compact('shifts', 'date', 'isPublicHoliday'));
+    }
+
+    public function updateSalary(Staff $staff): void
+    {
+        $shifts = $staff->shifts()->orderBy('date')->get();
+        $monthlyData = [];
+
+        foreach ($shifts as $shift) {
+            $yearMonth = $shift->date->format('Y-m');
+            if (!isset($monthlyData[$yearMonth])) {
+                $monthlyData[$yearMonth] = [
+                    'reg_hours' => 0, 'reg_ot_hours' => 0,
+                    'ph_hours' => 0, 'ph_ot_hours' => 0,
+                    'reg_pay' => 0, 'reg_ot_pay' => 0,
+                    'ph_pay' => 0, 'ph_ot_pay' => 0
+                ];
+            }
+
+            $hours = $shift->start_time->diffInHours($shift->end_time) - $shift->break_duration;
+            $otHours = max(0, $hours - 8);
+
+            if ($shift->is_public_holiday) {
+                $monthlyData[$yearMonth]['ph_hours'] += $hours;
+                $monthlyData[$yearMonth]['ph_ot_hours'] += $otHours;
+            } else {
+                $monthlyData[$yearMonth]['reg_hours'] += $hours;
+                $monthlyData[$yearMonth]['reg_ot_hours'] += $otHours;
+            }
+        }
+
+        foreach ($monthlyData as $yearMonth => &$data) {
+            [$year, $month] = explode('-', $yearMonth);
+            
+            $ot_rate = $staff->employment_type === 'part_time' ? 10 : 11;
+            $data['reg_pay'] = $data['reg_hours'] * $staff->rate;
+            $data['reg_ot_pay'] = $data['reg_ot_hours'] * $ot_rate;
+            $data['ph_pay'] = $data['ph_hours'] * $staff->rate * 2;
+            $data['ph_ot_pay'] = $data['ph_ot_hours'] * $ot_rate * 2;
+            
+            $total_salary = $data['reg_pay'] + $data['reg_ot_pay'] + $data['ph_pay'] + $data['ph_ot_pay'];
+
+            Salary::updateOrCreate(
+                ['staff_id' => $staff->id, 'month' => $month, 'year' => $year],
+                [
+                    'total_reg_hours' => $data['reg_hours'],
+                    'total_reg_ot_hours' => $data['reg_ot_hours'],
+                    'total_ph_hours' => $data['ph_hours'],
+                    'total_ph_ot_hours' => $data['ph_ot_hours'],
+                    'total_salary' => $total_salary,
+                    'reg_pay' => $data['reg_pay'],
+                    'reg_ot_pay' => $data['reg_ot_pay'],
+                    'ph_pay' => $data['ph_pay'],
+                    'ph_ot_pay' => $data['ph_ot_pay'],
+                ]
+            );
+        }
     }
 }
