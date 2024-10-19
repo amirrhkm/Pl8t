@@ -7,7 +7,7 @@
             <form class="space-y-6" action="{{ route('register') }}" method="POST">
                 @csrf
                 <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                    <label for="name" class="block text-sm font-medium text-gray-700">Username</label>
                     <div class="mt-1">
                         <input id="name" name="name" type="text" autocomplete="name" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     </div>
@@ -38,6 +38,21 @@
                     <div class="mt-1">
                         <input id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     </div>
+                </div>
+
+                <div>
+                    <label for="staff_id" class="block text-sm font-medium text-gray-700">Assign to Staff</label>
+                    <div class="mt-1">
+                        <select id="staff_id" name="staff_id" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="" class="text-gray-400 italic">Select a staff member</option>
+                            @foreach($staffMembers as $staff)
+                                <option value="{{ $staff->id }}">{{ $staff->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @error('staff_id')
+                        <div class="invalid-feedback text-red-500 text-xs">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div>
