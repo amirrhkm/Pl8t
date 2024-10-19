@@ -2,9 +2,9 @@
     <x-slot:heading>Shift Central</x-slot:heading>
     <x-slot:description>Add member to {{ Carbon\Carbon::parse($date)->format('d F Y') }} shift</x-slot:description>
 
-    <div class="flex space-x-6">
-        <div class="bg-white bg-opacity-30 p-6 rounded-lg shadow flex-grow">
-            <form action="{{ route('shift.store') }}" method="POST">
+    <div class="flex space-x-6 justify-center">
+        <div class="bg-white bg-opacity-30 p-6 rounded-lg shadow w-1/3">
+            <form action="{{ route('shift.store') }}" method="POST" class="flex flex-col h-full">
                 @csrf
                 <input type="hidden" name="date" value="{{ $date }}">
 
@@ -48,19 +48,23 @@
                 </div>
 
                 <input type="hidden" name="is_public_holiday" value="{{ $isPublicHoliday }}">
-                
-                <div class="flex justify-end">
-                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded {{ $availableStaff === 0 ? 'opacity-50 cursor-not-allowed' : '' }}" {{ $availableStaff === 0 ? 'disabled' : '' }}>Add Shift</button>
+
+                <div class="flex-grow"></div>
+
+                <div class="flex justify-end mt-4">
+                    <a href="{{ route('shift.details', ['date' => $date]) }}" class="text-white px-4 py-2 rounded transition duration-300 ease-in-out">Cancel</a>
+                    <button type="submit" class="bg-indigo-500 shadow text-white px-4 py-2 rounded {{ $availableStaff === 0 ? 'opacity-50 cursor-not-allowed' : '' }}" {{ $availableStaff === 0 ? 'disabled' : '' }}>Add Shift</button>
                 </div>
             </form>
         </div>
 
         <div class="bg-white bg-opacity-30 p-6 rounded-lg shadow w-64">
-            <h3 class="text-sm font-medium text-white mb-2">Shortcut Buttons:</h3>
+            <h3 class="text-sm font-medium text-white mb-2">Common Shifts:</h3>
             <div class="space-y-2">
                 <button type="button" class="bg-green-500 text-white px-3 py-1 rounded w-full" onclick="setShift('07:30', '16:00', 1)">7:30 AM - 4:00 PM (Opening)</button>
                 <button type="button" class="bg-gradient-to-r from-green-500 to-orange-500 text-white px-3 py-1 rounded w-full" onclick="setShift('10:30', '23:00', 1.5)">10:30 AM - 11:00 PM (Middle)</button>
                 <button type="button" class="bg-orange-500 text-white px-3 py-1 rounded w-full" onclick="setShift('14:30', '23:00', 1)">2:30 PM - 11:00 PM (Closing)</button>
+                <button type="button" class="bg-orange-500 text-white px-3 py-1 rounded w-full" onclick="setShift('17:00', '23:00', 0.5)">5:00 PM - 11:00 PM (Closing)</button>
                 <button type="button" class="bg-orange-500 text-white px-3 py-1 rounded w-full" onclick="setShift('18:00', '23:00', 0)">6:00 PM - 11:00 PM (Closing)</button>
                 <button type="button" class="bg-red-500 text-white px-3 py-1 rounded w-full" onclick="setShift('07:30', '23:00', 2)">7:30 AM - 11:00 PM (Opening-Closing)</button>
             </div>
