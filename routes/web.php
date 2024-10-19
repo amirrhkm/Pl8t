@@ -7,6 +7,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CrewController;
 
+Route::get('/account-settings', [AuthController::class, 'showAccountSettings'])->name('account.settings');
+Route::put('/account-settings', [AuthController::class, 'updateAccountSettings'])->name('account.update');
 
 Route::get('/', [AuthController::class, 'showLoginForm'])
     ->name('login');
