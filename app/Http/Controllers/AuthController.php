@@ -42,8 +42,17 @@ class AuthController extends Controller
 
     public function showRegistrationForm()
     {
-        $staffMembers = Staff::whereDoesntHave('user')->get();
-        return view('register', compact('staffMembers'));
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('warning', 'You must be logged in to access this page.');
+        }
+
+        if (Auth::user()->name === 'admin') {
+            $staffMembers = Staff::whereDoesntHave('user')->get();
+            return view('register', compact('staffMembers'));
+        } else {
+            Auth::logout();
+            return redirect()->route('login')->with('warning', 'You have no permission to access this page.');
+        }
     }
 
     public function register(Request $request)
@@ -102,6 +111,6 @@ class AuthController extends Controller
 
         $user->save();
 
-        return redirect()->route('account.settings')->with('success', 'Account settings updated successfully.');
+        return redirect()->route('account.settings')->with('success', 'Account credentials updated successfully.');
     }
 }

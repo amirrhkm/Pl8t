@@ -11,6 +11,15 @@ class CrewController extends Controller
 {
     public function show($name)
     {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('warning', 'You must be logged in to access this page.');
+        }
+
+        if (Auth::user()->staff->name !== $name) {
+            Auth::logout();
+            return redirect()->route('login')->with('warning', 'You are not authorized to access this page.');
+        }
+        
         $date = now()->format('Y-m-d');
         $startOfWeek = now()->startOfWeek();
         $endOfWeek = now()->endOfWeek();
