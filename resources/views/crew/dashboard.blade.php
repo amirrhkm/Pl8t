@@ -11,7 +11,7 @@
         <style>
             body {
                 font-family: 'Poppins', sans-serif;
-                background-image: url('https://images.unsplash.com/photo-1557683316-973673baf926?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2029&q=80');
+                background-image: url('https://images.unsplash.com/photo-1557682250-33bd709cbe85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2029&q=80');
                 background-size: cover;
                 background-position: center;
                 background-attachment: fixed;
@@ -22,7 +22,8 @@
     <body class="h-full">
         <header class="bg-transparent">
             <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                <h1 class="text-4xl font-bold text-white text-center drop-shadow-lg pt-10">Tally Up</h1>
+                <h1 class="text-4xl font-bold text-white text-center drop-shadow-lg pt-10">Welcome back, {{ $staff->nickname }}!</h1>
+                <p class="text-xl text-white text-center mt-2 drop-shadow-md">Here's your progression so far.</p>
             </div>
         </header>
         
