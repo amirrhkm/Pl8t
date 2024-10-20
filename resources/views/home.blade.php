@@ -6,7 +6,17 @@
     <div class="bg-gradient-to-br from-indigo-50 to-blue-100 p-8 rounded-xl shadow-lg">
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-3xl font-bold text-indigo-800">Admin Dashboard</h2>
-            <p class="text-lg font-semibold text-gray-600">{{ now()->format('d M Y (l)') }}</p>
+            <div class="flex items-center">
+                <p class="text-lg font-semibold text-gray-600">{{ now()->format('d M Y (l)') }}</p>
+                <form action="{{ route('logout') }}" method="POST" class="inline-flex items-center">
+                    @csrf
+                    <button type="submit" class="pl-4 text-red-500 hover:text-red-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                    </button>
+                </form> 
+            </div>
         </div>
         <p class="mb-8 text-gray-600"><strong>BBC078 P15</strong>: Bask Bear Coffee Presint 15 </p>
         
