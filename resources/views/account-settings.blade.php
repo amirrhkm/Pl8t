@@ -65,9 +65,15 @@
                                     <button type="submit" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                                         Update
                                     </button>
-                                    <a href="{{ route('crew.dashboard', ['name' => $name]) }}" class="inline-block align-baseline font-bold text-sm text-indigo-500 hover:text-indigo-800">
-                                        Back to Dashboard
-                                    </a>
+                                    @if ($name != 'admin')
+                                        <a href="{{ route('crew.dashboard', ['name' => $name]) }}" class="inline-block align-baseline font-bold text-sm text-indigo-500 hover:text-indigo-800">
+                                            Back to Dashboard
+                                        </a>
+                                    @else
+                                        <a href="{{ route('home') }}" class="inline-block align-baseline font-bold text-sm text-indigo-500 hover:text-indigo-800">
+                                            Back to Dashboard
+                                        </a>
+                                    @endif
                                 </div>
                             </form>
                         </div>
