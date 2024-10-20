@@ -19,6 +19,12 @@
 
     <body class="h-full flex items-center justify-center">
         <div class="container mx-auto px-4 py-8">
+            @if (session('warning'))
+            <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6 rounded-md w-1/2 mx-auto">
+                <p class="font-bold">Warning</p>
+                <p>{{ session('warning') }}</p>
+            </div>
+            @endif
             <div class="rounded-lg shadow-xl overflow-hidden max-w-4xl mx-auto">
                 <div class="flex flex-col md:flex-row">
                     <!-- Login Form -->
@@ -61,15 +67,19 @@
                         <ul class="space-y-3">
                             <li class="flex items-start">
                                 <svg class="w-5 h-5 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>Automated payroll calculations based on individual staff rates and employment types</span>
+                                <span class="text-sm">Automated payroll calculations based on individual staff rates and employment types</span>
                             </li>
                             <li class="flex items-start">
                                 <svg class="w-5 h-5 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>Employee dashboard featuring monthly hour contributions, payroll analytics, and current week's shift assignments</span>
+                                <span class="text-sm">Employee dashboard featuring monthly hour contributions, payroll analytics, and current week's shift assignments</span>
                             </li>
                             <li class="flex items-start">
                                 <svg class="w-5 h-5 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                <span>Powerful tools for efficient shift management and assignment, directly linked to payroll calculations</span>
+                                <span class="text-sm">Powerful tools for efficient shift management and assignment, directly linked to payroll calculations</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span class="text-sm">Efficiently track stock delivery invoices and total sales, with analytical insights for better business understanding</span>
                             </li>
                         </ul>
                         <p class="mt-6">Got a problem managing your staff? Time to <strong>TallyUp</strong> and simplify your workflow!</p>
