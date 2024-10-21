@@ -6,6 +6,7 @@ use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CrewController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Middleware\AuthenticationHandler;
 
 // Public routes
@@ -53,4 +54,9 @@ Route::middleware([AuthenticationHandler::class])->group(function () {
 
     // Payslip Routes
     Route::get('/staff/{staff}/payslip/{month}', [StaffController::class, 'downloadPayslip'])->name('staff.payslip.download');
+
+    // Invoice Routes
+    Route::resource('invoices', InvoiceController::class);
+    Route::get('/invoices/create', [InvoiceController::class, 'create'])->name('invoices.create');
+    Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
 });
