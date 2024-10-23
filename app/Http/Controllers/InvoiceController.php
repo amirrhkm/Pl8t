@@ -7,13 +7,32 @@ use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $currentMonth = now()->startOfMonth();
-        
-        $invoices = Invoice::whereMonth('submit_date', $currentMonth->month)
-            ->whereYear('submit_date', $currentMonth->year)
-            ->get();
+        // Start building the query
+        $query = Invoice::query();
+
+        // Apply filters
+        if ($request->filled('month')) {
+            $selectedMonth = $request->month;
+            $currentYear = now()->year;
+            $query->whereMonth('submit_date', $selectedMonth)
+                ->whereYear('submit_date', $currentYear);
+        }
+
+        if ($request->filled('type')) {
+            $query->where('type', $request->type);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Always order by latest submit_date and limit to 20
+        $query->latest('submit_date')->take(20);
+
+        // Execute the query
+        $invoices = $query->get();
 
         $totalInvoices = $invoices->count();
         $receivedInvoices = $invoices->where('status', 'received')->count();
@@ -29,7 +48,7 @@ class InvoiceController extends Controller
         });
 
         // Calculate delivery on-time rates
-        $deliveryTypes = ['fuji_bun', 'fuji_loaf', 'vtc', 'daq', 'agl', 'soda_express'];
+        $deliveryTypes = Invoice::TYPE;
         $deliveryRates = [];
         foreach ($deliveryTypes as $type) {
             $typeInvoices = $invoices->where('type', $type);
@@ -60,14 +79,45 @@ class InvoiceController extends Controller
         $validatedData = $request->validate([
             'do_id' => 'required|integer',
             'submit_date' => 'required|date',
-            'receive_date' => 'nullable|date',
+            'receive_date' => [
+                'nullable',
+                'date',
+                'after_or_equal:submit_date',
+            ],
             'total_amount' => 'required|numeric',
             'status' => 'required|string',
             'type' => 'required|string',
+            'remarks' => 'nullable|string',
         ]);
 
         Invoice::create($validatedData);
 
         return redirect()->route('invoices.index')->with('success', 'Invoice created successfully.');
+    }
+
+    public function edit(Invoice $invoice)
+    {
+        return view('invoices.edit', compact('invoice'));
+    }
+
+    public function update(Request $request, Invoice $invoice)
+    {
+        $validatedData = $request->validate([
+            'do_id' => 'required|integer',
+            'submit_date' => 'required|date',
+            'receive_date' => [
+                'nullable',
+                'date',
+                'after_or_equal:submit_date',
+            ],
+            'total_amount' => 'required|numeric',
+            'status' => 'required|string',
+            'type' => 'required|string',
+            'remarks' => 'nullable|string',
+        ]);
+
+        $invoice->update($validatedData);
+
+        return redirect()->route('invoices.index')->with('success', 'Invoice updated successfully.');
     }
 }
