@@ -1,6 +1,6 @@
 <x-layout>
-    <x-slot name="heading">Edit Invoice</x-slot>
-    <x-slot name="description">Update the details for invoice #{{ $invoice->do_id }}</x-slot>
+    <x-slot name="heading">Inventory</x-slot>
+    <x-slot name="description">DO Invoice #{{ $invoice->do_id }}</x-slot>
 
     <div class="w-1/2 bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4 mx-auto ">
         @if ($errors->any())
@@ -62,10 +62,17 @@
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Status</label>
-                <div class="flex space-x-2">
-                    @foreach(['pending', 'received', 'overdue'] as $status)
-                        <button type="button" class="status-button {{ $invoice->status === $status ? 'ring-2 ring-opacity-50' : '' }} bg-{{ $status === 'pending' ? 'yellow' : ($status === 'received' ? 'green' : 'red') }}-500 text-white font-bold py-2 px-4 rounded-lg focus:outline-none" data-status="{{ $status }}">
-                            {{ ucfirst($status) }}
+                <div class="flex flex-wrap gap-2">
+                    @foreach(['pending', 'received', 'overdue', 'received_late', 'cancelled'] as $status)
+                        <button type="button" 
+                            class="status-button {{ $invoice->status === $status ? 'ring-2 ring-opacity-50' : '' }} 
+                                {{ $status === 'pending' ? 'bg-yellow-400 hover:bg-yellow-500 text-gray-800' : 
+                                ($status === 'received' ? 'bg-green-400 hover:bg-green-500 text-white' : 
+                                ($status === 'cancelled' ? 'bg-gray-400 hover:bg-gray-500 text-white' : 
+                                    'bg-red-400 hover:bg-red-500 text-white')) }} 
+                                font-medium py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-sm" 
+                            data-status="{{ $status }}">
+                            {{ ucfirst(str_replace('_', ' ', $status)) }}
                         </button>
                     @endforeach
                 </div>
