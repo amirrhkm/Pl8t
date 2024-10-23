@@ -10,12 +10,15 @@ class Invoice extends Model
     use HasFactory;
 
     const TYPE = [
-        'fuji_bun' => 'Fuji Bun',
+        'ambient' => 'Ambient',
         'fuji_loaf' => 'Fuji Loaf',
         'vtc' => 'VTC',
-        'daq' => 'DAQ',
-        'agl' => 'AGL',
+        'frozen' => 'Frozen',
+        'mcqwin' => 'MCQWIN',
         'soda_express' => 'Soda Express',
+        'small_utilities' => 'Small Utilities',
+        'mc2_water_filter' => 'MC2 Water Filter',
+        'other' => 'Other',
     ];
 
     /**
@@ -30,6 +33,8 @@ class Invoice extends Model
         'total_amount',
         'status',
         'type',
+        'remarks',
+        'estimation_days_to_receive',
     ];
 
     /**
