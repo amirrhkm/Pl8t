@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 
@@ -48,7 +49,7 @@ class InvoiceController extends Controller
         });
 
         // Calculate delivery on-time rates
-        $deliveryTypes = Invoice::TYPE;
+        $deliveryTypes = ['ambient', 'fuji_loaf', 'vtc', 'frozen', 'mcqwin', 'soda_express', 'small_utilities', 'mc2_water_filter', 'other'];
         $deliveryRates = [];
         foreach ($deliveryTypes as $type) {
             $typeInvoices = $invoices->where('type', $type);
@@ -65,8 +66,14 @@ class InvoiceController extends Controller
             'pendingInvoices',
             'overdueInvoices',
             'totalAmount',
-            'deliveryRates'
+            'deliveryRates',
+            'typeInvoices',
         ));
+    }
+
+    public function formatType($type)
+    {
+        return Invoice::TYPE[$type];
     }
 
     public function create()
