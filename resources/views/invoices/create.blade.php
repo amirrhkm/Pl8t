@@ -1,6 +1,6 @@
 <x-layout>
-    <x-slot name="heading">Create New Invoice</x-slot>
-    <x-slot name="description">Enter the details for the new invoice</x-slot>
+    <x-slot name="heading">Inventory</x-slot>
+    <x-slot name="description">Create New DO Invoice</x-slot>
 
     <div class="w-1/2 bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4 mx-auto ">
         @if ($errors->any())
@@ -65,10 +65,12 @@
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2">Status</label>
-                <div class="flex space-x-2">
-                    <button type="button" class="status-button bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg focus:outline-none" data-status="pending">Pending</button>
-                    <button type="button" class="status-button bg-green-500 text-white font-bold py-2 px-4 rounded-lg focus:outline-none" data-status="received">Received</button>
-                    <button type="button" class="status-button bg-red-500 text-white font-bold py-2 px-4 rounded-lg focus:outline-none" data-status="overdue">Overdue</button>
+                <div class="flex flex-wrap gap-2">
+                    <button type="button" class="status-button bg-yellow-400 hover:bg-yellow-500 text-gray-800 font-medium py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-sm" data-status="pending">Pending</button>
+                    <button type="button" class="status-button bg-green-400 hover:bg-green-500 text-white font-medium py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-sm" data-status="received">Received</button>
+                    <button type="button" class="status-button bg-red-400 hover:bg-red-500 text-white font-medium py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-sm" data-status="overdue">Overdue</button>
+                    <button type="button" class="status-button bg-red-400 hover:bg-red-500 text-white font-medium py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-sm" data-status="received_late">Received Late</button>
+                    <button type="button" class="status-button bg-gray-400 hover:bg-gray-500 text-white font-medium py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-sm" data-status="cancelled">Cancelled</button>
                 </div>
                 <input type="hidden" name="status" id="status" required>
             </div>
