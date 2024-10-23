@@ -19,6 +19,8 @@ return new class extends Migration
             $table->decimal('total_amount', 10, 2);
             $table->string('type');
             $table->string('status');
+            $table->string('remarks')->nullable();
+            $table->integer('estimation_days_to_receive')->nullable();
             $table->timestamps();
         });
     }
