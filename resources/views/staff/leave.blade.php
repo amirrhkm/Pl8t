@@ -43,7 +43,7 @@
 
         <!-- Leave Application Table -->
         <div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
-            <h2 class="text-xl font-semibold p-4 bg-gray-50 border-b border-gray-200">{{ now()->format('Y') }} Leaves</h2>
+            <h2 class="text-xl font-semibold p-4 bg-gray-50 border-b border-gray-200">Applied Leaves Details</h2>
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
