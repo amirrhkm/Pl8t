@@ -8,6 +8,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CrewController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Middleware\AuthenticationHandler;
+use App\Http\Controllers\LeaveController;
 
 // Public routes
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -60,4 +61,9 @@ Route::middleware([AuthenticationHandler::class])->group(function () {
     Route::get('/invoices/create', [InvoiceController::class, 'create'])->name('invoices.create');
     Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
     Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
+
+    // Leave Routes
+    Route::get('/staff/{staff}/leave', [LeaveController::class, 'index'])->name('staff.leave');
+    Route::post('/staff/leave', [LeaveController::class, 'store'])->name('staff.leave.store');
+    Route::delete('/staff/leave/{leave}', [LeaveController::class, 'destroy'])->name('staff.leave.destroy');
 });
