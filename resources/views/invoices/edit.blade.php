@@ -1,4 +1,18 @@
 <x-layout>
+    <style>
+        /* Remove spinner for WebKit browsers (Chrome, Safari) */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Remove spinner for Firefox */
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
+
     <x-slot name="heading">Inventory</x-slot>
     <x-slot name="description">DO Invoice #{{ $invoice->do_id }}</x-slot>
 
