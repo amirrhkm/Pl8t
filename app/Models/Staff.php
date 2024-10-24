@@ -37,6 +37,11 @@ class Staff extends Model
         return $this->hasOne(User::class, 'staff_id', 'id');
     }
 
+    public function leaves()
+{
+    return $this->hasMany(Leave::class);
+}
+
     public function formattedEmploymentType()
     {
         return self::EMPLOYMENT_TYPES[$this->employment_type] ?? $this->employment_type;
