@@ -28,13 +28,14 @@
                     <div class="flex h-16 items-center justify-between">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
-                            <a href="{{ url('/home') }}" class="text-3xl font-bold text-white hover:text-gray-200 transition duration-150 ease-in-out">TallyUp</a>
+                            <p class="text-3xl font-bold text-white hover:text-gray-200 transition duration-150 ease-in-out">TallyUp</p>
                             </div>
                             <div class="hidden md:block">
                                 <div class="ml-10 flex items-baseline space-x-4">
+                                    <a href="/home" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Home</a>
                                     <a href="/staff" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Team Hub</a>
                                     <a href="/shift" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Shift Central</a>
-                                    <a href="/sales-tracker" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Sales</a>
+                                    <a href="/sales" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Sales</a>
                                     <a href="/invoices" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Inventory</a>
                                     <a href="/reports-dashboard" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Reports</a>
                                 </div>
