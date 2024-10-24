@@ -20,6 +20,23 @@
                 </label>
                 <input class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="do_id" type="number" name="do_id" required>
             </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="type">
+                    Delivery Type
+                </label>
+                <select class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="type" name="type" required>
+                    <option value="">Select Delivery Type</option>
+                    <option value="ambient">Ambient</option>
+                    <option value="frozen">Frozen</option>
+                    <option value="fuji_loaf">Fuji Loaf</option>
+                    <option value="vtc">VTC</option>
+                    <option value="mcqwin">MCQWIN</option>
+                    <option value="small_utilities">Small Utilities</option>
+                    <option value="soda_express">Soda Express</option>
+                    <option value="mc2_water_filter">MC2 Water Filter</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
             <div class="mb-4 flex">
                 <div class="w-1/2 pr-2">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="submit_date">
@@ -39,23 +56,6 @@
                     Amount (RM)
                 </label>
                 <input class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="total_amount" type="number" step="0.01" name="total_amount" required>
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="type">
-                    Delivery Type
-                </label>
-                <select class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="type" name="type" required>
-                    <option value="">Select Delivery Type</option>
-                    <option value="ambient">Ambient</option>
-                    <option value="frozen">Frozen</option>
-                    <option value="fuji_loaf">Fuji Loaf</option>
-                    <option value="vtc">VTC</option>
-                    <option value="mcqwin">MCQWIN</option>
-                    <option value="small_utilities">Small Utilities</option>
-                    <option value="soda_express">Soda Express</option>
-                    <option value="mc2_water_filter">MC2 Water Filter</option>
-                    <option value="other">Other</option>
-                </select>
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="remarks">
