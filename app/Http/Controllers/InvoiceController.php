@@ -39,14 +39,89 @@ class InvoiceController extends Controller
         $receivedInvoices = $invoices->where('status', 'received')->count();
         $pendingInvoices = $invoices->where('status', 'pending')->count();
         $overdueInvoices = $invoices->where('status', 'overdue')->count();
-        $totalAmount = $invoices->sum('total_amount');
+        $totalAmount = Invoice::whereMonth('submit_date', now()->month)
+            ->whereYear('submit_date', now()->year)
+            ->sum('total_amount');
 
-        // Update overdue status
-        $invoices->each(function ($invoice) {
-            if ($invoice->status === 'pending' && $invoice->submit_date->addDays(7)->isPast()) {
-                $invoice->update(['status' => 'overdue']);
-            }
-        });
+        // Update overdue status (defected)
+        // $invoices->each(function ($invoice) {
+        //     // Ambient DO estimated delivery date
+        //     if ($invoice->type === 'ambient') {
+        //         if ($invoice->submit_date->isTuesday()) {
+        //             $ambientDaysTillOverdue = $invoice->submit_date->diffInDays($invoice->submit_date->next(Carbon::WEDNESDAY)->next(Carbon::WEDNESDAY));
+        //         } else {
+        //             $ambientDaysTillOverdue = $invoice->submit_date->diffInDays($invoice->submit_date->next(Carbon::WEDNESDAY));
+        //         }
+
+        //         if ($invoice->status === 'pending' && $invoice->submit_date->addDays($ambientDaysTillOverdue)->isPast()) {
+        //             $invoice->update(['status' => 'overdue']);
+        //         }
+        //     }
+
+        //     // Frozen DO estimated delivery date
+        //     if ($invoice->type === 'frozen') {
+        //         if ($invoice->submit_date->isFriday() || $invoice->submit_date->isSaturday() || $invoice->submit_date->isSunday()) {
+        //             $frozenDaysTillOverdue = $invoice->submit_date->diffInDays($invoice->submit_date->next(Carbon::MONDAY)->next(Carbon::MONDAY));
+        //         } else {
+        //             $frozenDaysTillOverdue = $invoice->submit_date->diffInDays($invoice->submit_date->next(Carbon::MONDAY));
+        //         }
+
+        //         if ($invoice->status === 'pending' && $invoice->submit_date->addDays($frozenDaysTillOverdue)->isPast()) {
+        //             $invoice->update(['status' => 'overdue']);
+        //         }
+        //     }
+
+        //     // Fuji Loaf DO estimated delivery date
+        //     if ($invoice->type === 'fuji_loaf') {
+        //         if ($invoice->submit_date->isThursday()) {
+        //             $fujiLoafDaysTillOverdue = $invoice->submit_date->diffInDays($invoice->submit_date->next(Carbon::WEDNESDAY));
+        //         } elseif ($invoice->submit_date->isFriday()) {
+        //             $fujiLoafDaysTillOverdue = $invoice->submit_date->diffInDays($invoice->submit_date->next(Carbon::FRIDAY));
+        //         } else {
+        //             $fujiLoafDaysTillOverdue = $invoice->submit_date->diffInDays($invoice->submit_date->next(Carbon::MONDAY));
+        //         }
+
+        //         if ($invoice->status === 'pending' && $invoice->submit_date->addDays($fujiLoafDaysTillOverdue)->isPast()) {
+        //             $invoice->update(['status' => 'overdue']);
+        //         }
+        //     }
+
+        //     // VTC DO estimated delivery date
+        //     if ($invoice->type === 'vtc') {
+        //         $nextDeliveryDate = $invoice->submit_date->copy();
+        //         while (!$nextDeliveryDate->isMonday() && !$nextDeliveryDate->isWednesday() && !$nextDeliveryDate->isFriday()) {
+        //             $nextDeliveryDate->addDay();
+        //         }
+        //         $vtcDaysTillOverdue = $invoice->submit_date->diffInDays($nextDeliveryDate);
+            
+        //         if ($invoice->status === 'pending' && $invoice->submit_date->addDays($vtcDaysTillOverdue)->isPast()) {
+        //             $invoice->update(['status' => 'overdue']);
+        //         }
+        //     }
+
+        //     // MCQWIN DO estimated delivery date
+        //     if ($invoice->type === 'mcqwin') {
+        //         $mcqwinDaysTillOverdue = 2;
+        //         $deliveryDate = $invoice->submit_date->copy();
+                
+        //         for ($i = 0; $i < $mcqwinDaysTillOverdue; $i++) {
+        //             $deliveryDate->addWeekday();
+        //         }
+
+        //         if ($invoice->status === 'pending' && $deliveryDate->isPast()) {
+        //             $invoice->update(['status' => 'overdue']);
+        //         }
+        //     }
+
+        //     // Soda Express, Small Utilities, MC2 Water Filter, Other DO estimated delivery date
+        //     if ($invoice->type === 'soda_express' || $invoice->type === 'small_utilities' || $invoice->type === 'mc2_water_filter' || $invoice->type === 'other') {
+        //         $otherDaysTillOverdue = 30;
+                
+        //         if ($invoice->status === 'pending' && $invoice->submit_date->addDays($otherDaysTillOverdue)->isPast()) {
+        //             $invoice->update(['status' => 'overdue']);
+        //         }
+        //     }
+        // });
 
         // Calculate delivery on-time rates
         $deliveryTypes = ['ambient', 'fuji_loaf', 'vtc', 'frozen', 'mcqwin', 'soda_express', 'small_utilities', 'mc2_water_filter', 'other'];
@@ -126,5 +201,11 @@ class InvoiceController extends Controller
         $invoice->update($validatedData);
 
         return redirect()->route('invoices.index')->with('success', 'Invoice updated successfully.');
+    }
+
+    public function destroy(Invoice $invoice)
+    {
+        $invoice->delete();
+        return redirect()->route('invoices.index')->with('success', 'Invoice deleted successfully.');
     }
 }
