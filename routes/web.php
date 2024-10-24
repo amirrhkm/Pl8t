@@ -59,4 +59,5 @@ Route::middleware([AuthenticationHandler::class])->group(function () {
     Route::resource('invoices', InvoiceController::class);
     Route::get('/invoices/create', [InvoiceController::class, 'create'])->name('invoices.create');
     Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
+    Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
 });
