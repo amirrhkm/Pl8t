@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
-    <head>
+<head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>TallyUp</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+        <!-- Pikaday CSS -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
         <style>
             body {
                 font-family: 'Poppins', sans-serif;
@@ -15,6 +17,8 @@
                 background-attachment: fixed;
             }
         </style>
+        <!-- Pikaday Script -->
+        <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
     </head>
 
     <body class="h-full">
@@ -24,12 +28,16 @@
                     <div class="flex h-16 items-center justify-between">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
-                            <a href="{{ url('/home') }}" class="text-3xl font-bold text-white hover:text-gray-200 transition duration-150 ease-in-out">TallyUp</a>
+                            <p class="text-3xl font-bold text-white hover:text-gray-200 transition duration-150 ease-in-out">TallyUp</p>
                             </div>
                             <div class="hidden md:block">
                                 <div class="ml-10 flex items-baseline space-x-4">
+                                    <a href="/home" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Home</a>
                                     <a href="/staff" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Team Hub</a>
                                     <a href="/shift" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Shift Central</a>
+                                    <a href="/sales" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Sales</a>
+                                    <a href="/invoices" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Inventory</a>
+                                    <a href="/reports-dashboard" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Reports</a>
                                 </div>
                             </div>
                         </div>
@@ -64,5 +72,6 @@
                 </a>
             </div>
         </footer>
+        @stack('scripts')
     </body>
 </html>

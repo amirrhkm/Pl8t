@@ -1,5 +1,7 @@
 # Staff Payroll and Shift Management System
 
+*outdated details, to-be-updated soon*
+
 This web application is designed to help F&B (Food & Beverage) managers efficiently manage staff schedules, track working hours, and calculate salaries. It's particularly useful for businesses with variable shift patterns and different pay rates for regular hours, overtime, and public holidays.
 
 ## Development Environment Setup

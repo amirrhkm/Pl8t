@@ -6,7 +6,10 @@ use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CrewController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Middleware\AuthenticationHandler;
+use App\Http\Controllers\LeaveController;
+use App\Http\Controllers\SalesController;
 
 // Public routes
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -53,4 +56,27 @@ Route::middleware([AuthenticationHandler::class])->group(function () {
 
     // Payslip Routes
     Route::get('/staff/{staff}/payslip/{month}', [StaffController::class, 'downloadPayslip'])->name('staff.payslip.download');
+
+    // Invoice Routes
+    Route::resource('invoices', InvoiceController::class);
+    Route::get('/invoices/create', [InvoiceController::class, 'create'])->name('invoices.create');
+    Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
+    Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
+
+    // Leave Routes
+    Route::get('/staff/{staff}/leave', [LeaveController::class, 'index'])->name('staff.leave');
+    Route::post('/staff/leave', [LeaveController::class, 'store'])->name('staff.leave.store');
+    Route::delete('/staff/leave/{leave}', [LeaveController::class, 'destroy'])->name('staff.leave.destroy');
+
+    // Sales Routes
+    Route::get('/sales', [SalesController::class, 'index'])->name('sales.index');
+    Route::get('/sales/eod/create', [SalesController::class, 'createEod'])->name('sales.createEod');
+    Route::post('/sales/eod', [SalesController::class, 'storeEod'])->name('sales.storeEod');
+    Route::get('/sales/bankin/create', [SalesController::class, 'createBankin'])->name('sales.createBankin');
+    Route::post('/sales/bankin', [SalesController::class, 'storeBankin'])->name('sales.storeBankin');
+    Route::get('/sales/expense/create', [SalesController::class, 'createExpense'])->name('sales.createExpense');
+    Route::post('/sales/expense', [SalesController::class, 'storeExpense'])->name('sales.storeExpense');
+    Route::get('/sales/earning/create', [SalesController::class, 'createEarning'])->name('sales.createEarning');
+    Route::post('/sales/earning', [SalesController::class, 'storeEarning'])->name('sales.storeEarning');
+    Route::get('/sales/details/{id}', [SalesController::class, 'showDetails'])->name('sales.details');
 });
