@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
+use App\Models\Wastage;
 
 class InvoiceController extends Controller
 {
@@ -134,6 +135,19 @@ class InvoiceController extends Controller
             $deliveryRates[$type] = $rate;
         }
 
+        // Inside the index method, add this before returning the view
+        $wastages = Wastage::whereMonth('date', now()->month)
+            ->whereYear('date', now()->year)
+            ->get()
+            ->groupBy('item')
+            ->map(function ($group) {
+                return [
+                    'item' => $group->first()->item,
+                    'total_quantity' => $group->sum('quantity'),
+                    'total_weight' => $group->sum('weight'),
+                ];
+            });
+
         return view('invoices.index', compact(
             'invoices',
             'totalInvoices',
@@ -143,6 +157,7 @@ class InvoiceController extends Controller
             'totalAmount',
             'deliveryRates',
             'typeInvoices',
+            'wastages',
         ));
     }
 
