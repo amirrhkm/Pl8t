@@ -28,9 +28,50 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-4 text-indigo-800">Total Spent in {{ now()->monthName }}</h3>
-                <p class="text-4xl font-bold text-gray-800">RM {{ number_format($totalAmount, 2) }}</p>
+            <div class="space-y-6">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-indigo-800">Total Spent in {{ now()->monthName }}</h3>
+                    <p class="text-4xl font-bold text-gray-800">RM {{ number_format($totalAmount, 2) }}</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-semibold text-indigo-800">Total Wastages in {{ now()->monthName }}</h3>
+                        <div class="flex space-x-2">
+                            <a href="{{ route('wastages.create') }}" class="bg-green-500 hover:bg-green-600 text-white p-2 rounded-lg transition duration-300 ease-in-out shadow-md hover:shadow-lg text-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                                </svg>
+                            </a>
+                            <a href="{{ route('wastages.details', ['year' => now()->year, 'month' => now()->month]) }}" class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg transition duration-300 ease-in-out shadow-md hover:shadow-lg text-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    <ul class="space-y-2">
+                        @forelse($wastages as $item => $totals)
+                            <li class="flex items-center justify-between">
+                                <span class="text-gray-800">{{ $item }}</span>
+                                <span class="text-gray-800">
+                                    @if(isset($totals['total_weight']))
+                                        @if($totals['total_weight'] > 0)    
+                                            {{ number_format($totals['total_weight'], 3) }} kg
+                                        @endif
+                                    @endif
+                                    @if(isset($totals['total_quantity']))
+                                        @if($totals['total_quantity'] > 0)
+                                            {{ $totals['total_quantity'] }} pcs
+                                        @endif
+                                    @endif
+                                </span>
+                            </li>
+                        @empty
+                            <li class="text-gray-500 italic">No wastage recorded for this month.</li>
+                        @endforelse
+                    </ul>
+                </div>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h3 class="text-xl font-semibold mb-4 text-indigo-800">Delivery On-Time Rates</h3>

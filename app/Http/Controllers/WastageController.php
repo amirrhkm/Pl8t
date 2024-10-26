@@ -61,7 +61,6 @@ class WastageController extends Controller
 
         $date = Carbon::parse($request->input('date'))->format('Y-m-d H:i:s');
 
-        // Ensure weight is stored with full precision
         if (isset($validated['weight'])) {
             $validated['weight'] = number_format((float)$validated['weight'], 6, '.', '');
         }
@@ -76,5 +75,15 @@ class WastageController extends Controller
         $wastage->delete();
 
         return redirect()->route('invoices.index')->with('success', 'Wastage record deleted successfully.');
+    }
+
+    public function details($year, $month)
+    {
+        $wastages = Wastage::whereYear('date', $year)
+                           ->whereMonth('date', $month)
+                           ->orderBy('date')
+                           ->get();
+
+        return view('wastages.details', compact('wastages', 'year', 'month'));
     }
 }
