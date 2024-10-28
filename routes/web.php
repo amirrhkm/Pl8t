@@ -10,6 +10,8 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Middleware\AuthenticationHandler;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\SalesController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\WastageController;
 
 // Public routes
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -63,6 +65,15 @@ Route::middleware([AuthenticationHandler::class])->group(function () {
     Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
     Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
 
+    // Wastage Routes
+    Route::get('/wastages/create', [WastageController::class, 'create'])->name('wastages.create');
+    Route::post('/wastages', [WastageController::class, 'store'])->name('wastages.store');
+    Route::get('/wastages/{wastage}/edit', [WastageController::class, 'edit'])->name('wastages.edit');
+    Route::put('/wastages/{wastage}', [WastageController::class, 'update'])->name('wastages.update');
+    Route::delete('/wastages/{wastage}', [WastageController::class, 'destroy'])->name('wastages.destroy');
+    Route::get('/wastages/{year}/{month}', [WastageController::class, 'details'])
+        ->name('wastages.details');
+
     // Leave Routes
     Route::get('/staff/{staff}/leave', [LeaveController::class, 'index'])->name('staff.leave');
     Route::post('/staff/leave', [LeaveController::class, 'store'])->name('staff.leave.store');
@@ -70,13 +81,28 @@ Route::middleware([AuthenticationHandler::class])->group(function () {
 
     // Sales Routes
     Route::get('/sales', [SalesController::class, 'index'])->name('sales.index');
+
     Route::get('/sales/eod/create', [SalesController::class, 'createEod'])->name('sales.createEod');
     Route::post('/sales/eod', [SalesController::class, 'storeEod'])->name('sales.storeEod');
+    Route::get('/sales/eod/{id}/edit', [SalesController::class, 'editEod'])->name('sales.editEod');
+    Route::put('/sales/eod/{id}/{cumu_id}', [SalesController::class, 'updateEod'])->name('sales.updateEod');
+
     Route::get('/sales/bankin/create', [SalesController::class, 'createBankin'])->name('sales.createBankin');
     Route::post('/sales/bankin', [SalesController::class, 'storeBankin'])->name('sales.storeBankin');
-    Route::get('/sales/expense/create', [SalesController::class, 'createExpense'])->name('sales.createExpense');
-    Route::post('/sales/expense', [SalesController::class, 'storeExpense'])->name('sales.storeExpense');
+    Route::get('/sales/bankin/{id}/edit', [SalesController::class, 'editBankin'])->name('sales.editBankin');
+    Route::put('/sales/bankin/{id}/{cumu_id}', [SalesController::class, 'updateBankin'])->name('sales.updateBankin');
+
     Route::get('/sales/earning/create', [SalesController::class, 'createEarning'])->name('sales.createEarning');
     Route::post('/sales/earning', [SalesController::class, 'storeEarning'])->name('sales.storeEarning');
-    Route::get('/sales/details/{id}', [SalesController::class, 'showDetails'])->name('sales.details');
+    Route::get('/sales/earning/{id}/edit', [SalesController::class, 'editEarning'])->name('sales.editEarning');
+    Route::put('/sales/earning/{id}/{cumu_id}', [SalesController::class, 'updateEarning'])->name('sales.updateEarning');
+
+    Route::get('/sales/expense/create', [SalesController::class, 'createExpense'])->name('sales.createExpense');
+    Route::post('/sales/expense', [SalesController::class, 'storeExpense'])->name('sales.storeExpense');
+    Route::get('/sales/expense/{id}/edit', [SalesController::class, 'editExpense'])->name('sales.editExpense');
+    Route::put('/sales/expense/{id}/{cumu_id}', [SalesController::class, 'updateExpense'])->name('sales.updateExpense');
+
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/part-time-details', [ReportController::class, 'partTimeDetails'])->name('reports.part-time-details');
 });
+
