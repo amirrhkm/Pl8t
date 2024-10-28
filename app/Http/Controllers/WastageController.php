@@ -74,7 +74,7 @@ class WastageController extends Controller
     {
         $wastage->delete();
 
-        return redirect()->route('invoices.index')->with('success', 'Wastage record deleted successfully.');
+        return redirect()->route('wastages.details', ['year' => now()->year, 'month' => now()->month])->with('success', 'Wastage record deleted successfully.');
     }
 
     public function details($year, $month)

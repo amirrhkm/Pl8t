@@ -10,7 +10,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col items-center justify-center">
-                <h3 class="text-lg font-semibold mb-2 text-indigo-600">Total DO in {{ now()->monthName }}</h3>
+                <h3 class="text-lg font-semibold mb-2 text-indigo-600">Total Stock Orders</h3>
                 <p class="text-6xl font-bold text-gray-800">{{ $totalInvoices }}</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col items-center justify-center">
@@ -30,7 +30,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
             <div class="space-y-6">
                 <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-semibold mb-4 text-indigo-800">Total Spent in {{ now()->monthName }}</h3>
+                    <h3 class="text-xl font-semibold mb-4 text-indigo-800">Total Spent in Stock Orders</h3>
                     <p class="text-4xl font-bold text-gray-800">RM {{ number_format($totalAmount, 2) }}</p>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md">
@@ -50,7 +50,7 @@
                             </a>
                         </div>
                     </div>
-                    <ul class="space-y-2">
+                    <ul class="space-y-2 min-h-[120px]"> <!-- Added min-height -->
                         @forelse($wastages as $item => $totals)
                             <li class="flex items-center justify-between">
                                 <span class="text-gray-800">{{ $item }}</span>
@@ -70,6 +70,12 @@
                         @empty
                             <li class="text-gray-500 italic">No wastage recorded for this month.</li>
                         @endforelse
+                        @for ($i = count($wastages); $i < 4; $i++)
+                            <li class="flex items-center justify-between">
+                                <span class="text-gray-300"></span>
+                                <span class="text-gray-300"></span>
+                            </li>
+                        @endfor
                     </ul>
                 </div>
             </div>

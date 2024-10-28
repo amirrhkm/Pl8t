@@ -135,7 +135,7 @@ class InvoiceController extends Controller
             $deliveryRates[$type] = $rate;
         }
 
-        // Inside the index method, add this before returning the view
+        // Wastages
         $wastages = Wastage::whereMonth('date', now()->month)
             ->whereYear('date', now()->year)
             ->get()
@@ -146,7 +146,11 @@ class InvoiceController extends Controller
                     'total_quantity' => $group->sum('quantity'),
                     'total_weight' => $group->sum('weight'),
                 ];
-            });
+            })
+            ->sortByDesc(function ($item) {
+                return $item['total_weight'] ?? $item['total_quantity'] ?? 0;
+            })
+            ->take(4);
 
         return view('invoices.index', compact(
             'invoices',
