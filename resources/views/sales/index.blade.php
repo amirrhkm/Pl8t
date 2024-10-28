@@ -5,33 +5,33 @@
 
     <div class="bg-gradient-to-br from-indigo-50 to-blue-100 p-8 rounded-xl shadow-lg">
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-3xl font-bold text-indigo-800">{{now()->format('F')}}'s Sales Overview</h2>
+            <h2 class="text-3xl font-bold text-indigo-800">Sales Overview</h2>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col items-center justify-center">
                 <h3 class="text-lg font-semibold mb-2 text-indigo-600">Total Sales</h3>
-                <p class="text-5xl font-bold text-gray-800">RM {{ $totalSales }}</p>
+                <p class="text-5xl font-bold text-gray-800">{{ number_format($totalSales, 2, '.', ',') }}</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col items-center justify-center">
                 <h3 class="text-lg font-semibold mb-2 text-red-600">Total Expenses</h3>
-                <p class="text-5xl font-bold text-gray-800">RM {{ $totalExpenses }}</p>
+                <p class="text-5xl font-bold text-gray-800">{{ number_format($totalExpenses, 2, '.', ',') }}</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col items-center justify-center">
                 <h3 class="text-lg font-semibold mb-2 text-green-600">Credit Card Sales</h3>
-                <p class="text-5xl font-bold text-gray-800">RM {{ $creditCardSales }}</p>
+                <p class="text-5xl font-bold text-gray-800">{{ number_format($creditCardSales, 2, '.', ',') }}</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col items-center justify-center">
                 <h3 class="text-lg font-semibold mb-2 text-yellow-600">E-Wallet Sales</h3>
-                <p class="text-5xl font-bold text-gray-800">RM {{ $eWalletSales }}</p>
+                <p class="text-5xl font-bold text-gray-800">{{ number_format($eWalletSales, 2, '.', ',') }}</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col items-center justify-center">
                 <h3 class="text-lg font-semibold mb-2 text-blue-600">Delivery Sales</h3>
-                <p class="text-5xl font-bold text-gray-800">RM {{ $deliverySales }}</p>
+                <p class="text-5xl font-bold text-gray-800">{{ number_format($deliverySales, 2, '.', ',') }}</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col items-center justify-center">
                 <h3 class="text-lg font-semibold mb-2 text-blue-600">Total Bank-in</h3>
-                <p class="text-5xl font-bold text-gray-800">RM {{ $totalBankin }}</p>
+                <p class="text-5xl font-bold text-gray-800">{{ number_format($totalBankin, 2, '.', ',') }}</p>
             </div>
         </div>
 
@@ -60,78 +60,112 @@
             </div>
         @endif
 
-        <!-- Cumulative Bank-in Cash Sales Table -->
-        <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Date</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Label</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Amount</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">Amount to Bank In</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    @foreach($cumulativeBankInSales as $sale)
-                        @if($sale->salesEod)
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
-                                {{ \Carbon\Carbon::parse($sale->date)->format('d/m/Y') }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800">
-                                    EOD
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $sale->salesEod->amount_to_bank_in }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $sale->total_bankin_amount }}</td>
-                        </tr>
-                        @endif
-                        @if($sale->salesBankin)
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
-                                {{ \Carbon\Carbon::parse($sale->date)->format('d/m/Y') }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                                    Bank-in
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $sale->salesBankin->amount }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $sale->total_bankin_amount }}</td>
-                        </tr>
-                        @endif
-                        @if($sale->salesEarning)
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
-                                {{ \Carbon\Carbon::parse($sale->date)->format('d/m/Y') }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    Earning
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $sale->salesEarning->amount }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $sale->total_bankin_amount }}</td>
-                        </tr>
-                        @endif
-                        @if($sale->salesExpense)
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
-                                {{ \Carbon\Carbon::parse($sale->date)->format('d/m/Y') }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                    Expense
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $sale->salesExpense->amount }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $sale->total_bankin_amount }}</td>
-                        </tr>
-                        @endif
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+        <!-- Sales History Table -->
+        @if ($salesDaily->isNotEmpty())
+            <div class="bg-white rounded-lg shadow-md p-6 mb-10 transition duration-300 ease-in-out hover:shadow-xl w-full mx-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold text-gray-700">Sales Cash Flow</h3>
+                    
+                    <!-- Add Filter Form -->
+                    <form method="GET" action="{{ route('sales.index') }}" class="flex space-x-4">
+                        <div class="relative">
+                            <select name="month" class="block appearance-none w-full bg-gray-100 border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 transition duration-200">
+                                <option value="" class="text-gray-500 italic">All Months</option>
+                                @foreach(range(1, 12) as $month)
+                                    <option value="{{ $month }}" {{ request('month') == $month ? 'selected' : '' }}>
+                                        {{ date('F', mktime(0, 0, 0, $month, 1)) }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 10l5 5 5-5H7z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition duration-300 ease-in-out shadow-md hover:shadow-lg text-center text-sm">
+                            Apply Filter
+                        </button>
+                    </form>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white rounded-lg">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="py-2 px-4 border-b text-left text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Date</th>
+                                <th class="py-2 px-4 border-b text-left text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">EOD</th>
+                                <th class="py-2 px-4 border-b text-left text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Bank-in</th>
+                                <th class="py-2 px-4 border-b text-left text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Expense</th>
+                                <th class="py-2 px-4 border-b text-left text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Earning</th>
+                                <th class="py-2 px-4 border-b text-left text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Daily Cash Flow</th>
+                                <th class="py-2 px-4 border-b text-left text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Cumulative Cash Stream</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($salesDaily as $daily)
+                                @php 
+                                    $date = \Carbon\Carbon::parse($daily->date)->format('d-m-Y');
+                                    $allZero = $daily->total_eod == 0 && 
+                                               $daily->total_bankin == 0 && 
+                                               $daily->total_expenses == 0 && 
+                                               $daily->total_earning == 0 && 
+                                               $daily->total_balance == 0;
+                                @endphp
+                                
+                                @if(!$allZero)
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="py-2 px-4 border-b text-sm text-center">{{ $date }}</td>
+                                        <td class="py-2 px-4 border-b text-sm text-center">
+                                            @if($daily->total_eod != 0)
+                                                <span class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
+                                                    RM {{ number_format($daily->total_eod, 2) }}
+                                                </span>
+                                            @endif
+                                        </td>
+                                        <td class="py-2 px-4 border-b text-sm text-center">
+                                            @if($daily->total_bankin != 0)
+                                                <span class="inline-block bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
+                                                    RM {{ number_format($daily->total_bankin, 2) }}
+                                                </span>
+                                            @endif
+                                        </td>
+                                        <td class="py-2 px-4 border-b text-sm text-center">
+                                            @if($daily->total_expenses != 0)
+                                                <span class="inline-block bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
+                                                    RM {{ number_format($daily->total_expenses, 2) }}
+                                                </span>
+                                            @endif
+                                        </td>
+                                        <td class="py-2 px-4 border-b text-sm text-center">
+                                            @if($daily->total_earning != 0)
+                                                <span class="inline-block bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
+                                                    RM {{ number_format($daily->total_earning, 2) }}
+                                                </span>
+                                            @endif
+                                        </td>
+                                        <td class="py-2 px-4 border-b text-sm text-center">
+                                            @if($daily->total_balance != 0)
+                                                @php $dailyCashFlow = $daily->total_balance; @endphp
+                                                <span class="inline-block {{ $dailyCashFlow >= 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }} text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
+                                                    RM {{ number_format($dailyCashFlow, 2) }}
+                                                </span>
+                                            @endif
+                                        </td>
+                                        <td class="py-2 px-4 border-b text-sm text-center">
+                                            @if(isset($dailyCashStreams[$daily->date]))
+                                                <span class="inline-block bg-purple-100 text-purple-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
+                                                    RM {{ number_format($dailyCashStreams[$daily->date], 2) }}
+                                                </span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        @endif
     </div>
 </x-layout>
