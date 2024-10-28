@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Staff;
 use App\Models\Shift;
 use App\Models\Salary;
+use App\Models\Leave;
+use App\Models\SalesDaily;
+use App\Models\SalesEod;
+use App\Models\Invoice;
+use App\Models\Wastage;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -23,39 +28,40 @@ class HomeController extends Controller
         }
         
         try {
+            // Staff Metrics
             $totalStaff = Staff::where('name', '!=', 'admin')->count();
+            $partTimeCount = Staff::where('employment_type', 'part_time')->count();
+            $fullTimeCount = Staff::where('employment_type', 'full_time')->where('name', '!=', 'admin')->count();
+            $activeStaff = $totalStaff; // You might want to add an 'active' column to Staff model
 
-            $partTimeStaff = Staff::where('employment_type', 'part_time')->count();
-
-            $fullTimeStaff = Staff::where('employment_type', 'full_time')->where('name', '!=', 'admin')->count();
-            
-            $activeShiftsToday = Shift::whereDate('date', today())
-                ->count()-1;
-            
-            $totalHoursThisMonth = Shift::whereMonth('date', now()->month)
-                ->whereYear('date', now()->year)
-                ->whereHas('staff', function ($query) {
-                    $query->where('name', '!=', 'admin');
-                })
-                ->sum('total_hours');
-
-            $hoursPercentageChange = $this->calculateHoursPercentageChange();
-
-            $allStaff = Staff::where('name', '!=', 'admin')->get();
-            foreach ($allStaff as $staff) {
-                $this->updateSalary($staff);
-            }
-
-            $totalPartTimeStaffSalaryThisMonth = $this->calculateTotalPartTimeStaffSalaryThisMonth();
-
-            $salaryPercentageChange = $this->calculateSalaryPercentageChange();
-
-            $upcomingHolidays = Shift::where('date', '>', now())
+            // Today's Operations
+            $today = now()->toDateString();
+            $activeShiftsToday = Shift::whereDate('date', $today)->where('staff_id', '!=', 'admin')->count();
+            $totalHoursToday = Shift::whereDate('date', $today)->where('staff_id', '!=', 'admin')->sum('total_hours');
+            $onLeaveToday = Leave::where('start_date', '<=', $today)
+                ->whereDate('end_date', '>=', $today)
+                ->count();
+            $isPublicHoliday = Shift::whereDate('date', $today)
                 ->where('is_public_holiday', true)
-                ->orderBy('date')
-                ->take(3)
-                ->get();
-            
+                ->exists();
+
+            // Sales Performance
+            $todaySales = (SalesDaily::whereDate('date', $today)->value('total_eod') ?? 0);
+            $yesterdaySales = (SalesDaily::whereDate('date', now()->subDay())->value('total_eod') ?? 0);
+            $salesTrend = $yesterdaySales ? round((($todaySales - $yesterdaySales) / $yesterdaySales) * 100, 1) : 0;
+            $monthToDateSales = SalesEod::whereYear('date', now()->year)->whereMonth('date', now()->month)
+                ->sum('total_sales');
+            $salesTargetProgress = ($monthToDateSales / 100000) * 100;
+
+            // Inventory & Wastage
+            $pendingInvoices = Invoice::whereNull('receive_date')->count();
+            $todayWastageCount = Wastage::where('date', $today)
+                ->sum('quantity');
+            $monthlyInvoiceTotal = Invoice::whereYear('submit_date', now()->year)
+                ->whereMonth('submit_date', now()->month)
+                ->sum('total_amount');
+
+            // Top Performers
             $topStaffByHours = Staff::where('name', '!=', 'admin')
                 ->withSum(['shifts' => function ($query) {
                     $query->whereMonth('date', now()->month)
@@ -65,22 +71,42 @@ class HomeController extends Controller
                 ->take(5)
                 ->get();
 
+            // Upcoming Events
+            $upcomingLeaves = Leave::with('staff')
+                ->where('start_date', '>', now())
+                ->orderBy('start_date')
+                ->take(3)
+                ->get();
+
+            $upcomingHolidays = Shift::where('date', '>', now())
+                ->where('is_public_holiday', true)
+                ->orderBy('date')
+                ->take(3)
+                ->get();
 
             return view('home', compact(
                 'totalStaff',
+                'activeStaff',
+                'partTimeCount',
+                'fullTimeCount',
                 'activeShiftsToday',
-                'totalHoursThisMonth',
-                'upcomingHolidays',
+                'totalHoursToday',
+                'onLeaveToday',
+                'isPublicHoliday',
+                'todaySales',
+                'salesTrend',
+                'monthToDateSales',
+                'salesTargetProgress',
+                'pendingInvoices',
+                'todayWastageCount',
+                'monthlyInvoiceTotal',
                 'topStaffByHours',
-                'totalPartTimeStaffSalaryThisMonth',
-                'salaryPercentageChange',
-                'hoursPercentageChange',
-                'partTimeStaff',
-                'fullTimeStaff'
+                'upcomingLeaves',
+                'upcomingHolidays'
             ));
+
         } catch (\Exception $e) {
             \Log::error('Error in HomeController@index: ' . $e->getMessage());
-            
             return view('home', ['error' => 'An error occurred while loading the dashboard.']);
         }
     }
