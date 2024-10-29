@@ -4,9 +4,14 @@
     <div class="bg-gradient-to-br from-indigo-50 to-blue-100 p-8 rounded-xl shadow-lg max-w-7xl mx-auto">
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-3xl font-bold text-indigo-800">Staff Overview</h2>
-            <a href="{{ route('staff.create') }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out">
-                Create New Staff
-            </a>
+            <div class="flex space-x-4">
+                <a href="{{ route('staff.create') }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out">
+                    Create New Staff
+                </a>
+                <a href="{{ route('register') }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out">
+                    Register Staff Account
+                </a>
+            </div>
         </div>
 
         <div class="space-y-8">

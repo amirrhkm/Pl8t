@@ -45,13 +45,24 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            var dateInput = document.getElementById('date');
             var datePicker = new Pikaday({
-                field: document.getElementById('date'),
+                field: dateInput,
                 format: 'DD-MM-YYYY',
                 yearRange: [2000, 2030],
                 showTime: false,
-                autoClose: false
+                autoClose: false,
+                onSelect: function(date) {
+                    // Format the date as DD-MM-YYYY
+                    var day = String(date.getDate()).padStart(2, '0');
+                    var month = String(date.getMonth() + 1).padStart(2, '0');
+                    var year = date.getFullYear();
+                    dateInput.value = day + '-' + month + '-' + year;
+                }
             });
+
+            // Prevent manual input
+            dateInput.readOnly = true;
         });
     </script>
 </x-layout>

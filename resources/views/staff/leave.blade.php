@@ -64,11 +64,13 @@
                             } else {
                                 $leave_type = 'Unpaid Leave';
                             }
+                            $start_date = \Carbon\Carbon::parse($application->start_date)->format('d M Y');
+                            $end_date = \Carbon\Carbon::parse($application->end_date)->format('d M Y');
                         @endphp
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center">{{ $leave_type }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $application->start_date }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $application->end_date }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $start_date }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $end_date }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">{{ $application->total_days }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
                                 <form action="{{ route('staff.leave.destroy', $application->id) }}" method="POST" class="inline">

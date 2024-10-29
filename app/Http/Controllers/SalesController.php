@@ -9,37 +9,57 @@ use App\Models\SalesCumulative;
 use App\Models\SalesBankin;
 use App\Models\SalesEarning;
 use App\Models\SalesExpense;
+use App\Models\SalesDaily;
+use App\Models\SalesCashStream;
 use Carbon\Carbon;
 
 class SalesController extends Controller
 {
+    /* Sales Dashboard */
     public function index()
     {
-        // Calculate total sales for the month
         $totalSales = SalesEod::sum('total_sales');
-
-        // Calculate total expenses for the month
         $totalExpenses = SalesExpense::sum('amount') + SalesEodExpense::sum('amount');
-
-        // Calculate credit card sales for the month
         $creditCardSales = SalesEod::sum('visa') + SalesEod::sum('debit') + SalesEod::sum('master');
-
-        // Calculate e-wallet sales for the month
         $eWalletSales = SalesEod::sum('ewallet');
-
-        // Calculate delivery sales for the month
         $deliverySales = SalesEod::sum('foodpanda') + SalesEod::sum('grabfood') + SalesEod::sum('shopeefood');
-
-        // Get cumulative bank-in cash sales
-        $cumulativeBankInSales = SalesCumulative::orderBy('date')->get();
-
-        // Calculate total bank-in
         $totalBankin = SalesBankin::sum('amount');
         
-        return view('sales.index', compact('totalSales', 'totalExpenses', 'creditCardSales', 'eWalletSales', 'deliverySales', 'cumulativeBankInSales', 'totalBankin'));
+        $salesDaily = SalesDaily::orderBy('date', 'asc')->get();
+        $dailyCashStreams = [];
+        $cumulativeCashStream = 0;
+
+        foreach ($salesDaily as $daily) {
+            $dailyCashFlow = $daily->total_balance;
+            $cumulativeCashStream += $dailyCashFlow;
+            $dailyCashStreams[$daily->date] = $cumulativeCashStream;
+        }
+
+        $currentCashStream = end($dailyCashStreams) ?: 0;
+
+        $query = SalesDaily::query();
+
+        if (request('month')) {
+            $query->whereMonth('date', request('month'))
+                ->whereYear('date', now()->year);
+        }
+
+        $salesDaily = $query->orderBy('date', 'asc')->get();
+
+        return view('sales.index', compact(
+            'totalSales',
+            'totalExpenses',
+            'creditCardSales',
+            'eWalletSales',
+            'deliverySales',
+            'totalBankin',
+            'currentCashStream',
+            'salesDaily',
+            'dailyCashStreams'
+        ));
     }
 
-    // EOD Sales
+    /* Sales EOD */
     public function createEod()
     {
         return view('sales.create_eod');
@@ -47,38 +67,83 @@ class SalesController extends Controller
 
     public function storeEod(Request $request)
     {
-        // Collect expense data first
         $expensesData = $request->only(['expenses_1', 'amount_1', 'expenses_2', 'amount_2', 'expenses_3', 'amount_3', 'expenses_4', 'amount_4', 'expenses_5', 'amount_5', 'expenses_6', 'amount_6', 'expenses_7', 'amount_7', 'expenses_8', 'amount_8']);
-        
-        // Calculate total expenses
         $totalExpenses = array_sum(array_filter($expensesData, fn($key) => str_starts_with($key, 'amount_'), ARRAY_FILTER_USE_KEY));
 
-        // Calculate total cash bank-in amount (EOD entry -> Bank-in)
         $totalBankinAmount = $request->cash - $request->ewallet - $totalExpenses + $request->cash_difference;
-
-        $date = Carbon::parse($request->input('date'))->format('Y-m-d H:i:s');
-
+        $date = Carbon::parse($request->input('date'))->format('Y-m-d');
+        
         $salesEod = SalesEod::create(array_merge(
             $request->only(['debit', 'visa', 'master', 'cash', 'ewallet', 'foodpanda', 'grabfood', 'shopeefood', 'prepaid', 'voucher', 'total_sales', 'cash_difference']),
             ['amount_to_bank_in' => $totalBankinAmount, 'date' => $date]
         ));
 
-        // Daily EOD Expenses
         $expensesData['sales_eod_id'] = $salesEod->id;
         $expensesData['date'] = $salesEod->date;
         SalesEodExpense::create($expensesData);
 
-        // Cash Bank-in Amount - Cumulative
-        SalesCumulative::create([
-            'date' => $salesEod->date,
-            'total_bankin_amount' => $totalBankinAmount,
-            'sales_eod_id' => $salesEod->id,
-        ]);
-
+        $this->updateDailySales($salesEod->date, $totalBankinAmount, 'total_eod');
         return redirect()->route('sales.index')->with('success', 'Daily EOD Sales added successfully.');
     }
 
-    // Bank-in
+    public function editEod($id)
+    {
+        $salesEod = SalesEod::findOrFail($id);
+        return view('sales.edit_eod', compact('salesEod'));
+    }
+
+    public function updateEod(Request $request, $id, $cumu_id)
+    {
+        $date = Carbon::parse($request->input('date'))->format('Y-m-d');
+        $validatedData = $request->validate([
+            'cash' => 'required|numeric',
+            'ewallet' => 'required|numeric',
+            'total_sales' => 'required|numeric',
+            'cash_difference' => 'required|numeric',
+            'date' => 'required|date',
+        ]);
+        
+        $totalExpenses = 0;
+        for ($i = 1; $i <= 8; $i++) {
+            $totalExpenses += $request->input("amount_$i", 0);
+        }
+
+        $newAmountToBankIn = $validatedData['cash'] - $validatedData['ewallet'] - $totalExpenses + $validatedData['cash_difference'];
+
+        $salesEod = SalesEod::findOrFail($id);
+        $salesEod->update(array_merge(
+            $validatedData,
+            [
+                'amount_to_bank_in' => $newAmountToBankIn,
+                'date' => $date
+            ]
+        ));
+
+        $salesEod->expenses()->update([
+            'date' => $date,
+            'expenses_1' => $request->input('expenses_1'),
+            'amount_1' => $request->input('amount_1'),
+            'expenses_2' => $request->input('expenses_2'),
+            'amount_2' => $request->input('amount_2'),
+            'expenses_3' => $request->input('expenses_3'),
+            'amount_3' => $request->input('amount_3'),
+            'expenses_4' => $request->input('expenses_4'),
+            'amount_4' => $request->input('amount_4'),
+            'expenses_5' => $request->input('expenses_5'),
+            'amount_5' => $request->input('amount_5'),
+            'expenses_6' => $request->input('expenses_6'),
+            'amount_6' => $request->input('amount_6'),
+            'expenses_7' => $request->input('expenses_7'),
+            'amount_7' => $request->input('amount_7'),
+            'expenses_8' => $request->input('expenses_8'),
+            'amount_8' => $request->input('amount_8'),
+        ]);
+
+        $this->updateDailySales($salesEod->date, $newAmountToBankIn, 'total_eod');
+        return redirect()->route('sales.index')->with('success', 'EOD updated successfully');
+    }
+
+    /* Sales Cash Bank-in */
     public function createBankin()
     {
         return view('sales.create_bankin');
@@ -86,12 +151,35 @@ class SalesController extends Controller
 
     public function storeBankin(Request $request)
     {
-        $bankin = SalesBankin::create($request->all());
-        $this->updateCumulativeSales($bankin->id, $bankin->amount, 'sales_bankin');
+        $date = Carbon::parse($request->input('date'))->format('Y-m-d');
+        $salesBankin = SalesBankin::create(array_merge($request->all(), ['date' => $date]));
+
+        $this->updateDailySales($salesBankin->date, $salesBankin->amount, 'total_bankin');
         return redirect()->route('sales.index')->with('success', 'Bank-in added successfully.');
     }
 
-    // Expense
+    public function editBankin($id)
+    {
+        $salesBankin = SalesBankin::findOrFail($id);
+        return view('sales.edit_bankin', compact('salesBankin'));
+    }
+
+    public function updateBankin(Request $request, $id, $cumu_id)
+    {
+        $date = Carbon::parse($request->input('date'))->format('Y-m-d');
+        $validatedData = $request->validate([
+            'amount' => 'required|numeric',
+            'date' => 'required|date',
+        ]);
+
+        $salesBankin = SalesBankin::findOrFail($id);
+        $salesBankin->update(array_merge($validatedData, ['date' => $date]));
+
+        $this->updateDailySales($salesBankin->date, $salesBankin->amount, 'total_bankin');
+        return redirect()->route('sales.index')->with('success', 'Bank-in updated successfully');
+    }
+
+    /* Sales Expense */
     public function createExpense()
     {
         return view('sales.create_expense');
@@ -99,12 +187,35 @@ class SalesController extends Controller
 
     public function storeExpense(Request $request)
     {
-        $expense = SalesExpense::create($request->all());
-        $this->updateCumulativeSales($expense->id, $expense->amount, 'sales_expense');
+        $date = Carbon::parse($request->input('date'))->format('Y-m-d');
+        $salesExpense = SalesExpense::create(array_merge($request->all(), ['date' => $date]));
+
+        $this->updateDailySales($salesExpense->date, $salesExpense->amount, 'total_expenses');
         return redirect()->route('sales.index')->with('success', 'Expense added successfully.');
     }
 
-    // Earning
+    public function editExpense($id)
+    {
+        $salesExpense = SalesExpense::findOrFail($id);
+        return view('sales.edit_expense', compact('salesExpense'));
+    }
+
+    public function updateExpense(Request $request, $id, $cumu_id)
+    {
+        $date = Carbon::parse($request->input('date'))->format('Y-m-d');
+        $validatedData = $request->validate([
+            'amount' => 'required|numeric',
+            'date' => 'required|date',
+        ]);
+
+        $salesExpense = SalesExpense::findOrFail($id);
+        $salesExpense->update(array_merge($validatedData, ['date' => $date]));
+
+        $this->updateDailySales($salesExpense->date, $salesExpense->amount, 'total_expenses');
+        return redirect()->route('sales.index')->with('success', 'Expense updated successfully');
+    }
+
+    /* Sales Earning */
     public function createEarning()
     {
         return view('sales.create_earning');
@@ -112,47 +223,89 @@ class SalesController extends Controller
 
     public function storeEarning(Request $request)
     {
-        $earning = SalesEarning::create($request->all());
-        $this->updateCumulativeSales($earning->id, $earning->amount, 'sales_earning');
+        $date = Carbon::parse($request->input('date'))->format('Y-m-d');
+        $salesEarning = SalesEarning::create(array_merge($request->all(), ['date' => $date]));
+
+        $this->updateDailySales($salesEarning->date, $salesEarning->amount, 'total_earning');
         return redirect()->route('sales.index')->with('success', 'Earning added successfully.');
     }
 
-    public function updateCumulativeSales($id, $amount, $type)
+    public function editEarning($id)
     {
-        $latestCumulative = SalesCumulative::latest('id')->first();
-        
-        $newAmount = $latestCumulative->total_bankin_amount;
-
-        if ($type === 'sales_bankin' || $type === 'sales_expense') {
-            $newAmount -= $amount;
-        } elseif ($type === 'sales_earning') {
-            $newAmount += $amount;
-        }
-
-        SalesCumulative::create([
-            'date' => now(),
-            'total_bankin_amount' => $newAmount,
-            $type . '_id' => $id,
-        ]);
+        $salesEarning = SalesEarning::findOrFail($id);
+        return view('sales.edit_earning', compact('salesEarning'));
     }
 
-    public function showDetails($id)
+    public function updateEarning(Request $request, $id, $cumu_id)
     {
-        // Fetch the sales record by ID
-        $salesRecord = SalesCumulative::findOrFail($id);
+        $date = Carbon::parse($request->input('date'))->format('Y-m-d');
+        $validatedData = $request->validate([
+            'amount' => 'required|numeric',
+            'date' => 'required|date',
+        ]);
 
-        // Determine the type of record and fetch additional details if necessary
-        $details = null;
-        if ($salesRecord->sales_eod_id) {
-            $details = SalesEod::find($salesRecord->sales_eod_id);
-        } elseif ($salesRecord->sales_bankin_id) {
-            $details = SalesBankin::find($salesRecord->sales_bankin_id);
-        } elseif ($salesRecord->sales_expense_id) {
-            $details = SalesExpense::find($salesRecord->sales_expense_id);
-        } elseif ($salesRecord->sales_earning_id) {
-            $details = SalesEarning::find($salesRecord->sales_earning_id);
-        }
+        $salesEarning = SalesEarning::findOrFail($id);
+        $salesEarning->update(array_merge($validatedData, ['date' => $date]));
 
-        return view('sales.details', compact('salesRecord', 'details'));
+        $this->updateDailySales($salesEarning->date, $salesEarning->amount, 'total_earning');
+        return redirect()->route('sales.index')->with('success', 'Earning updated successfully');
+    }
+
+    public function updateDailySales($date, $amount, $type)
+    {
+        $salesDaily = SalesDaily::firstOrNew(['date' => $date]);
+        $salesDaily->$type = $amount;
+        $salesDaily->total_balance = $salesDaily->total_eod - $salesDaily->total_bankin - $salesDaily->total_expenses + $salesDaily->total_earning;
+        $salesDaily->save();
+    }
+
+    public function details($date)
+    {
+        $dailySummary = SalesDaily::where('date', $date)->first();
+
+        $date = Carbon::parse($date)->format('Y-m-d');
+        
+        $eodRecords = SalesEod::whereDate('date', $date)->get();
+        $bankinRecords = SalesBankin::whereDate('date', $date)->get();
+        $expenseRecords = SalesExpense::whereDate('date', $date)->get();
+        $earningRecords = SalesEarning::whereDate('date', $date)->get();
+
+        return view('sales.details', compact(
+            'date',
+            'dailySummary',
+            'eodRecords',
+            'bankinRecords',
+            'expenseRecords',
+            'earningRecords'
+        ));
+    }
+
+    public function destroyEod(SalesEod $eod)
+    {
+        $eod->expenses()->delete();
+        $eod->delete();
+        $this->updateDailySales($eod->date, 0, 'total_eod');
+        return redirect()->back()->with('success', 'EOD record deleted successfully');
+    }
+
+    public function destroyBankin(SalesBankin $bankin)
+    {
+        $bankin->delete();
+        $this->updateDailySales($bankin->date, 0, 'total_bankin');
+        return redirect()->back()->with('success', 'Bank-in record deleted successfully');
+    }
+
+    public function destroyExpense(SalesExpense $expense)
+    {
+        $expense->delete();
+        $this->updateDailySales($expense->date, 0, 'total_expenses');
+        return redirect()->back()->with('success', 'Expense record deleted successfully');
+    }
+
+    public function destroyEarning(SalesEarning $earning)
+    {
+        $earning->delete();
+        $this->updateDailySales($earning->date, 0, 'total_earning');
+        return redirect()->back()->with('success', 'Earning record deleted successfully');
     }
 }

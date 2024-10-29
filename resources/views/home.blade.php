@@ -27,37 +27,51 @@
         <p class="mb-8 text-gray-600"><strong>BBC078 P15</strong>: Bask Bear Coffee Presint 15 </p>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-            <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col items-center justify-center">
-                <h3 class="text-lg font-semibold mb-2 text-indigo-600">Total Staff</h3>
-                <p class="text-6xl font-bold text-gray-800">{{ $totalStaff }}</p>
+            <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col">
+                <h3 class="text-lg font-semibold mb-2 text-indigo-600">Staff Overview</h3>
+                <p class="text-3xl font-bold text-gray-800">{{ $totalStaff }}</p>
+                <div class="mt-2 text-sm">
+                    <p>🟢 {{ $activeStaff }} Active</p>
+                    <p>👥 {{ $partTimeCount }} Part-time</p>
+                    <p>🎯 {{ $fullTimeCount }} Full-time</p>
+                </div>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col items-center justify-center">
-                <h3 class="text-lg font-semibold mb-2 text-green-600">Active Shifts Today</h3>
-                <p class="text-6xl font-bold text-gray-800">{{ $activeShiftsToday }}</p>
+
+            <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col">
+                <h3 class="text-lg font-semibold mb-2 text-green-600">Today's Operations</h3>
+                <p class="text-3xl font-bold text-gray-800">{{ $activeShiftsToday - 1 }} Shifts</p>
+                <div class="mt-2 text-sm">
+                    <p>🕒 {{ $totalHoursToday - 7.5 }}h Scheduled</p>
+                    <p>🏖️ {{ $onLeaveToday }} On Leave</p>
+                    <p>
+                        <span class="animate-pulse inline-block">🎉</span> 
+                        @if($isPublicHoliday)
+                            <span class="text-amber-500 font-semibold">Public Holiday</span>
+                        @else
+                            Regular Day
+                        @endif
+                    </p>
+                </div>
             </div>
+
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl">
-                <h3 class="text-lg font-semibold mb-2 text-yellow-600">{{ now()->format('F') }} Total Hours</h3>
-                <p class="text-4xl font-bold text-gray-800">{{ $totalHoursThisMonth }}</p>
-                <p class="text-sm mt-2">
-                    <span class="text-gray-800">
-                        {{ $hoursPercentageChange >= 0 ? 'increased by ' : 'decreased by ' }}
-                    </span>
-                    <span class="{{ $hoursPercentageChange >= 0 ? 'text-red-500' : 'text-green-500' }}">
-                        {{ $hoursPercentageChange >= 0 ? '+' : '-' }}{{ number_format(abs($hoursPercentageChange), 2) }}%
-                    </span>
-                </p>
+                <h3 class="text-lg font-semibold mb-2 text-blue-600">Sales Performance</h3>
+                <p class="text-3xl font-bold text-gray-800">RM {{ number_format($todaySales, 2) }}</p>
+                <div class="mt-2 text-sm">
+                    <p>📊 vs Yesterday: <span class="{{ $salesTrend >= 0 ? 'text-green-500' : 'text-red-500' }}">{{ $salesTrend }}%</span></p>
+                    <p>💰 MTD: RM {{ number_format($monthToDateSales, 2) }}</p>
+                    <p>📈 Target: {{ number_format($salesTargetProgress, 2) }}%</p>
+                </div>
             </div>
+
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl">
-                <h3 class="text-lg font-semibold mb-2 text-purple-600">{{ now()->format('F') }} Total PT Salary</h3>
-                <p class="text-4xl font-bold text-gray-800">RM {{ $totalPartTimeStaffSalaryThisMonth }}</p>
-                <p class="text-sm mt-2">
-                    <span class="text-gray-800">
-                        {{ $salaryPercentageChange >= 0 ? 'increased by ' : 'decreased by ' }}
-                    </span>
-                    <span class="{{ $salaryPercentageChange >= 0 ? 'text-red-500' : 'text-green-500' }}">
-                        {{ $salaryPercentageChange >= 0 ? '+' : '-' }}{{ number_format(abs($salaryPercentageChange), 2) }}%
-                    </span>
-                </p>
+                <h3 class="text-lg font-semibold mb-2 text-purple-600">Inventory</h3>
+                <p class="text-3xl font-bold text-gray-800">{{ $pendingInvoices }}</p>
+                <div class="mt-2 text-sm">
+                    <p>📦 Pending Deliveries</p>
+                    <p>⚠️ {{ $todayWastageCount }} Items Wasted Today</p>
+                    <p>💸 RM {{ number_format($monthlyInvoiceTotal, 2) }} MTD</p>
+                </div>
             </div>
         </div>
 
@@ -95,6 +109,16 @@
                 <h3 class="text-xl font-semibold mb-4 text-indigo-800">Shift Central</h3>
                 <p class="text-gray-600 mb-4">Organize schedules, track hours, and optimize workforce.</p>
                     <a href="/shift" class="inline-block bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition duration-300 ease-in-out">Manage Shifts</a>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl">
+                <h3 class="text-xl font-semibold mb-4 text-indigo-800">Sales Dashboard</h3>
+                <p class="text-gray-600 mb-4">Track revenue, analyze trends, and monitor performance.</p>
+                    <a href="/sales" class="inline-block bg-yellow-500 text-white px-6 py-2 rounded-lg hover:bg-yellow-600 transition duration-300 ease-in-out">View Sales</a>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl">
+                <h3 class="text-xl font-semibold mb-4 text-indigo-800">Inventory Management</h3>
+                <p class="text-gray-600 mb-4">Track stock levels, manage invoices, and monitor supplies.</p>
+                    <a href="/invoices" class="inline-block bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition duration-300 ease-in-out">Manage Inventory</a>
             </div>
         </div>
     </div>

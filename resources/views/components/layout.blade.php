@@ -37,7 +37,7 @@
                                     <a href="/shift" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Shift Central</a>
                                     <a href="/sales" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Sales</a>
                                     <a href="/invoices" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Inventory</a>
-                                    <a href="/reports-dashboard" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Reports</a>
+                                    <a href="/reports" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Reports</a>
                                 </div>
                             </div>
                         </div>

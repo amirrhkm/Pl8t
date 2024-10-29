@@ -26,13 +26,13 @@ class LeaveController extends Controller
         $validatedData = $request->validate([
             'staff_id' => 'required|exists:staff,id',
             'leave_type' => 'required|in:MC,AL,UL',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
         ]);
 
-        $totalDays = Carbon::parse($validatedData['start_date'])->diffInDays(Carbon::parse($validatedData['end_date'])) + 1;
+        $startDate = Carbon::parse($request->start_date);
+        $endDate = Carbon::parse($request->end_date);
+        $totalDays = $startDate->diffInDays($endDate) + 1;
 
-        Leave::create($validatedData + ['total_days' => $totalDays]);
+        Leave::create($validatedData + ['total_days' => $totalDays] + ['start_date' => $startDate] + ['end_date' => $endDate]);
 
         return redirect()->route('staff.leave', $validatedData['staff_id'])->with('success', 'Leave application submitted successfully.');
     }
