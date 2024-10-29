@@ -38,15 +38,15 @@ class HomeController extends Controller
             $today = now()->toDateString();
             $activeShiftsToday = Shift::whereDate('date', $today)->where('staff_id', '!=', 'admin')->count();
             $totalHoursToday = Shift::whereDate('date', $today)->where('staff_id', '!=', 'admin')->sum('total_hours');
-            $onLeaveToday = Leave::where('start_date', '<=', $today)
-                ->whereDate('end_date', '>=', $today)
+            $onLeaveToday = Leave::where('start_date', '<=', Carbon::today())
+                ->whereDate('end_date', '>=', Carbon::today())
                 ->count();
             $isPublicHoliday = Shift::whereDate('date', $today)
                 ->where('is_public_holiday', true)
                 ->exists();
 
             // Sales Performance
-            $todaySales = (SalesDaily::whereDate('date', $today)->value('total_eod') ?? 0);
+            $todaySales = (SalesDaily::whereDate('date', Carbon::today())->value('total_eod') ?? 0);
             $yesterdaySales = (SalesDaily::whereDate('date', now()->subDay())->value('total_eod') ?? 0);
             $salesTrend = $yesterdaySales ? round((($todaySales - $yesterdaySales) / $yesterdaySales) * 100, 1) : 0;
             $monthToDateSales = SalesEod::whereYear('date', now()->year)->whereMonth('date', now()->month)
@@ -55,7 +55,7 @@ class HomeController extends Controller
 
             // Inventory & Wastage
             $pendingInvoices = Invoice::whereNull('receive_date')->count();
-            $todayWastageCount = Wastage::where('date', $today)
+            $todayWastageCount = Wastage::where('date', Carbon::today())
                 ->sum('quantity');
             $monthlyInvoiceTotal = Invoice::whereYear('submit_date', now()->year)
                 ->whereMonth('submit_date', now()->month)
@@ -80,6 +80,8 @@ class HomeController extends Controller
 
             $upcomingHolidays = Shift::where('date', '>', now())
                 ->where('is_public_holiday', true)
+                ->select('date')
+                ->distinct()
                 ->orderBy('date')
                 ->take(3)
                 ->get();

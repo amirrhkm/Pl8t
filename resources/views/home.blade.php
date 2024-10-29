@@ -58,15 +58,15 @@
                 <h3 class="text-lg font-semibold mb-2 text-blue-600">Sales Performance</h3>
                 <p class="text-3xl font-bold text-gray-800">RM {{ number_format($todaySales, 2) }}</p>
                 <div class="mt-2 text-sm">
-                    <p>📊 vs Yesterday: {{ $salesTrend }}%</p>
+                    <p>📊 vs Yesterday: <span class="{{ $salesTrend >= 0 ? 'text-green-500' : 'text-red-500' }}">{{ $salesTrend }}%</span></p>
                     <p>💰 MTD: RM {{ number_format($monthToDateSales, 2) }}</p>
-                    <p>📈 Target: {{ $salesTargetProgress }}%</p>
+                    <p>📈 Target: {{ number_format($salesTargetProgress, 2) }}%</p>
                 </div>
             </div>
 
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl">
                 <h3 class="text-lg font-semibold mb-2 text-purple-600">Inventory</h3>
-                <p class="text-3xl font-bold text-gray-800">{{ $pendingInvoices }} Invoices</p>
+                <p class="text-3xl font-bold text-gray-800">{{ $pendingInvoices }}</p>
                 <div class="mt-2 text-sm">
                     <p>📦 Pending Deliveries</p>
                     <p>⚠️ {{ $todayWastageCount }} Items Wasted Today</p>
