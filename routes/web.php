@@ -102,6 +102,13 @@ Route::middleware([AuthenticationHandler::class])->group(function () {
     Route::get('/sales/expense/{id}/edit', [SalesController::class, 'editExpense'])->name('sales.editExpense');
     Route::put('/sales/expense/{id}/{cumu_id}', [SalesController::class, 'updateExpense'])->name('sales.updateExpense');
 
+    // Sales Details Routes
+    Route::get('/sales/{date}/details', [SalesController::class, 'details'])->name('sales.details');
+    Route::delete('/sales/eod/{eod}', [SalesController::class, 'destroyEod'])->name('sales.destroyEod');
+    Route::delete('/sales/bankin/{bankin}', [SalesController::class, 'destroyBankin'])->name('sales.destroyBankin');
+    Route::delete('/sales/expense/{expense}', [SalesController::class, 'destroyExpense'])->name('sales.destroyExpense');
+    Route::delete('/sales/earning/{earning}', [SalesController::class, 'destroyEarning'])->name('sales.destroyEarning');
+
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/part-time-details', [ReportController::class, 'partTimeDetails'])->name('reports.part-time-details');
 });
