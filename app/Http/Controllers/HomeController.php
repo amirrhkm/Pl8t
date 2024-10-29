@@ -48,7 +48,11 @@ class HomeController extends Controller
             // Sales Performance
             $todaySales = (SalesDaily::whereDate('date', Carbon::today())->value('total_eod') ?? 0);
             $yesterdaySales = (SalesDaily::whereDate('date', now()->subDay())->value('total_eod') ?? 0);
-            $salesTrend = $yesterdaySales ? round((($todaySales - $yesterdaySales) / $yesterdaySales) * 100, 1) : 0;
+            if ($yesterdaySales == 0) {
+                $salesTrend = 0;
+            } else {
+                $salesTrend = round((($todaySales - $yesterdaySales) / $yesterdaySales) * 100, 1);
+            }
             $monthToDateSales = SalesEod::whereYear('date', now()->year)->whereMonth('date', now()->month)
                 ->sum('total_sales');
             $salesTargetProgress = ($monthToDateSales / 100000) * 100;
