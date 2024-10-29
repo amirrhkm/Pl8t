@@ -71,7 +71,7 @@ class SalesController extends Controller
         $totalExpenses = array_sum(array_filter($expensesData, fn($key) => str_starts_with($key, 'amount_'), ARRAY_FILTER_USE_KEY));
 
         $totalBankinAmount = $request->cash - $request->ewallet - $totalExpenses + $request->cash_difference;
-        $date = Carbon::parse($request->input('date'))->format('Y-m-d H:i:s');
+        $date = Carbon::parse($request->input('date'))->format('Y-m-d');
         
         $salesEod = SalesEod::create(array_merge(
             $request->only(['debit', 'visa', 'master', 'cash', 'ewallet', 'foodpanda', 'grabfood', 'shopeefood', 'prepaid', 'voucher', 'total_sales', 'cash_difference']),
@@ -94,7 +94,7 @@ class SalesController extends Controller
 
     public function updateEod(Request $request, $id, $cumu_id)
     {
-        $date = Carbon::parse($request->input('date'))->format('Y-m-d H:i:s');
+        $date = Carbon::parse($request->input('date'))->format('Y-m-d');
         $validatedData = $request->validate([
             'cash' => 'required|numeric',
             'ewallet' => 'required|numeric',
@@ -151,7 +151,7 @@ class SalesController extends Controller
 
     public function storeBankin(Request $request)
     {
-        $date = Carbon::parse($request->input('date'))->format('Y-m-d H:i:s');
+        $date = Carbon::parse($request->input('date'))->format('Y-m-d');
         $salesBankin = SalesBankin::create(array_merge($request->all(), ['date' => $date]));
 
         $this->updateDailySales($salesBankin->date, $salesBankin->amount, 'total_bankin');
@@ -166,7 +166,7 @@ class SalesController extends Controller
 
     public function updateBankin(Request $request, $id, $cumu_id)
     {
-        $date = Carbon::parse($request->input('date'))->format('Y-m-d H:i:s');
+        $date = Carbon::parse($request->input('date'))->format('Y-m-d');
         $validatedData = $request->validate([
             'amount' => 'required|numeric',
             'date' => 'required|date',
@@ -187,7 +187,7 @@ class SalesController extends Controller
 
     public function storeExpense(Request $request)
     {
-        $date = Carbon::parse($request->input('date'))->format('Y-m-d H:i:s');
+        $date = Carbon::parse($request->input('date'))->format('Y-m-d');
         $salesExpense = SalesExpense::create(array_merge($request->all(), ['date' => $date]));
 
         $this->updateDailySales($salesExpense->date, $salesExpense->amount, 'total_expenses');
@@ -202,7 +202,7 @@ class SalesController extends Controller
 
     public function updateExpense(Request $request, $id, $cumu_id)
     {
-        $date = Carbon::parse($request->input('date'))->format('Y-m-d H:i:s');
+        $date = Carbon::parse($request->input('date'))->format('Y-m-d');
         $validatedData = $request->validate([
             'amount' => 'required|numeric',
             'date' => 'required|date',
@@ -223,7 +223,7 @@ class SalesController extends Controller
 
     public function storeEarning(Request $request)
     {
-        $date = Carbon::parse($request->input('date'))->format('Y-m-d H:i:s');
+        $date = Carbon::parse($request->input('date'))->format('Y-m-d');
         $salesEarning = SalesEarning::create(array_merge($request->all(), ['date' => $date]));
 
         $this->updateDailySales($salesEarning->date, $salesEarning->amount, 'total_earning');
@@ -238,7 +238,7 @@ class SalesController extends Controller
 
     public function updateEarning(Request $request, $id, $cumu_id)
     {
-        $date = Carbon::parse($request->input('date'))->format('Y-m-d H:i:s');
+        $date = Carbon::parse($request->input('date'))->format('Y-m-d');
         $validatedData = $request->validate([
             'amount' => 'required|numeric',
             'date' => 'required|date',
@@ -257,5 +257,55 @@ class SalesController extends Controller
         $salesDaily->$type = $amount;
         $salesDaily->total_balance = $salesDaily->total_eod - $salesDaily->total_bankin - $salesDaily->total_expenses + $salesDaily->total_earning;
         $salesDaily->save();
+    }
+
+    public function details($date)
+    {
+        $dailySummary = SalesDaily::where('date', $date)->first();
+
+        $date = Carbon::parse($date)->format('Y-m-d');
+        
+        $eodRecords = SalesEod::whereDate('date', $date)->get();
+        $bankinRecords = SalesBankin::whereDate('date', $date)->get();
+        $expenseRecords = SalesExpense::whereDate('date', $date)->get();
+        $earningRecords = SalesEarning::whereDate('date', $date)->get();
+
+        return view('sales.details', compact(
+            'date',
+            'dailySummary',
+            'eodRecords',
+            'bankinRecords',
+            'expenseRecords',
+            'earningRecords'
+        ));
+    }
+
+    public function destroyEod(SalesEod $eod)
+    {
+        $eod->expenses()->delete();
+        $eod->delete();
+        $this->updateDailySales($eod->date, 0, 'total_eod');
+        return redirect()->back()->with('success', 'EOD record deleted successfully');
+    }
+
+    public function destroyBankin(SalesBankin $bankin)
+    {
+        $bankin->delete();
+        $this->updateDailySales($bankin->date, 0, 'total_bankin');
+        return redirect()->back()->with('success', 'Bank-in record deleted successfully');
+    }
+
+    public function destroyExpense(SalesExpense $expense)
+    {
+        $expense->delete();
+        $this->updateDailySales($expense->date, 0, 'total_expenses');
+        return redirect()->back()->with('success', 'Expense record deleted successfully');
+    }
+
+    public function destroyEarning(SalesEarning $earning)
+    {
+        $earning->delete();
+        $this->updateDailySales($earning->date, 0, 'total_earning');
+        return redirect()->back()->with('success', 'Earning record deleted successfully');
     }
 }
