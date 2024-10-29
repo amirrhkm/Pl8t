@@ -30,30 +30,30 @@
         </div>
 
         <div class="overflow-x-auto">
-            <table class="min-w-full bg-white border border-gray-300">
-                <thead>
+            <table class="min-w-full bg-white border border-gray-300 shadow-md rounded-lg">
+                <thead class="bg-indigo-600 text-white">
                     <tr>
-                        <th class="py-2 px-4 border-b">Name</th>
-                        <th class="py-2 px-4 border-b">Nickname</th>
-                        <th class="py-2 px-4 border-b">Regular Hours</th>
-                        <th class="py-2 px-4 border-b">OT Hours</th>
-                        <th class="py-2 px-4 border-b">PH Regular Hours</th>
-                        <th class="py-2 px-4 border-b">PH OT Hours</th>
-                        <th class="py-2 px-4 border-b">Total Hours</th>
-                        <th class="py-2 px-4 border-b">Total Salary</th>
+                        <th class="py-3 px-5 border-b text-center font-medium">Name</th>
+                        <th class="py-3 px-5 border-b text-center font-medium">Rate (RM)</th>
+                        <th class="py-3 px-5 border-b text-center font-medium">Regular Hours</th>
+                        <th class="py-3 px-5 border-b text-center font-medium">OT Hours</th>
+                        <th class="py-3 px-5 border-b text-center font-medium">PH Regular Hours</th>
+                        <th class="py-3 px-5 border-b text-center font-medium">PH OT Hours</th>
+                        <th class="py-3 px-5 border-b text-center font-medium">Total Hours</th>
+                        <th class="py-3 px-5 border-b text-center font-medium">Total (RM)</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="divide-y divide-gray-200">
                     @foreach($partTimeStaff as $staff)
-                    <tr>
-                        <td class="py-2 px-4 border-b">{{ $staff->name }}</td>
-                        <td class="py-2 px-4 border-b">{{ $staff->nickname }}</td>
-                        <td class="py-2 px-4 border-b">{{ number_format($staff->total_reg_hours, 2) }}</td>
-                        <td class="py-2 px-4 border-b">{{ number_format($staff->total_ot_hours, 2) }}</td>
-                        <td class="py-2 px-4 border-b">{{ number_format($staff->total_ph_reg_hours, 2) }}</td>
-                        <td class="py-2 px-4 border-b">{{ number_format($staff->total_ph_ot_hours, 2) }}</td>
-                        <td class="py-2 px-4 border-b">{{ number_format($staff->total_hours, 2) }}</td>
-                        <td class="py-2 px-4 border-b">RM {{ number_format($staff->total_salary, 2) }}</td>
+                    <tr class="hover:bg-gray-100 transition duration-200">
+                        <td class="py-3 px-5 text-center">{{ $staff->name }} (<strong>{{ $staff->nickname }}</strong>)</td>
+                        <td class="py-3 px-5 text-center">{{ number_format($staff->rate, 2) }}</td>
+                        <td class="py-3 px-5 text-center">{{ number_format($staff->total_reg_hours, 2) }}</td>
+                        <td class="py-3 px-5 text-center">{{ number_format($staff->total_ot_hours, 2) }}</td>
+                        <td class="py-3 px-5 text-center">{{ number_format($staff->total_ph_reg_hours, 2) }}</td>
+                        <td class="py-3 px-5 text-center">{{ number_format($staff->total_ph_ot_hours, 2) }}</td>
+                        <td class="py-3 px-5 text-center">{{ number_format($staff->total_reg_hours + $staff->total_ot_hours + $staff->total_ph_reg_hours + $staff->total_ph_ot_hours, 2) }}</td>
+                        <td class="py-3 px-5 text-center">{{ number_format($staff->total_salary, 2) }}</td>
                     </tr>
                     @endforeach
                 </tbody>

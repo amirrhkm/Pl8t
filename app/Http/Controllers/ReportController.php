@@ -136,21 +136,19 @@ class ReportController extends Controller
         $selectedMonth = $request->input('month') ? Carbon::createFromFormat('Y-m', $request->input('month')) : now();
 
         $partTimeStaff = Staff::where('employment_type', 'part_time')
-            ->with(['shifts' => function ($query) use ($selectedMonth) {
-                $query->whereYear('date', $selectedMonth->year)
-                    ->whereMonth('date', $selectedMonth->month);
-            }, 'salaries' => function ($query) use ($selectedMonth) {
+            ->with(['salaries' => function ($query) use ($selectedMonth) {
                 $query->where('month', $selectedMonth->month)
                     ->where('year', $selectedMonth->year);
             }])
             ->get()
             ->map(function ($staff) {
-                $staff->total_reg_hours = $staff->shifts->sum('total_hours') - $staff->shifts->sum('overtime_hours');
-                $staff->total_ot_hours = $staff->shifts->sum('overtime_hours');
-                $staff->total_ph_reg_hours = $staff->shifts->where('is_public_holiday', true)->sum('total_hours') - $staff->shifts->where('is_public_holiday', true)->sum('overtime_hours');
-                $staff->total_ph_ot_hours = $staff->shifts->where('is_public_holiday', true)->sum('overtime_hours');
-                $staff->total_hours = $staff->shifts->sum('total_hours');
-                $staff->total_salary = $staff->salaries->sum('total_salary');
+                $salary = $staff->salaries->first();
+                $staff->total_reg_hours = $salary->total_reg_hours ?? 0;
+                $staff->total_ot_hours = $salary->total_reg_ot_hours ?? 0;
+                $staff->total_ph_reg_hours = $salary->total_ph_hours ?? 0;
+                $staff->total_ph_ot_hours = $salary->total_ph_ot_hours ?? 0;
+                $staff->total_hours = $staff->total_reg_hours + $staff->total_ot_hours + $staff->total_ph_reg_hours + $staff->total_ph_ot_hours;
+                $staff->total_salary = $salary->total_salary ?? 0;
                 return $staff;
             });
 
