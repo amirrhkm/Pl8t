@@ -71,7 +71,7 @@
 
                 <!-- Social Links Section -->
                 <div class="pt-2 border-t border-gray-200">
-                    <p class="text-xs text-gray-600 mb-2 text-center">Connect with the developer:</p>
+                    <p class="text-xs text-gray-600 mb-2 text-center"></p>
                     <div class="flex justify-center space-x-5">
                         <a href="https://www.linkedin.com/in/mrnrhkm/" target="_blank" 
                            class="text-gray-600 hover:text-indigo-600 transition duration-150 ease-in-out">
