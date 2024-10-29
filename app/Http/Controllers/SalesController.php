@@ -19,7 +19,15 @@ class SalesController extends Controller
     public function index()
     {
         $totalSales = SalesEod::sum('total_sales');
-        $totalExpenses = SalesExpense::sum('amount') + SalesEodExpense::sum('amount');
+        $totalExpenses = SalesExpense::sum('amount') + 
+            SalesEodExpense::sum('amount_1') +
+            SalesEodExpense::sum('amount_2') +
+            SalesEodExpense::sum('amount_3') +
+            SalesEodExpense::sum('amount_4') +
+            SalesEodExpense::sum('amount_5') +
+            SalesEodExpense::sum('amount_6') +
+            SalesEodExpense::sum('amount_7') +
+            SalesEodExpense::sum('amount_8');
         $creditCardSales = SalesEod::sum('visa') + SalesEod::sum('debit') + SalesEod::sum('master');
         $eWalletSales = SalesEod::sum('ewallet');
         $deliverySales = SalesEod::sum('foodpanda') + SalesEod::sum('grabfood') + SalesEod::sum('shopeefood');
