@@ -16,8 +16,64 @@ use Carbon\Carbon;
 class SalesController extends Controller
 {
     /* Sales Dashboard */
-    public function index()
+    public function index(Request $request)
     {
+        $month = $request->get('month', date('n'));
+        $year = date('Y');
+
+        // Get the monthly stats
+        $monthlyStats = [
+            'total_sales' => SalesEod::whereMonth('date', $month)
+                ->whereYear('date', $year)
+                ->sum('total_sales'),
+                
+            'total_expenses' => SalesExpense::whereMonth('date', $month)
+                ->whereYear('date', $year)
+                ->sum('amount') +
+                SalesEodExpense::whereMonth('date', $month)
+                ->whereYear('date', $year)
+                ->sum('amount_1') +
+                SalesEodExpense::whereMonth('date', $month)
+                ->whereYear('date', $year)
+                ->sum('amount_2') +
+                SalesEodExpense::whereMonth('date', $month)
+                ->whereYear('date', $year)
+                ->sum('amount_3') +
+                SalesEodExpense::whereMonth('date', $month)
+                ->whereYear('date', $year)
+                ->sum('amount_4') +
+                SalesEodExpense::whereMonth('date', $month)
+                ->whereYear('date', $year)
+                ->sum('amount_5') +
+                SalesEodExpense::whereMonth('date', $month)
+                ->whereYear('date', $year)
+                ->sum('amount_6') +
+                SalesEodExpense::whereMonth('date', $month)
+                ->whereYear('date', $year)
+                ->sum('amount_7') +
+                SalesEodExpense::whereMonth('date', $month)
+                ->whereYear('date', $year)
+                ->sum('amount_8'),
+                
+            'credit_card_sales' => SalesEod::whereMonth('date', $month)
+                ->whereYear('date', $year)
+                ->selectRaw('SUM(visa + master + debit) as credit_card_total')
+                ->value('credit_card_total'),
+                
+            'ewallet_sales' => SalesEod::whereMonth('date', $month)
+                ->whereYear('date', $year)
+                ->sum('ewallet'),
+                
+            'delivery_sales' => SalesEod::whereMonth('date', $month)
+                ->whereYear('date', $year)
+                ->selectRaw('SUM(foodpanda + grabfood + shopeefood) as delivery_total')
+                ->value('delivery_total'),
+                
+            'total_bankin' => SalesBankin::whereMonth('date', $month)
+                ->whereYear('date', $year)
+                ->sum('amount'),
+        ];
+
         $totalSales = SalesEod::sum('total_sales');
         $totalExpenses = SalesExpense::sum('amount') + 
             SalesEodExpense::sum('amount_1') +
@@ -50,6 +106,9 @@ class SalesController extends Controller
         if (request('month')) {
             $query->whereMonth('date', request('month'))
                 ->whereYear('date', now()->year);
+        } else {
+            $query->whereMonth('date', now()->month)
+                ->whereYear('date', now()->year);
         }
 
         $salesDaily = $query->orderBy('date', 'asc')->get();
@@ -63,7 +122,8 @@ class SalesController extends Controller
             'totalBankin',
             'currentCashStream',
             'salesDaily',
-            'dailyCashStreams'
+            'dailyCashStreams',
+            'monthlyStats'
         ));
     }
 

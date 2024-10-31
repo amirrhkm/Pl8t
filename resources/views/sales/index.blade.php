@@ -11,27 +11,27 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col items-center justify-center">
                 <h3 class="text-lg font-semibold mb-2 text-indigo-600">Total Sales</h3>
-                <p class="text-5xl font-bold text-gray-800">{{ number_format($totalSales, 2, '.', ',') }}</p>
+                <p class="text-5xl font-bold text-gray-800">{{ number_format($monthlyStats['total_sales'], 2, '.', ',') }}</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col items-center justify-center">
                 <h3 class="text-lg font-semibold mb-2 text-red-600">Total Expenses</h3>
-                <p class="text-5xl font-bold text-gray-800">{{ number_format($totalExpenses, 2, '.', ',') }}</p>
+                <p class="text-5xl font-bold text-gray-800">{{ number_format($monthlyStats['total_expenses'], 2, '.', ',') }}</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col items-center justify-center">
                 <h3 class="text-lg font-semibold mb-2 text-green-600">Credit Card Sales</h3>
-                <p class="text-5xl font-bold text-gray-800">{{ number_format($creditCardSales, 2, '.', ',') }}</p>
+                <p class="text-5xl font-bold text-gray-800">{{ number_format($monthlyStats['credit_card_sales'], 2, '.', ',') }}</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col items-center justify-center">
                 <h3 class="text-lg font-semibold mb-2 text-yellow-600">E-Wallet Sales</h3>
-                <p class="text-5xl font-bold text-gray-800">{{ number_format($eWalletSales, 2, '.', ',') }}</p>
+                <p class="text-5xl font-bold text-gray-800">{{ number_format($monthlyStats['ewallet_sales'], 2, '.', ',') }}</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col items-center justify-center">
                 <h3 class="text-lg font-semibold mb-2 text-blue-600">Delivery Sales</h3>
-                <p class="text-5xl font-bold text-gray-800">{{ number_format($deliverySales, 2, '.', ',') }}</p>
+                <p class="text-5xl font-bold text-gray-800">{{ number_format($monthlyStats['delivery_sales'], 2, '.', ',') }}</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col items-center justify-center">
                 <h3 class="text-lg font-semibold mb-2 text-blue-600">Total Bank-in</h3>
-                <p class="text-5xl font-bold text-gray-800">{{ number_format($totalBankin, 2, '.', ',') }}</p>
+                <p class="text-5xl font-bold text-gray-800">{{ number_format($monthlyStats['total_bankin'], 2, '.', ',') }}</p>
             </div>
         </div>
 
@@ -70,9 +70,8 @@
                     <form method="GET" action="{{ route('sales.index') }}" class="flex space-x-4">
                         <div class="relative">
                             <select name="month" class="block appearance-none w-full bg-gray-100 border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 transition duration-200">
-                                <option value="" class="text-gray-500 italic">All Months</option>
                                 @foreach(range(1, 12) as $month)
-                                    <option value="{{ $month }}" {{ request('month') == $month ? 'selected' : '' }}>
+                                    <option value="{{ $month }}" {{ (request('month', date('n')) == $month) ? 'selected' : '' }}>
                                         {{ date('F', mktime(0, 0, 0, $month, 1)) }}
                                     </option>
                                 @endforeach
