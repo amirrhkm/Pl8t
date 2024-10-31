@@ -143,7 +143,7 @@
                    <!-- Information Panel -->
                     <div class="w-full md:w-1/2 bg-indigo-600 p-8 text-white">
                         <h2 class="text-3xl font-bold mb-6">Welcome to TallyUp</h2>
-                        <p class="mb-4">Your all-in-one solution for comprehensive staff management and payroll processing.</p>
+                        <p class="mb-4">Your all-in-one solution for streamlining staff management, payroll processing, sales metrics, and more.</p>
                         <ul class="space-y-3">
                             <li class="flex items-start">
                                 <svg class="w-5 h-5 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
