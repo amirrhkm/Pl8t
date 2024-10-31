@@ -7,6 +7,8 @@ use App\Models\Shift;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Salary;
+use Carbon\Carbon;
+
 class CrewController extends Controller
 {
     public function show($name)
@@ -134,5 +136,143 @@ class CrewController extends Controller
             return 0;
         }
         return (($current - $previous) / $previous) * 100;
+    }
+
+    public function overview(Staff $staff)
+    {
+        $shifts = $staff->shifts()->orderBy('date')->get();
+        $monthlyData = [];
+
+        foreach ($shifts as $shift) {
+            $yearMonth = $shift->date->format('Y-m');
+            if (!isset($monthlyData[$yearMonth])) {
+                $monthlyData[$yearMonth] = [
+                    'reg_hours' => 0, 'reg_ot_hours' => 0,
+                    'ph_hours' => 0, 'ph_ot_hours' => 0,
+                    'reg_pay' => 0, 'reg_ot_pay' => 0,
+                    'ph_pay' => 0, 'ph_ot_pay' => 0
+                ];
+            }
+
+            $hours = $shift->start_time->diffInHours($shift->end_time) - $shift->break_duration;
+            $otHours = max(0, $hours - 8);
+
+            if ($shift->is_public_holiday) {
+                $monthlyData[$yearMonth]['ph_hours'] += $hours;
+                $monthlyData[$yearMonth]['ph_ot_hours'] += $otHours;
+            } else {
+                $monthlyData[$yearMonth]['reg_hours'] += $hours;
+                $monthlyData[$yearMonth]['reg_ot_hours'] += $otHours;
+            }
+        }
+
+        foreach ($monthlyData as $yearMonth => &$data) {
+            [$year, $month] = explode('-', $yearMonth);
+            
+            $ot_rate = $staff->employment_type === 'part_time' ? 10 : 11;
+            if($staff->employment_type === 'part_time'){
+                $data['reg_pay'] = $data['reg_hours'] * $staff->rate;
+                $data['ph_pay'] = $data['ph_hours'] * $staff->rate * 2;
+            }else{
+                $data['reg_pay'] = 0;
+                $data['ph_pay'] = 0;
+            }
+            $data['reg_ot_pay'] = $data['reg_ot_hours'] * $ot_rate;
+            $data['ph_ot_pay'] = $data['ph_ot_hours'] * $ot_rate * 2;
+            
+            $total_salary = $data['reg_pay'] + $data['reg_ot_pay'] + $data['ph_pay'] + $data['ph_ot_pay'];
+
+            Salary::updateOrCreate(
+                ['staff_id' => $staff->id, 'month' => $month, 'year' => $year],
+                [
+                    'total_reg_hours' => $data['reg_hours'],
+                    'total_reg_ot_hours' => $data['reg_ot_hours'],
+                    'total_ph_hours' => $data['ph_hours'],
+                    'total_ph_ot_hours' => $data['ph_ot_hours'],
+                    'total_salary' => $total_salary,
+                    'reg_pay' => $data['reg_pay'],
+                    'reg_ot_pay' => $data['reg_ot_pay'],
+                    'ph_pay' => $data['ph_pay'],
+                    'ph_ot_pay' => $data['ph_ot_pay'],
+                ]
+            );
+        }
+
+        return view('crew.overview', compact('staff', 'monthlyData'));
+    }
+
+    public function details(Staff $staff, $year, $month)
+    {
+        $date = Carbon::createFromDate($year, $month, 1);
+        $monthShifts = $staff->shifts()
+            ->whereYear('date', $year)
+            ->whereMonth('date', $month)
+            ->orderBy('date')
+            ->get();
+
+        $month_reg_hours = 0;
+        $month_reg_ot_hours = 0;
+        $month_ph_hours = 0;
+        $month_ph_ot_hours = 0;
+
+        foreach ($monthShifts as $shift) {
+            $hours = $shift->start_time->diffInHours($shift->end_time) - $shift->break_duration;
+            $otHours = max(0, $hours - 8);
+
+            if ($shift->is_public_holiday) {
+                $month_ph_hours += $hours;
+                $month_ph_ot_hours += $otHours;
+            } else {
+                $month_reg_hours += $hours;
+                $month_reg_ot_hours += $otHours;
+            }
+        }
+
+        $ot_rate = $staff->employment_type === 'part_time' ? 10 : 11;
+
+        if($staff->employment_type === 'part_time'){
+            $reg_pay = $month_reg_hours * $staff->rate;
+            $ph_pay = $month_ph_hours * $staff->rate * 2;
+        }else{
+            $reg_pay = 0;
+            $ph_pay = 0;
+        }
+
+        $reg_ot_pay = $month_reg_ot_hours * $ot_rate;
+        $ph_ot_pay = $month_ph_ot_hours * $ot_rate * 2;
+
+        $total_salary = $reg_pay + $reg_ot_pay + $ph_pay + $ph_ot_pay;
+        
+        $salary = Salary::updateOrCreate(
+            ['staff_id' => $staff->id, 'month' => $month, 'year' => $year],
+            [
+                'total_reg_hours' => $month_reg_hours,
+                'total_reg_ot_hours' => $month_reg_ot_hours,
+                'total_ph_hours' => $month_ph_hours,
+                'total_ph_ot_hours' => $month_ph_ot_hours,
+                'total_salary' => $total_salary,
+                'reg_pay' => $reg_pay,
+                'reg_ot_pay' => $reg_ot_pay,
+                'ph_pay' => $ph_pay,
+                'ph_ot_pay' => $ph_ot_pay,
+            ]
+        );
+
+        return view('crew.details', compact(
+            'staff', 
+            'monthShifts', 
+            'date', 
+            'year', 
+            'month', 
+            'month_reg_hours', 
+            'month_reg_ot_hours', 
+            'month_ph_hours', 
+            'month_ph_ot_hours', 
+            'reg_pay', 
+            'reg_ot_pay', 
+            'ph_pay', 
+            'ph_ot_pay', 
+            'total_salary'
+        ));
     }
 }
