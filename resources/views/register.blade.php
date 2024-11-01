@@ -25,8 +25,11 @@
 
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                    <div class="mt-1">
+                    <div class="mt-1 relative">
                         <input id="password" name="password" type="password" autocomplete="new-password" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <button type="button" onclick="togglePasswordVisibility('password')" class="absolute inset-y-0 right-0 px-3 py-2 text-gray-700">
+                            Show
+                        </button>
                     </div>
                     @error('password')
                         <div class="invalid-feedback text-red-500 text-xs">{{ $message }}</div>
@@ -35,8 +38,11 @@
 
                 <div>
                     <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm Password</label>
-                    <div class="mt-1">
+                    <div class="mt-1 relative">
                         <input id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <button type="button" onclick="togglePasswordVisibility('password_confirmation')" class="absolute inset-y-0 right-0 px-3 py-2 text-gray-700">
+                            Show
+                        </button>
                     </div>
                 </div>
 
@@ -63,4 +69,18 @@
             </form>
         </div>
     </div>
+
+    <script>
+        function togglePasswordVisibility(id) {
+            const input = document.getElementById(id);
+            const button = input.nextElementSibling;
+            if (input.type === "password") {
+                input.type = "text";
+                button.textContent = "Hide";
+            } else {
+                input.type = "password";
+                button.textContent = "Show";
+            }
+        }
+    </script>
 </x-layout>
