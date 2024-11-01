@@ -30,7 +30,7 @@
                 <div class="min-h-full pb-5 sm:pb-10">
                     <div class="bg-gradient-to-br from-indigo-50 to-blue-100 p-4 sm:p-8 rounded-xl shadow-lg">
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 space-y-2 sm:space-y-0">
-                            <h2 class="text-2xl sm:text-3xl font-bold text-indigo-800">{{ $staff->name }}'s Dashboard</h2>
+                            <h2 class="text-2xl sm:text-3xl font-bold text-indigo-800">{{ $staff->nickname }}'s Dashboard</h2>
                             <div class="flex items-center space-x-6">
                                 <a href="{{ route('crew.overview', ['staff' => $staff->id]) }}" class="text-blue-500 hover:text-blue-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
