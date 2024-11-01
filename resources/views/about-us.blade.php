@@ -66,7 +66,7 @@ profit.increase(revenue);</pre>
             
             <!-- Floating metrics -->
             <div class="particle absolute bottom-40 left-10 p-4 bg-gray-800/30 backdrop-blur-sm rounded-lg border border-gray-700 hidden lg:block">
-                <div class="text-emerald-400 text-sm">↑ 23% Growth</div>
+                <div class="text-emerald-400 text-sm">↑ 99.99% Growth</div>
             </div>
         </div>
         
@@ -126,12 +126,13 @@ profit.increase(revenue);</pre>
         </div>
     </section> -->
 
-    <!-- Why TallyUp Section -->
-    <section class="py-20 bg-indigo-800/50">
-        <div class="max-w-7xl mx-auto px-4">
-            <h2 class="text-4xl font-bold mb-12 text-center">Why TallyUp Exists</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-indigo-700/50 p-8 rounded-xl backdrop-blur-sm">
+    <!-- Transforming F&B Section - Diagonal with offset grid -->
+    <section class="py-20 relative">
+        <div class="absolute inset-0 bg-indigo-900/50 transform -skew-y-3"></div>
+        <div class="max-w-7xl mx-auto px-4 relative">
+            <h2 class="text-4xl font-bold mb-16 text-center">Transforming F&B Management</h2>
+            <div class="grid md:grid-cols-3 gap-8 md:gap-12">
+                <div class="bg-indigo-700/50 p-8 rounded-xl backdrop-blur-sm transform md:translate-y-12">
                     <h3 class="text-2xl font-semibold mb-4">Simplify Management</h3>
                     <p class="text-indigo-200">Streamline your staff scheduling, payroll processing, and inventory management in one unified platform.</p>
                 </div>
@@ -139,7 +140,7 @@ profit.increase(revenue);</pre>
                     <h3 class="text-2xl font-semibold mb-4">Save Time</h3>
                     <p class="text-indigo-200">Automate repetitive tasks and reduce manual data entry with our intelligent workflow systems.</p>
                 </div>
-                <div class="bg-indigo-700/50 p-8 rounded-xl backdrop-blur-sm">
+                <div class="bg-indigo-700/50 p-8 rounded-xl backdrop-blur-sm transform md:translate-y-24">
                     <h3 class="text-2xl font-semibold mb-4">Boost Efficiency</h3>
                     <p class="text-indigo-200">Make data-driven decisions with real-time analytics and comprehensive reporting tools.</p>
                 </div>
@@ -147,48 +148,141 @@ profit.increase(revenue);</pre>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="py-20">
+    <!-- Origin Story Section - Zigzag layout -->
+    <section class="relative py-32">
+        <div class="absolute inset-0">
+            <div class="particle absolute top-20 left-1/4 w-24 h-24 rounded-full bg-gradient-primary opacity-20 blur-xl"></div>
+            <div class="particle absolute bottom-20 right-1/4 w-32 h-32 rounded-full bg-gradient-secondary opacity-20 blur-xl"></div>
+        </div>
+
         <div class="max-w-7xl mx-auto px-4">
-            <h2 class="text-4xl font-bold mb-12 text-center">What TallyUp Offers</h2>
-            <div class="grid md:grid-cols-2 gap-12">
-                <div class="space-y-6">
-                    <div class="flex items-start space-x-4">
-                        <svg class="w-6 h-6 text-indigo-400 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                        </svg>
-                        <div>
-                            <h3 class="text-xl font-semibold mb-2">Staff Management</h3>
-                            <p class="text-indigo-200">Comprehensive employee profiles, shift scheduling, and attendance tracking.</p>
-                        </div>
+            <h2 class="text-4xl font-bold mb-20 text-center gradient-text">From Challenge to Innovation</h2>
+            
+            <div class="space-y-24">
+                <!-- Challenge Block -->
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="bg-indigo-900/30 backdrop-blur-sm rounded-2xl p-8 border border-indigo-500/30 transform hover:scale-105 transition-transform">
+                        <h3 class="text-xl font-semibold mb-4 text-indigo-300">The Challenge</h3>
+                        <p class="text-indigo-200">Working in F&B, we witnessed firsthand the struggles with manual payroll calculations. Staff members tracked their own hours, leading to discrepancies and confusion in salary calculations.</p>
                     </div>
-                    <div class="flex items-start space-x-4">
-                        <svg class="w-6 h-6 text-indigo-400 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                        </svg>
-                        <div>
-                            <h3 class="text-xl font-semibold mb-2">Automated Payroll</h3>
-                            <p class="text-indigo-200">Automated calculations based on individual staff rates and employment types.</p>
+                    <div class="relative hidden md:block">
+                        <div class="absolute -top-8 -right-8 w-32 h-32 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full blur-xl opacity-50 animate-pulse"></div>
+                        <div class="h-48 bg-indigo-500/10 rounded-lg animate-float flex items-center justify-center">
+                            <svg class="w-24 h-24 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                            </svg>
                         </div>
                     </div>
                 </div>
-                <div class="space-y-6">
-                    <div class="flex items-start space-x-4">
-                        <svg class="w-6 h-6 text-indigo-400 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                        </svg>
-                        <div>
-                            <h3 class="text-xl font-semibold mb-2">Inventory Control</h3>
-                            <p class="text-indigo-200">Track stock levels, manage invoices, and monitor supplies efficiently.</p>
+
+                <!-- Vision Block -->
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="relative hidden md:block order-2">
+                        <div class="absolute -top-8 -left-8 w-32 h-32 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full blur-xl opacity-50 animate-pulse"></div>
+                        <div class="h-48 bg-indigo-500/10 rounded-lg animate-float flex items-center justify-center">
+                            <svg class="w-24 h-24 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
                         </div>
                     </div>
-                    <div class="flex items-start space-x-4">
-                        <svg class="w-6 h-6 text-indigo-400 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                        </svg>
-                        <div>
-                            <h3 class="text-xl font-semibold mb-2">Sales Analytics</h3>
-                            <p class="text-indigo-200">Comprehensive sales tracking and performance analytics dashboard.</p>
+                    <div class="bg-indigo-900/30 backdrop-blur-sm rounded-2xl p-8 border border-indigo-500/30 transform hover:scale-105 transition-transform order-1">
+                        <h3 class="text-xl font-semibold mb-4 text-indigo-300">The Vision</h3>
+                        <p class="text-indigo-200">What started as a simple payroll calculator evolved into something bigger. Managers needed a centralized system for everything - from staff scheduling to inventory management.</p>
+                    </div>
+                </div>
+
+                <!-- Solution Block -->
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="bg-indigo-900/30 backdrop-blur-sm rounded-2xl p-8 border border-indigo-500/30 transform hover:scale-105 transition-transform">
+                        <h3 class="text-xl font-semibold mb-4 text-indigo-300">The Solution</h3>
+                        <p class="text-indigo-200">TallyUp was born to bridge this gap, offering a comprehensive solution that handles payroll automation, staff scheduling, inventory tracking, and business analytics - all in one place.</p>
+                    </div>
+                    <div class="relative hidden md:block">
+                        <div class="absolute -bottom-8 -right-8 w-32 h-32 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full blur-xl opacity-50 animate-pulse"></div>
+                        <div class="h-48 bg-indigo-500/10 rounded-lg animate-float flex items-center justify-center">
+                            <svg class="w-24 h-24 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section - Hexagon Grid -->
+    <section class="py-20 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-indigo-900/50 to-purple-900/50 transform skew-y-3"></div>
+        <div class="max-w-7xl mx-auto px-4 relative">
+            <h2 class="text-4xl font-bold mb-20 text-center">Powering Your Success</h2>
+            <div class="grid md:grid-cols-2 gap-16">
+                <!-- Left Column -->
+                <div class="space-y-12 transform md:-translate-y-8">
+                    <!-- Staff Management -->
+                    <div class="group hover:scale-105 transition-transform">
+                        <div class="flex items-start space-x-4 bg-indigo-700/30 p-6 rounded-xl backdrop-blur-sm">
+                            <svg class="w-8 h-8 text-indigo-400 mt-1 transform group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">Staff Management</h3>
+                                <p class="text-indigo-200">Comprehensive employee profiles, shift scheduling, and attendance tracking.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payroll Processing -->
+                    <div class="group hover:scale-105 transition-transform">
+                        <div class="flex items-start space-x-4 bg-indigo-700/30 p-6 rounded-xl backdrop-blur-sm">
+                            <svg class="w-8 h-8 text-indigo-400 mt-1 transform group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">Payroll Processing</h3>
+                                <p class="text-indigo-200">Automated salary calculations, overtime tracking, and payment management.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Analytics Dashboard -->
+                    <div class="group hover:scale-105 transition-transform">
+                        <div class="flex items-start space-x-4 bg-indigo-700/30 p-6 rounded-xl backdrop-blur-sm">
+                            <svg class="w-8 h-8 text-indigo-400 mt-1 transform group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">Analytics Dashboard</h3>
+                                <p class="text-indigo-200">Real-time insights into sales, labor costs, and business performance metrics.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="space-y-12 transform md:translate-y-12">
+                    <!-- Inventory Management -->
+                    <div class="group hover:scale-105 transition-transform">
+                        <div class="flex items-start space-x-4 bg-indigo-700/30 p-6 rounded-xl backdrop-blur-sm">
+                            <svg class="w-8 h-8 text-indigo-400 mt-1 transform group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                            </svg>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">Inventory Management</h3>
+                                <p class="text-indigo-200">Track stock levels, manage suppliers, and automate purchase orders.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sales Tracking -->
+                    <div class="group hover:scale-105 transition-transform">
+                        <div class="flex items-start space-x-4 bg-indigo-700/30 p-6 rounded-xl backdrop-blur-sm">
+                            <svg class="w-8 h-8 text-indigo-400 mt-1 transform group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                            </svg>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">Sales Tracking</h3>
+                                <p class="text-indigo-200">Monitor daily sales, analyze trends, and generate detailed reports.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
