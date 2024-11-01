@@ -31,7 +31,7 @@ class AuthController extends Controller
                 return redirect('/home');
             } else {
                 $staff = Staff::where('id', Auth::user()->staff_id)->first();
-                return redirect()->route('crew.dashboard', ['name' => $staff->name]);
+                return redirect()->route('crew.dashboard', ['staff' => $staff->name]);
             }
         }
     
