@@ -40,42 +40,55 @@
             </div>
         @endif
 
+        <!-- Common styles -->
+        <style>
+            .header-cell { width: 25%; }
+            .content-cell { width: 75%; }
+        </style>
+
         <!-- EOD Records -->
         <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-semibold text-gray-700">EOD Record</h3>
-            </div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-4">EOD Record</h3>
             @if($eodRecords->isNotEmpty())
-                <div class="overflow-x-auto">
-                    <table class="min-w-full">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Time</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach($eodRecords as $eod)
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {{ \Carbon\Carbon::parse($eod->created_at)->format('H:i:s') }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        RM {{ number_format($eod->amount_to_bank_in, 2) }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <form action="{{ route('sales.destroyEod', $eod) }}" method="POST" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this record?')">Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                <table class="min-w-full">
+                    @foreach($eodRecords as $eod)
+                        <tr class="border-t">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Cash</th>
+                            <td class="px-6 py-3 text-sm text-gray-500 content-cell">RM {{ number_format($eod->cash, 2) }}</td>
+                        </tr>
+                        <tr class="border-t">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">E-Wallet</th>
+                            <td class="px-6 py-3 text-sm text-gray-500 content-cell">RM {{ number_format($eod->ewallet, 2) }}</td>
+                        </tr>
+                        <tr class="border-t">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Expenses</th>
+                            <td class="px-6 py-3 text-sm text-gray-500 content-cell">
+                                RM {{ number_format($eod->expenses->amount_1 + $eod->expenses->amount_2 + $eod->expenses->amount_3 + 
+                                    $eod->expenses->amount_4 + $eod->expenses->amount_5 + $eod->expenses->amount_6 + 
+                                    $eod->expenses->amount_7 + $eod->expenses->amount_8, 2) }}
+                            </td>
+                        </tr>
+                        <tr class="border-t">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Cash Difference</th>
+                            <td class="px-6 py-3 text-sm text-gray-500 content-cell">RM {{ number_format($eod->cash_difference, 2) }}</td>
+                        </tr>
+                        <tr class="border-t">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Amount</th>
+                            <td class="px-6 py-3 text-sm text-gray-500 content-cell">RM {{ number_format($eod->amount_to_bank_in, 2) }}</td>
+                        </tr>
+                        <tr class="border-t">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Actions</th>
+                            <td class="px-6 py-3 text-sm text-gray-500 content-cell">
+                                <form action="{{ route('sales.destroyEod', $eod) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this record?')">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr class="border-t border-b"><td colspan="2" class="py-2"></td></tr> <!-- Spacer between records -->
+                    @endforeach
+                </table>
             @else
                 <p class="text-gray-500 text-sm">No EOD records found for this date.</p>
             @endif
@@ -83,40 +96,35 @@
 
         <!-- Bank-in Records -->
         <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-semibold text-gray-700">Bank-in Record</h3>
-            </div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-4">Bank-in Record</h3>
             @if($bankinRecords->isNotEmpty())
-                <div class="overflow-x-auto">
-                    <table class="min-w-full">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Time</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach($bankinRecords as $bankin)
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {{ \Carbon\Carbon::parse($bankin->created_at)->format('H:i:s') }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        RM {{ number_format($bankin->amount, 2) }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <form action="{{ route('sales.destroyBankin', $bankin) }}" method="POST" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this record?')">Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                <table class="min-w-full">
+                    @foreach($bankinRecords as $bankin)
+                        <tr class="border-t">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Time</th>
+                            <td class="px-6 py-3 text-sm text-gray-500 content-cell">{{ \Carbon\Carbon::parse($bankin->time)->format('H:i:s') }}</td>
+                        </tr>
+                        <tr class="border-t">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Bank</th>
+                            <td class="px-6 py-3 text-sm text-gray-500 content-cell">{{ $bankin->bank_name }}</td>
+                        </tr>
+                        <tr class="border-t">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Amount</th>
+                            <td class="px-6 py-3 text-sm text-gray-500 content-cell">RM {{ number_format($bankin->amount, 2) }}</td>
+                        </tr>
+                        <tr class="border-t">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Actions</th>
+                            <td class="px-6 py-3 text-sm text-gray-500 content-cell">
+                                <form action="{{ route('sales.destroyBankin', $bankin) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this record?')">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr class="border-t border-b"><td colspan="2" class="py-2"></td></tr> <!-- Spacer between records -->
+                    @endforeach
+                </table>
             @else
                 <p class="text-gray-500 text-sm">No bank-in records found for this date.</p>
             @endif
@@ -124,44 +132,31 @@
 
         <!-- Expense Records -->
         <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-semibold text-gray-700">Expense Record</h3>
-            </div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-4">Expense Record</h3>
             @if($expenseRecords->isNotEmpty())
-                <div class="overflow-x-auto">
-                    <table class="min-w-full">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Time</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach($expenseRecords as $expense)
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {{ \Carbon\Carbon::parse($expense->created_at)->format('H:i:s') }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {{ $expense->description }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        RM {{ number_format($expense->amount, 2) }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <form action="{{ route('sales.destroyExpense', $expense) }}" method="POST" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this record?')">Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                <table class="min-w-full">
+                    @foreach($expenseRecords as $expense)
+                        <tr class="border-t">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Expense</th>
+                            <td class="px-6 py-3 text-sm text-gray-500 content-cell">{{ $expense->description }}</td>
+                        </tr>
+                        <tr class="border-t">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Amount</th>
+                            <td class="px-6 py-3 text-sm text-gray-500 content-cell">RM {{ number_format($expense->amount, 2) }}</td>
+                        </tr>
+                        <tr class="border-t">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Actions</th>
+                            <td class="px-6 py-3 text-sm text-gray-500 content-cell">
+                                <form action="{{ route('sales.destroyExpense', $expense) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this record?')">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr class="border-t border-b"><td colspan="2" class="py-2"></td></tr> <!-- Spacer between records -->
+                    @endforeach
+                </table>
             @else
                 <p class="text-gray-500 text-sm">No expense records found for this date.</p>
             @endif
@@ -169,44 +164,31 @@
 
         <!-- Earning Records -->
         <div class="bg-white rounded-lg shadow-md p-6">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-semibold text-gray-700">Earning Record</h3>
-            </div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-4">Earning Record</h3>
             @if($earningRecords->isNotEmpty())
-                <div class="overflow-x-auto">
-                    <table class="min-w-full">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Time</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach($earningRecords as $earning)
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {{ \Carbon\Carbon::parse($earning->created_at)->format('H:i:s') }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {{ $earning->description }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        RM {{ number_format($earning->amount, 2) }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <form action="{{ route('sales.destroyEarning', $earning) }}" method="POST" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this record?')">Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                <table class="min-w-full">
+                    @foreach($earningRecords as $earning)
+                        <tr class="border-t">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Earning</th>
+                            <td class="px-6 py-3 text-sm text-gray-500 content-cell">{{ $earning->description }}</td>
+                        </tr>
+                        <tr class="border-t">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Amount</th>
+                            <td class="px-6 py-3 text-sm text-gray-500 content-cell">RM {{ number_format($earning->amount, 2) }}</td>
+                        </tr>
+                        <tr class="border-t">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Actions</th>
+                            <td class="px-6 py-3 text-sm text-gray-500 content-cell">
+                                <form action="{{ route('sales.destroyEarning', $earning) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this record?')">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr class="border-t border-b"><td colspan="2" class="py-2"></td></tr> <!-- Spacer between records -->
+                    @endforeach
+                </table>
             @else
                 <p class="text-gray-500 text-sm">No earning records found for this date.</p>
             @endif

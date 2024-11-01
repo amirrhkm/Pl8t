@@ -28,7 +28,9 @@
                     <div class="flex h-16 items-center justify-between">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
-                            <p class="text-3xl font-bold text-white hover:text-gray-200 transition duration-150 ease-in-out">TallyUp</p>
+                            <p class="text-3xl font-bold text-white hover:text-gray-200 transition duration-150 ease-in-out">
+                                <a href="/us">TallyUp</a>
+                            </p>
                             </div>
                             <div class="hidden md:block">
                                 <div class="ml-10 flex items-baseline space-x-4">

@@ -66,7 +66,7 @@
                                         Update
                                     </button>
                                     @if ($name != 'admin')
-                                        <a href="{{ route('crew.dashboard', ['name' => $name]) }}" class="inline-block align-baseline font-bold text-sm text-indigo-500 hover:text-indigo-800">
+                                        <a href="{{ route('crew.dashboard', ['staff' => $name]) }}" class="inline-block align-baseline font-bold text-sm text-indigo-500 hover:text-indigo-800">
                                             Back to Dashboard
                                         </a>
                                     @else

@@ -40,9 +40,22 @@ class InvoiceController extends Controller
         $receivedInvoices = $invoices->where('status', 'received')->count();
         $pendingInvoices = $invoices->where('status', 'pending')->count();
         $overdueInvoices = $invoices->where('status', 'overdue')->count();
-        $totalAmount = Invoice::whereMonth('submit_date', now()->month)
-            ->whereYear('submit_date', now()->year)
-            ->sum('total_amount');
+        
+        // Create a new query for total amount that uses the same filters
+        $totalAmountQuery = Invoice::query();
+        if ($request->filled('month')) {
+            $selectedMonth = $request->month;
+            $currentYear = now()->year;
+            $totalAmountQuery->whereMonth('submit_date', $selectedMonth)
+                ->whereYear('submit_date', $currentYear);
+        }
+        if ($request->filled('type')) {
+            $totalAmountQuery->where('type', $request->type);
+        }
+        if ($request->filled('status')) {
+            $totalAmountQuery->where('status', $request->status);
+        }
+        $totalAmount = $totalAmountQuery->sum('total_amount');
 
         // Update overdue status (defected)
         // $invoices->each(function ($invoice) {

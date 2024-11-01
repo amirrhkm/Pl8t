@@ -14,6 +14,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\WastageController;
 
 // Public routes
+Route::get('/us', function () { return view('about-us'); });
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/', [AuthController::class, 'login']);
 
@@ -29,9 +30,6 @@ Route::middleware([AuthenticationHandler::class])->group(function () {
 
     // Home Routes
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-
-    // Crew Routes
-    Route::get('/crew/dashboard/{name}', [CrewController::class, 'show'])->name('crew.dashboard');
 
     // Staff Routes
     Route::resource('staff', StaffController::class);
@@ -111,5 +109,10 @@ Route::middleware([AuthenticationHandler::class])->group(function () {
 
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/part-time-details', [ReportController::class, 'partTimeDetails'])->name('reports.part-time-details');
+
+    // Crew routes
+    Route::get('/crew/dashboard/{staff}', [CrewController::class, 'show'])->name('crew.dashboard');
+    Route::get('/crew/overview/{staff}', [CrewController::class, 'overview'])->name('crew.overview');
+    Route::get('/crew/details/{staff}/{year}/{month}', [CrewController::class, 'details'])->name('crew.details');
 });
 
