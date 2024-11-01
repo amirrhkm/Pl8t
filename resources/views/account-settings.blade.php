@@ -50,7 +50,12 @@
 
                                 <div class="mb-4">
                                     <label for="password" class="block text-gray-700 text-sm font-bold mb-2">New Password:</label>
-                                    <input type="password" name="password" id="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                    <div class="relative">
+                                        <input type="password" name="password" id="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                                        <button type="button" onclick="togglePasswordVisibility('password')" class="absolute inset-y-0 right-0 px-3 py-2 text-gray-700">
+                                            Show
+                                        </button>
+                                    </div>
                                     @error('password')
                                         <p class="text-red-500 text-xs italic mt-2">{{ $message }}</p>
                                     @enderror
@@ -58,7 +63,12 @@
 
                                 <div class="mb-6">
                                     <label for="password_confirmation" class="block text-gray-700 text-sm font-bold mb-2">Confirm New Password:</label>
-                                    <input type="password" name="password_confirmation" id="password_confirmation" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                    <div class="relative">
+                                        <input type="password" name="password_confirmation" id="password_confirmation" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                                        <button type="button" onclick="togglePasswordVisibility('password_confirmation')" class="absolute inset-y-0 right-0 px-3 py-2 text-gray-700">
+                                            Show
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <div class="flex items-center justify-between">
@@ -95,5 +105,19 @@
                 </a>
             </div>
         </footer>
+
+        <script>
+            function togglePasswordVisibility(id) {
+                const input = document.getElementById(id);
+                const button = input.nextElementSibling;
+                if (input.type === "password") {
+                    input.type = "text";
+                    button.textContent = "Hide";
+                } else {
+                    input.type = "password";
+                    button.textContent = "Show";
+                }
+            }
+        </script>
     </body>
 </html>
