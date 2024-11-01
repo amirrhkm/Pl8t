@@ -24,6 +24,7 @@
                                 <th class="py-2 px-4 text-left">Name</th>
                                 <th class="py-2 px-4 text-center">Nickname</th>
                                 <th class="py-2 px-4 text-center">Position</th>
+                                <th class="py-2 px-4 text-center">Account Status</th>
                                 <th class="py-2 px-4 text-right">Actions</th>
                             </tr>
                         </thead>
@@ -34,6 +35,13 @@
                                     <td class="py-2 px-4">{{ $member->name }}</td>
                                     <td class="py-2 px-4 text-center">{{ $member->nickname }}</td>
                                     <td class="py-2 px-4 text-center">{{ $member->formattedPosition() }}</td>
+                                    <td class="py-2 px-4 text-center">
+                                        @if($member->user)
+                                            <span class="px-2 py-1 text-xs font-semibold bg-green-100 text-green-800 rounded-full">Registered</span>
+                                        @else
+                                            <span class="px-2 py-1 text-xs font-semibold bg-gray-100 text-gray-800 rounded-full">No Account</span>
+                                        @endif
+                                    </td>
                                     <td class="py-2 px-4">
                                         <div class="flex justify-end space-x-2">
                                             <a href="{{ route('staff.leave', $member->id) }}" class="text-purple-600 hover:text-purple-800">
@@ -72,6 +80,7 @@
                                 <th class="py-2 px-4 text-center">Nickname</th>
                                 <th class="py-2 px-4 text-center">Position</th>
                                 <th class="py-2 px-4 text-center">Rate (RM)</th>
+                                <th class="py-2 px-4 text-center">Account Status</th>
                                 <th class="py-2 px-4 text-right">Actions</th>
                             </tr>
                         </thead>
@@ -82,6 +91,13 @@
                                 <td class="py-2 px-4 text-center">{{ $member->nickname }}</td>
                                 <td class="py-2 px-4 text-center">{{ $member->formattedPosition() }}</td>
                                 <td class="py-2 px-4 text-center">{{ $member->rate }}</td>
+                                <td class="py-2 px-4 text-center">
+                                    @if($member->user)
+                                        <span class="px-2 py-1 text-xs font-semibold bg-green-100 text-green-800 rounded-full">Registered</span>
+                                    @else
+                                        <span class="px-2 py-1 text-xs font-semibold bg-gray-100 text-gray-800 rounded-full">No Account</span>
+                                    @endif
+                                </td>
                                 <td class="py-2 px-4">
                                     <div class="flex justify-end space-x-2">
                                         <a href="{{ route('staff.wildcard', $member->id) }}" class="text-green-600 hover:text-green-800">
