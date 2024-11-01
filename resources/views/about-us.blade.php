@@ -20,18 +20,18 @@
             50% { transform: translateY(-20px); }
         }
         .gradient-text {
-            background: linear-gradient(to right, #fff, #818cf8);
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         .gradient-primary {
-            background: linear-gradient(135deg, #4F46E5, #7C3AED, #2563EB);
+            background: linear-gradient(135deg, #ff7e5f, #feb47b, #ff6f61);
         }
         .gradient-secondary {
-            background: linear-gradient(135deg, #EC4899, #8B5CF6, #3B82F6);
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fad0c4);
         }
         .gradient-accent {
-            background: linear-gradient(135deg, #06B6D4, #3B82F6, #8B5CF6);
+            background: linear-gradient(135deg, #fbc2eb, #a6c1ee, #fbc2eb);
         }
         
         /* Particle animation for floating elements */
@@ -44,9 +44,33 @@
             50% { transform: translate(-5px, -20px) rotate(-5deg); }
             75% { transform: translate(-10px, -5px) rotate(3deg); }
         }
+        .random-float {
+            position: absolute;
+            animation: random-float 10s infinite;
+        }
+        @keyframes random-float {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(calc(10px * var(--random-x)), calc(10px * var(--random-y))); }
+            50% { transform: translate(calc(-10px * var(--random-x)), calc(-10px * var(--random-y))); }
+            75% { transform: translate(calc(5px * var(--random-x)), calc(5px * var(--random-y))); }
+            100% { transform: translate(0, 0); }
+        }
+        .interactive:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
+        }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const particles = document.querySelectorAll('.random-float');
+            particles.forEach(particle => {
+                particle.style.setProperty('--random-x', Math.random() * 2 - 1);
+                particle.style.setProperty('--random-y', Math.random() * 2 - 1);
+            });
+        });
+    </script>
 </head>
-<body class="bg-[conic-gradient(at_bottom_left,_var(--tw-gradient-stops))] from-indigo-900 via-purple-900 to-blue-900 text-white min-h-screen">
+<body class="bg-[conic-gradient(at_bottom_left,_var(--tw-gradient-stops))] from-pink-900 via-red-900 to-yellow-900 text-white min-h-screen">
 
     <!-- Hero Section -->
     <section class="relative pt-32 pb-20 px-4 overflow-hidden">
@@ -58,14 +82,14 @@
             <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-indigo-900/50 to-transparent"></div>
             
             <!-- Code snippets floating -->
-            <div class="particle absolute top-20 right-10 p-4 bg-gray-800/30 backdrop-blur-sm rounded-lg border border-gray-700 hidden lg:block">
+            <div class="random-float top-20 right-10 p-4 bg-gray-800/30 backdrop-blur-sm rounded-lg border border-gray-700 hidden lg:block">
                 <pre class="text-xs text-indigo-300">
 const revenue = calculateRevenue();
 profit.increase(revenue);</pre>
             </div>
             
             <!-- Floating metrics -->
-            <div class="particle absolute bottom-40 left-10 p-4 bg-gray-800/30 backdrop-blur-sm rounded-lg border border-gray-700 hidden lg:block">
+            <div class="random-float bottom-40 left-10 p-4 bg-gray-800/30 backdrop-blur-sm rounded-lg border border-gray-700 hidden lg:block">
                 <div class="text-emerald-400 text-sm">↑ 99.99% Growth</div>
             </div>
         </div>
@@ -77,11 +101,11 @@ profit.increase(revenue);</pre>
                         <span class="gradient-text">Revolutionize</span>
                         <br />Your Business
                     </h1>
-                    <p class="text-xl text-indigo-200 max-w-2xl">
+                    <p class="text-xl text-pink-200 max-w-2xl">
                         Streamline financial operations in your F&B business with our all-in-one solution for staff scheduling, payroll processing, and sales analytics.
                     </p>
                     <div class="flex gap-4">
-                        <a href="/" class="group relative inline-flex items-center overflow-hidden rounded-full bg-indigo-600 px-8 py-3 text-white focus:outline-none focus:ring active:bg-indigo-500">
+                        <a href="/login" class="group relative inline-flex items-center overflow-hidden rounded-full bg-pink-600 px-8 py-3 text-white focus:outline-none focus:ring active:bg-pink-500 interactive">
                             <span class="absolute -end-full transition-all group-hover:end-4">
                                 →
                             </span>
@@ -89,18 +113,18 @@ profit.increase(revenue);</pre>
                                 Get Started
                             </span>
                         </a>
-                        <a href="#demo" class="inline-flex items-center px-8 py-3 rounded-full border border-indigo-400 text-indigo-400 hover:bg-indigo-400 hover:text-white transition">
+                        <a href="#demo" class="inline-flex items-center px-8 py-3 rounded-full border border-pink-400 text-pink-400 hover:bg-pink-400 hover:text-white transition interactive">
                             Watch Demo
                         </a>
                     </div>
                 </div>
                 <div class="relative">
                     <div class="animate-float">
-                        <!-- <img src="/img/dashboard-preview.png" alt="TallyUp Dashboard" class="rounded-xl shadow-2xl shadow-indigo-500/20" /> -->
+                        <!-- <img src="/img/dashboard-preview.png" alt="TallyUp Dashboard" class="rounded-xl shadow-2xl shadow-pink-500/20" /> -->
                     </div>
                     <!-- Floating Elements -->
-                    <div class="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full blur-xl opacity-50"></div>
-                    <div class="absolute -bottom-4 -left-4 w-20 h-20 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full blur-xl opacity-50"></div>
+                    <div class="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full blur-xl opacity-50"></div>
+                    <div class="absolute -bottom-4 -left-4 w-20 h-20 bg-gradient-to-r from-green-500 to-blue-500 rounded-full blur-xl opacity-50"></div>
                 </div>
             </div>
         </div>
@@ -285,6 +309,31 @@ profit.increase(revenue);</pre>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="relative py-32">
+        <div class="absolute inset-0">
+            <div class="particle absolute top-20 left-1/4 w-24 h-24 rounded-full bg-gradient-primary opacity-20 blur-xl"></div>
+            <div class="particle absolute bottom-20 right-1/4 w-32 h-32 rounded-full bg-gradient-secondary opacity-20 blur-xl"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-4xl font-bold mb-20 text-center gradient-text">The Journey of TallyUp</h2>
+            
+            <div class="space-y-12">
+                <div class="bg-indigo-900/30 backdrop-blur-sm rounded-2xl p-8 border border-indigo-500/30 transform hover:scale-105 transition-transform">
+                    <p class="text-indigo-200 leading-relaxed">
+                        Hi, I'm Amir Nurhakim, a 23-year-old developer passionate about creating impactful solutions. TallyUp began as a personal project to enhance my portfolio with a practical application. While working at Bask Bear Coffee, I noticed a recurring issue: part-time staff, including myself, often faced discrepancies in payroll calculations. This inspired me to develop a tool that automates payroll by integrating shift assignments and calculations.
+                    </p>
+                    <p class="text-indigo-200 leading-relaxed mt-4">
+                        As I delved deeper, I realized the potential to expand this tool into a comprehensive admin dashboard. This would not only streamline payroll but also provide business analytics to guide sales and operational strategies. Thus, TallyUp evolved to include sales and inventory modules, tailored to meet the specific needs of franchise outlets like ours, without relying on third-party integrations.
+                    </p>
+                    <p class="text-indigo-200 leading-relaxed mt-4">
+                        TallyUp is more than just a project; it's a solution born from real-world challenges, designed to empower managers with the tools they need to succeed. I hope this origin story gives inspiration to some of the fresh graduates who want to offer something by providing a service from their own design.
+                    </p>
                 </div>
             </div>
         </div>

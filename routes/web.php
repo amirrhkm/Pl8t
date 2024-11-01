@@ -14,9 +14,10 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\WastageController;
 
 // Public routes
-Route::get('/us', function () { return view('about-us'); });
-Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/', [AuthController::class, 'login']);
+Route::get('/', function () { return view('about-us'); });
+
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
 
 // Protected routes
 Route::middleware([AuthenticationHandler::class])->group(function () {
