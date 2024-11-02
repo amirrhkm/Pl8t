@@ -97,14 +97,14 @@ profit.increase(revenue);</pre>
         <div class="relative max-w-7xl mx-auto">
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="text-left space-y-8">
-                    <h1 class="text-6xl md:text-7xl font-bold">
+                    <h1 class="text-4xl md:text-6xl font-bold leading-tight">
                         <span class="gradient-text">Revolutionize</span>
                         <br />Your Business
                     </h1>
-                    <p class="text-xl text-pink-200 max-w-2xl">
+                    <p class="text-lg md:text-xl text-pink-200 max-w-2xl">
                         Streamline financial operations in your F&B business with our all-in-one solution for staff scheduling, payroll processing, and sales analytics.
                     </p>
-                    <div class="flex gap-4">
+                    <div class="flex flex-col md:flex-row gap-4">
                         <a href="/login" class="group relative inline-flex items-center overflow-hidden rounded-full bg-pink-600 px-8 py-3 text-white focus:outline-none focus:ring active:bg-pink-500 interactive">
                             <span class="absolute -end-full transition-all group-hover:end-4">
                                 →
