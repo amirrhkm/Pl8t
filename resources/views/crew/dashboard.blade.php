@@ -173,7 +173,7 @@
                                                                     <li class="flex items-center justify-between">
                                                                         <span class="text-gray-800 flex items-center">
                                                                             <span class="w-1.5 h-1.5 bg-indigo-500 rounded-full mr-1.5"></span>
-                                                                            {{ $shift->staff->name }}
+                                                                            {{ $shift->staff->nickname }}
                                                                         </span>
                                                                         <span class="ml-2 text-md {{ $bgColor }} {{ $textColor }} px-1.5 py-0.5 rounded-full">
                                                                             {{ $startTime }}-{{ $endTime }}
