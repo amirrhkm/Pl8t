@@ -37,7 +37,7 @@
 ## Environment Overview
 TallyUp is a VPS service. Domain name is managed by AWS Route 53 with A Record pointing to Hostinger VPS Public IP and Nginx redirect to PHP-FPM for managing process and script execution.
 
-![env-overview](./public/tallyup-env-overview-dark.png)
+![tallyup-env-overview-dark](https://github.com/user-attachments/assets/a6e37c6d-3bea-43a0-af2c-b98498f43cd8)
 
 ## Development Environment Setup
 
