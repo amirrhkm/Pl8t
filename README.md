@@ -1,8 +1,43 @@
-# Staff Payroll and Shift Management System
+# Admin Dashboard for F&B Business
 
-*outdated details, to-be-updated soon*
+### Modules included:
 
-This web application is designed to help F&B (Food & Beverage) managers efficiently manage staff schedules, track working hours, and calculate salaries. It's particularly useful for businesses with variable shift patterns and different pay rates for regular hours, overtime, and public holidays.
+1. **Staff** (Employee Management and Role-Based Access Control)
+2. **Payroll** (Auto-calculate based on working hours and rate)
+3. **Shift** (Working Hours and Schedule)
+4. **Inventory** (Stock, Delivery Order and Wastage)
+5. **Sales** (POS, Daily Sales Report, Monthly Sales Report, Expenses and EOD)
+6. **Report** (Earning and Loss, Stock Turnover, etc.)
+
+### Highlighted Features:
+
+- Assign shift to staff which directly update staff payroll
+- Auto-calculate payroll based on working hours and rate
+- Track inventory stock, delivery order and wastage
+- Sales cash tracking and report
+- Dashboard with simple metrics for monitoring overview
+
+### Tech Stack:
+
+- Laravel 11 (PHP 8.1 and Composer 2)
+- MySQL
+- Blade
+- Tailwind CSS
+- Nginx & PHP-FPM
+
+### Production Environment:
+
+- Setup Nginx server block in `/etc/nginx/sites-available/tallyup-server.conf`
+- Setup PHP-FPM pool in `/etc/php/8.1/fpm/pool.d/laravel.conf`
+- Server running on `http://tallyup.click`
+- Server hosted on VPS with Hostinger
+- DNS and HostedZone managed by AWS Route 53
+- Database on VPS local disk (SSD)
+
+## Environment Overview
+TallyUp is a VPS service. Domain name is managed by AWS Route 53 with A Record pointing to Hostinger VPS Public IP and Nginx redirect to PHP-FPM for managing process and script execution.
+
+![tallyup-env-overview-dark](https://github.com/user-attachments/assets/a6e37c6d-3bea-43a0-af2c-b98498f43cd8)
 
 ## Development Environment Setup
 
@@ -37,7 +72,7 @@ To set up the development environment for this project, follow these steps:
 
 4. Run database migrations, to view the database, setup `TablePlus` and import the `database.sqlite` file from the `database` folder:
    ```
-   php artisan migrate
+   php artisan migrate:fresh
    ```
 
 6. Seed the database with sample data, this will create shift handler for the UI interface (required):
@@ -56,8 +91,3 @@ To set up the development environment for this project, follow these steps:
     ```
 
 The application should now be accessible at `http://localhost:8000`.
-
-Available endpoints currently are:
-- `/staff` - Staff Management Module
-- `/staff/shift` - Payroll Management Module
-- `/shift` - Shift Management Module

@@ -50,9 +50,9 @@
         }
         @keyframes random-float {
             0% { transform: translate(0, 0); }
-            25% { transform: translate(calc(10px * var(--random-x)), calc(10px * var(--random-y))); }
-            50% { transform: translate(calc(-10px * var(--random-x)), calc(-10px * var(--random-y))); }
-            75% { transform: translate(calc(5px * var(--random-x)), calc(5px * var(--random-y))); }
+            25% { transform: translate(calc(20px * var(--random-x)), calc(20px * var(--random-y))); }
+            50% { transform: translate(calc(-20px * var(--random-x)), calc(-20px * var(--random-y))); }
+            75% { transform: translate(calc(10px * var(--random-x)), calc(10px * var(--random-y))); }
             100% { transform: translate(0, 0); }
         }
         .interactive:hover {
@@ -82,15 +82,17 @@
             <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-indigo-900/50 to-transparent"></div>
             
             <!-- Code snippets floating -->
-            <div class="random-float top-20 right-10 p-4 bg-gray-800/30 backdrop-blur-sm rounded-lg border border-gray-700 hidden lg:block">
-                <pre class="text-xs text-indigo-300">
-const revenue = calculateRevenue();
-profit.increase(revenue);</pre>
+            <div class="random-float top-24 right-12 p-4 bg-gray-800/30 backdrop-blur-sm rounded-lg border border-gray-700 hidden lg:block">
+                <div class="text-emerald-400 text-sm">🔥 99.99% Profit Growth</div>
             </div>
-            
-            <!-- Floating metrics -->
-            <div class="random-float bottom-40 left-10 p-4 bg-gray-800/30 backdrop-blur-sm rounded-lg border border-gray-700 hidden lg:block">
-                <div class="text-emerald-400 text-sm">↑ 99.99% Growth</div>
+
+            <!-- Additional Floating Metrics -->
+            <div class="random-float top-12 left-1/2 p-4 bg-gray-800/30 backdrop-blur-sm rounded-lg border border-gray-700 hidden lg:block">
+                <div class="text-yellow-400 text-sm">🚀 200% Increase in Efficiency</div>
+            </div>
+
+            <div class="random-float top-72 right-24 p-4 bg-gray-800/30 backdrop-blur-sm rounded-lg border border-gray-700 hidden lg:block">
+                <div class="text-blue-400 text-sm">💡 Easy to Use</div>
             </div>
         </div>
         
