@@ -50,45 +50,116 @@
         <div class="bg-white rounded-lg shadow-md p-6 mb-6">
             <h3 class="text-lg font-semibold text-gray-700 mb-4">EOD Record</h3>
             @if($eodRecords->isNotEmpty())
-                <table class="min-w-full">
-                    @foreach($eodRecords as $eod)
-                        <tr class="border-t">
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Cash</th>
-                            <td class="px-6 py-3 text-sm text-gray-500 content-cell">RM {{ number_format($eod->cash, 2) }}</td>
-                        </tr>
-                        <tr class="border-t">
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">E-Wallet</th>
-                            <td class="px-6 py-3 text-sm text-gray-500 content-cell">RM {{ number_format($eod->ewallet, 2) }}</td>
-                        </tr>
-                        <tr class="border-t">
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Expenses</th>
-                            <td class="px-6 py-3 text-sm text-gray-500 content-cell">
-                                RM {{ number_format($eod->expenses->amount_1 + $eod->expenses->amount_2 + $eod->expenses->amount_3 + 
-                                    $eod->expenses->amount_4 + $eod->expenses->amount_5 + $eod->expenses->amount_6 + 
-                                    $eod->expenses->amount_7 + $eod->expenses->amount_8, 2) }}
-                            </td>
-                        </tr>
-                        <tr class="border-t">
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Cash Difference</th>
-                            <td class="px-6 py-3 text-sm text-gray-500 content-cell">RM {{ number_format($eod->cash_difference, 2) }}</td>
-                        </tr>
-                        <tr class="border-t">
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Amount</th>
-                            <td class="px-6 py-3 text-sm text-gray-500 content-cell">RM {{ number_format($eod->amount_to_bank_in, 2) }}</td>
-                        </tr>
-                        <tr class="border-t">
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Actions</th>
-                            <td class="px-6 py-3 text-sm text-gray-500 content-cell">
-                                <form action="{{ route('sales.destroyEod', $eod) }}" method="POST" class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this record?')">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr class="border-t border-b"><td colspan="2" class="py-2"></td></tr> <!-- Spacer between records -->
-                    @endforeach
-                </table>
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                    <!-- Main EOD Table -->
+                    <div>
+                        <h4 class="text-md font-medium text-gray-600 mb-3">Main Summary</h4>
+                        <table class="min-w-full">
+                            @foreach($eodRecords as $eod)
+                                <tr class="border-t">
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Cash</th>
+                                    <td class="px-6 py-3 text-sm text-gray-500 content-cell">RM {{ number_format($eod->cash, 2) }}</td>
+                                </tr>
+                                <tr class="border-t">
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">E-Wallet</th>
+                                    <td class="px-6 py-3 text-sm text-gray-500 content-cell">RM {{ number_format($eod->ewallet, 2) }}</td>
+                                </tr>
+                                <tr class="border-t">
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Expenses</th>
+                                    <td class="px-6 py-3 text-sm text-gray-500 content-cell">
+                                        RM {{ number_format($eod->expenses->amount_1 + $eod->expenses->amount_2 + $eod->expenses->amount_3 + 
+                                            $eod->expenses->amount_4 + $eod->expenses->amount_5 + $eod->expenses->amount_6 + 
+                                            $eod->expenses->amount_7 + $eod->expenses->amount_8, 2) }}
+                                    </td>
+                                </tr>
+                                <tr class="border-t">
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Cash Difference</th>
+                                    <td class="px-6 py-3 text-sm text-gray-500 content-cell">RM {{ number_format($eod->cash_difference, 2) }}</td>
+                                </tr>
+                                <tr class="border-t">
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Amount</th>
+                                    <td class="px-6 py-3 text-sm text-gray-500 content-cell">RM {{ number_format($eod->amount_to_bank_in, 2) }}</td>
+                                </tr>
+                                <tr class="border-t">
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Actions</th>
+                                    <td class="px-6 py-3 text-sm text-gray-500 content-cell">
+                                        <form action="{{ route('sales.destroyEod', $eod) }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this record?')">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr class="border-t border-b"><td colspan="2" class="py-2"></td></tr> <!-- Spacer between records -->
+                            @endforeach
+                        </table>
+                    </div>
+
+                    <!-- Credit Card Sales Table -->
+                    <div>
+                        <h4 class="text-md font-medium text-gray-600 mb-3">Credit Card Sales</h4>
+                        <table class="min-w-full">
+                            <tr class="border-t">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Debit</th>
+                                <td class="px-6 py-3 text-sm text-gray-500 content-cell">RM {{ number_format($eod->debit ?? 0, 2) }}</td>
+                            </tr>
+                            <tr class="border-t">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Master</th>
+                                <td class="px-6 py-3 text-sm text-gray-500 content-cell">RM {{ number_format($eod->master ?? 0, 2) }}</td>
+                            </tr>
+                            <tr class="border-t">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Visa</th>
+                                <td class="px-6 py-3 text-sm text-gray-500 content-cell">RM {{ number_format($eod->visa ?? 0, 2) }}</td>
+                            </tr>
+                            <tr class="border-t">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Total Cards</th>
+                                <td class="px-6 py-3 text-sm text-gray-500 content-cell font-semibold">
+                                    RM {{ number_format(($eod->debit ?? 0) + ($eod->master ?? 0) + ($eod->visa ?? 0), 2) }}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Delivery Sales Table -->
+                    <div>
+                        <h4 class="text-md font-medium text-gray-600 mb-3">Delivery Sales</h4>
+                        <table class="min-w-full">
+                            <tr class="border-t">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Foodpanda</th>
+                                <td class="px-6 py-3 text-sm text-gray-500 content-cell">RM {{ number_format($eod->foodpanda ?? 0, 2) }}</td>
+                            </tr>
+                            <tr class="border-t">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Grabfood</th>
+                                <td class="px-6 py-3 text-sm text-gray-500 content-cell">RM {{ number_format($eod->grabfood ?? 0, 2) }}</td>
+                            </tr>
+                            <tr class="border-t">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Shopeefood</th>
+                                <td class="px-6 py-3 text-sm text-gray-500 content-cell">RM {{ number_format($eod->shopeefood ?? 0, 2) }}</td>
+                            </tr>
+                            <tr class="border-t">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Total Delivery</th>
+                                <td class="px-6 py-3 text-sm text-gray-500 content-cell font-semibold">
+                                    RM {{ number_format(($eod->foodpanda ?? 0) + ($eod->grabfood ?? 0) + ($eod->shopeefood ?? 0), 2) }}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Misc/Extra Sales Table -->
+                    <div>
+                        <h4 class="text-md font-medium text-gray-600 mb-3">Extras</h4>
+                        <table class="min-w-full">
+                            <tr class="border-t">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Prepaid</th>
+                                <td class="px-6 py-3 text-sm text-gray-500 content-cell">RM {{ number_format($eod->prepaid ?? 0, 2) }}</td>
+                            </tr>
+                            <tr class="border-t">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Voucher</th>
+                                <td class="px-6 py-3 text-sm text-gray-500 content-cell">RM {{ number_format($eod->voucher ?? 0, 2) }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             @else
                 <p class="text-gray-500 text-sm">No EOD records found for this date.</p>
             @endif
