@@ -1,5 +1,5 @@
 <x-layout>
-    <x-slot:heading>Outlet Report</x-slot:heading>
+    <x-slot:heading>Outlet Summary Report</x-slot:heading>
     <x-slot:description>{{ now()->format('F Y') }}</x-slot:description>
 
     <div class="bg-gradient-to-br from-indigo-50 to-blue-100 p-8 rounded-xl shadow-lg">
