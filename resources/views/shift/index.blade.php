@@ -130,5 +130,43 @@
                 </div>
             </div>
         </div>
+
+        <!-- Staff Off-Day Record -->
+        <div class="bg-white bg-opacity-90 p-6 rounded-lg shadow-md w-full">
+            <h2 class="text-xl font-bold mb-4 text-gray-700">Staff on Off-Day</h2>
+            <div class="grid grid-cols-7 gap-2">
+                @php
+                    $startOfWeek = now()->startOfWeek();
+                @endphp
+                @foreach(range(0, 6) as $dayOffset)
+                    @php
+                        $currentDay = $startOfWeek->copy()->addDays($dayOffset);
+                        $dateKey = $currentDay->format('Y-m-d');
+                        $offDayStaff = $offDayRecords[$dateKey] ?? collect();
+                    @endphp
+                    <div class="text-center py-2 px-1 bg-gray-100 rounded">
+                        <span class="block text-sm font-semibold text-gray-700">{{ $currentDay->format('D') }}</span>
+                        <span class="block text-xs text-gray-500">{{ $currentDay->format('d M') }}</span>
+                        @if($offDayStaff->isNotEmpty())
+                            <ul class="space-y-1 mt-2">
+                                @foreach($offDayStaff as $staffMember)
+                                    @php
+                                        $bgColor = $staffMember->employment_type == 'full_time' ? 'bg-pink-100' : 'bg-indigo-100';
+                                        $textColor = $staffMember->employment_type == 'full_time' ? 'text-pink-800' : 'text-indigo-800';
+                                    @endphp
+                                    <li class="flex justify-center">
+                                        <span class="text-xs font-medium {{ $bgColor }} {{ $textColor }} px-2 py-0.5 rounded-full">
+                                            {{ $staffMember->nickname }}
+                                        </span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <span class="block text-xs font-medium text-gray-600 mt-2">No off-day staff</span>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+        </div>
     </div>
 </x-layout>
