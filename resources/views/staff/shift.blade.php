@@ -7,8 +7,8 @@
             <thead class="bg-gray-100">
                 <tr>
                     <th class="py-2 px-4 border-b text-left text-center">Date</th>
-                    <th class="py-2 px-4 border-b text-left text-center">Start Time</th>
-                    <th class="py-2 px-4 border-b text-left text-center">End Time</th>
+                    <th class="py-2 px-4 border-b text-left text-center">Clock In</th>
+                    <th class="py-2 px-4 border-b text-left text-center">Clock Out</th>
                     <th class="py-2 px-4 border-b text-left text-center">Regular Hours</th>
                     <th class="py-2 px-4 border-b text-left text-center">Regular OT Hours</th>
                     <th class="py-2 px-4 border-b text-left text-center">PH Hours</th>
@@ -16,34 +16,58 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($monthShifts as $shift)
+                @php
+                    $latestDateInShifts = $monthShifts->max('date');
+                    $furthestDate = $latestDateInShifts->greaterThan(now()) ? $latestDateInShifts : now();
+                    $firstDateOfMonth = $furthestDate->copy()->startOfMonth();
+                    $currentDate = $firstDateOfMonth->copy();
+                @endphp
+
+                @while ($currentDate->lte($furthestDate))
                     @php
-                        $hours = $shift->start_time->diffInHours($shift->end_time) - $shift->break_duration;
-                        $otHours = max(0, $hours - 8);
-
-                        $reg_hours = 0.0;
-                        $reg_ot_hours = 0.0;
-                        $ph_hours = 0.0;
-                        $ph_ot_hours = 0.0;
-
-                        if ($shift->is_public_holiday) {
-                            $ph_hours = $hours;
-                            $ph_ot_hours = $otHours;
-                        } else {
-                            $reg_hours = $hours;
-                            $reg_ot_hours = $otHours;
-                        }
+                        $shift = $monthShifts->firstWhere('date', $currentDate);
                     @endphp
-                    <tr>
-                        <td class="py-2 px-4 border-b text-center">{{ Carbon\Carbon::parse($shift->date)->format('d/m') }}</td>
-                        <td class="py-2 px-4 border-b text-center">{{ $shift->start_time->format('H:i') }}</td>
-                        <td class="py-2 px-4 border-b text-center">{{ $shift->end_time->format('H:i') }}</td>
-                        <td class="py-2 px-4 border-b text-center">{{ $reg_hours }}</td>
-                        <td class="py-2 px-4 border-b text-center">{{ $reg_ot_hours }}</td>
-                        <td class="py-2 px-4 border-b text-center">{{ $ph_hours }}</td>
-                        <td class="py-2 px-4 border-b text-center">{{ $ph_ot_hours }}</td>
-                    </tr>
-                @endforeach
+
+                    @if ($shift)
+                        @php
+                            $hours = $shift->start_time->diffInHours($shift->end_time) - $shift->break_duration;
+                            $otHours = max(0, $hours - 8);
+
+                            $reg_hours = 0.0;
+                            $reg_ot_hours = 0.0;
+                            $ph_hours = 0.0;
+                            $ph_ot_hours = 0.0;
+
+                            if ($shift->is_public_holiday) {
+                                $ph_hours = $hours;
+                                $ph_ot_hours = $otHours;
+                            } else {
+                                $reg_hours = $hours;
+                                $reg_ot_hours = $otHours;
+                            }
+                        @endphp
+                        <tr>
+                            <td class="py-2 px-4 border-b text-center">{{ $currentDate->format('d/m') }}</td>
+                            <td class="py-2 px-4 border-b text-center">{{ $shift->start_time->format('H:i') }}</td>
+                            <td class="py-2 px-4 border-b text-center">{{ $shift->end_time->format('H:i') }}</td>
+                            <td class="py-2 px-4 border-b text-center">{{ $reg_hours }}</td>
+                            <td class="py-2 px-4 border-b text-center">{{ $reg_ot_hours }}</td>
+                            <td class="py-2 px-4 border-b text-center">{{ $ph_hours }}</td>
+                            <td class="py-2 px-4 border-b text-center">{{ $ph_ot_hours }}</td>
+                        </tr>
+                    @else
+                        <tr>
+                            <td class="py-2 px-4 border-b text-center">{{ $currentDate->format('d/m') }}</td>
+                            <td colspan="6" class="py-2 px-4 border-b text-center bg-yellow-100 text-yellow-800 font-semibold rounded-lg">
+                                Off Day
+                            </td>
+                        </tr>
+                    @endif
+
+                    @php
+                        $currentDate->addDay();
+                    @endphp
+                @endwhile
             </tbody>
             <tfoot class="bg-gray-100">
                 <tr>
