@@ -90,7 +90,6 @@
                                         </form>
                                     </td>
                                 </tr>
-                                <tr class="border-t border-b"><td colspan="2" class="py-2"></td></tr> <!-- Spacer between records -->
                             @endforeach
                         </table>
                     </div>
@@ -156,6 +155,10 @@
                             <tr class="border-t">
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell">Voucher</th>
                                 <td class="px-6 py-3 text-sm text-gray-500 content-cell">RM {{ number_format($eod->voucher ?? 0, 2) }}</td>
+                            </tr>
+                            <tr class="border-t">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase bg-gray-50 header-cell font-semibold">Day Sales</th>
+                                <td class="px-6 py-3 text-sm text-gray-500 content-cell font-semibold">RM {{ number_format($eod->total_sales ?? 0, 2) }}</td>
                             </tr>
                         </table>
                     </div>
