@@ -42,6 +42,21 @@ class ShiftController extends Controller
                 return $shift->date->format('Y-m-d');
             });
 
+        // Get all staff excluding 'admin'
+        $staff = Staff::where('name', '!=', 'admin')->get();
+
+        $offDayRecords = [];
+        foreach (range(0, 6) as $dayOffset) {
+            $currentDay = $weekStart->copy()->addDays($dayOffset);
+            $dateKey = $currentDay->format('Y-m-d');
+
+            $offDayStaff = $staff->filter(function ($staffMember) use ($weeklyShifts, $dateKey) {
+                return !isset($weeklyShifts[$dateKey]) || !$weeklyShifts[$dateKey]->contains('staff_id', $staffMember->id);
+            });
+
+            $offDayRecords[$dateKey] = $offDayStaff;
+        }
+
         $totalOvertimeHours = $this->calculateTotalOvertimeHours();
 
         $staffAvailability = $this->calculateStaffAvailability();
@@ -52,7 +67,8 @@ class ShiftController extends Controller
             'staffOnDutyToday',
             'weeklyShifts',
             'totalOvertimeHours',
-            'staffAvailability'
+            'staffAvailability',
+            'offDayRecords'
         ));
     }
 
