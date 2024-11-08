@@ -49,8 +49,16 @@
                     <tbody>
                         @foreach ($monthShifts as $shift)
                             @php
-                                $hours = $shift->start_time->diffInHours($shift->end_time) - $shift->break_duration;
-                                $otHours = max(0, $hours - 8);
+                                $total_hours = $shift->start_time->diffInHours($shift->end_time) - $shift->break_duration;
+                                
+                                // Manual Ingestion for Supervisor (Saturday)
+                                if((int)$shift->staff_id === 7 && $shift->date->isSaturday()){
+                                    $otHours = max(0, $total_hours - 4);
+                                    $hours = $total_hours - $otHours;
+                                }else{
+                                    $otHours = max(0, $total_hours - 8);
+                                    $hours = $total_hours - $otHours;
+                                }
 
                                 $reg_hours = 0.0;
                                 $reg_ot_hours = 0.0;
