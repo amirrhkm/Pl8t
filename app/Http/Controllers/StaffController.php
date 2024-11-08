@@ -83,8 +83,17 @@ class StaffController extends Controller
         $month_ph_ot_hours = 0;
 
         foreach ($monthShifts as $shift) {
-            $hours = $shift->start_time->diffInHours($shift->end_time) - $shift->break_duration;
-            $otHours = max(0, $hours - 8);
+            $total_hours = $shift->start_time->diffInHours($shift->end_time) - $shift->break_duration;
+            
+            $parsedDate = Carbon::parse($shift->date);
+            // Manual Ingestion for Supervisor (Saturday)
+            if((int)$shift->staff_id === 7 && $parsedDate->isSaturday()){
+                $otHours = max(0, $total_hours - 4);
+                $hours = $total_hours - $otHours;
+            }else{
+                $otHours = max(0, $total_hours - 8);
+                $hours = $total_hours - $otHours;
+            }
 
             if ($shift->is_public_holiday) {
                 $month_ph_hours += $hours;
@@ -134,6 +143,7 @@ class StaffController extends Controller
         $monthlyData = [];
 
         foreach ($shifts as $shift) {
+            $parsedDate = Carbon::parse($shift->date);
             $yearMonth = $shift->date->format('Y-m');
             if (!isset($monthlyData[$yearMonth])) {
                 $monthlyData[$yearMonth] = [
@@ -144,8 +154,16 @@ class StaffController extends Controller
                 ];
             }
 
-            $hours = $shift->start_time->diffInHours($shift->end_time) - $shift->break_duration;
-            $otHours = max(0, $hours - 8);
+            $total_hours = $shift->start_time->diffInHours($shift->end_time) - $shift->break_duration;
+
+            // Manual Ingestion for Supervisor (Saturday)
+            if((int)$shift->staff_id === 7 && $parsedDate->isSaturday()){
+                $otHours = max(0, $total_hours - 4);
+                $hours = $total_hours - $otHours;
+            }else{
+                $otHours = max(0, $total_hours - 8);
+                $hours = $total_hours - $otHours;
+            }
 
             if ($shift->is_public_holiday) {
                 $monthlyData[$yearMonth]['ph_hours'] += $hours;
@@ -207,8 +225,16 @@ class StaffController extends Controller
         $month_ph_ot_hours = 0;
 
         foreach ($monthShifts as $shift) {
-            $hours = $shift->start_time->diffInHours($shift->end_time) - $shift->break_duration;
-            $otHours = max(0, $hours - 8);
+            $total_hours = $shift->start_time->diffInHours($shift->end_time) - $shift->break_duration;
+
+            // Manual Ingestion for Supervisor (Saturday)
+            if((int)$shift->staff_id === 7 && $parsedDate->isSaturday()){
+                $otHours = max(0, $total_hours - 4);
+                $hours = $total_hours - $otHours;
+            }else{
+                $otHours = max(0, $total_hours - 8);
+                $hours = $total_hours - $otHours;
+            }
 
             if ($shift->is_public_holiday) {
                 $month_ph_hours += $hours;
