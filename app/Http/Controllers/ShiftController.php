@@ -190,10 +190,17 @@ class ShiftController extends Controller
 
         $public_holiday = $request->is_public_holiday;
 
+        $date = Carbon::parse($request->date);
         $start_time = Carbon::createFromFormat('H:i', $request->start_time);
         $end_time = Carbon::createFromFormat('H:i', $request->end_time);
         $total_hours = ($start_time->diffInHours($end_time)) - $request->break_duration;
-        $overtime_hours = max(0, $total_hours - 8);
+
+        // Manual Ingestion for Supervisor (Saturday)
+        if ((int)$request->staff_id === 7 && $date->isSaturday()) {
+            $overtime_hours = max(0, $total_hours - 4);
+        } else {
+            $overtime_hours = max(0, $total_hours - 8);
+        }
 
         Shift::create([
             'staff_id' => $request->staff_id,
@@ -228,11 +235,18 @@ class ShiftController extends Controller
             'end_time' => 'required|date_format:H:i|after:start_time',
         ]);
 
+        $date = Carbon::parse($request->date);
         $start_time = Carbon::createFromFormat('H:i', $request->start_time);
         $end_time = Carbon::createFromFormat('H:i', $request->end_time);
         $break_duration = $request->break_duration;
         $total_hours = $start_time->diffInHours($end_time) - $break_duration;
-        $overtime_hours = max(0, $total_hours - 8);
+
+        // Manual Ingestion for Supervisor (Saturday)
+        if ((int)$request->staff_id === 7 && $date->isSaturday()) {
+            $overtime_hours = max(0, $total_hours - 4);
+        } else {
+            $overtime_hours = max(0, $total_hours - 8);
+        }
 
         $shift->update([
             'start_time' => $validatedData['start_time'],
