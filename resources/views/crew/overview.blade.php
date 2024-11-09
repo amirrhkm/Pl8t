@@ -36,20 +36,28 @@
             <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                 <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     @php
-                        $currentYear = now()->year;
-                        $months = collect(range(1, 12))->map(function($month) use ($currentYear) {
-                            return \Carbon\Carbon::create($currentYear, $month, 1);
+                        $years = [2024, 2025];
+                        $months = collect($years)->flatMap(function($year) {
+                            return collect(range(1, 12))->map(function($month) use ($year) {
+                                return \Carbon\Carbon::create($year, $month, 1);
+                            });
                         });
+                        $previousYear = null;
                     @endphp
 
                     @foreach ($months as $date)
-                        @php
-                            $yearMonth = $date->format('Y-m');
-                            $data = $monthlyData[$yearMonth] ?? null;
-                            $totalHours = $data ? ($data['reg_hours'] + $data['reg_ot_hours'] + $data['ph_hours'] + $data['ph_ot_hours']) : 0;
-                            $totalSalary = $data ? ($data['reg_pay'] + $data['reg_ot_pay'] + $data['ph_pay'] + $data['ph_ot_pay']) : 0;
-                            $isClickable = $totalHours > 0 || $totalSalary > 0;
-                        @endphp
+                    @if ($previousYear !== null && $previousYear !== $date->year)
+                        <div class="col-span-full h-8"></div>
+                    @endif
+                    @php $previousYear = $date->year; @endphp
+
+                    @php
+                        $yearMonth = $date->format('Y-m');
+                        $data = $monthlyData[$yearMonth] ?? null;
+                        $totalHours = $data ? ($data['reg_hours'] + $data['reg_ot_hours'] + $data['ph_hours'] + $data['ph_ot_hours']) : 0;
+                        $totalSalary = $data ? ($data['reg_pay'] + $data['reg_ot_pay'] + $data['ph_pay'] + $data['ph_ot_pay']) : 0;
+                        $isClickable = $totalHours > 0 || $totalSalary > 0;
+                    @endphp
                         <a href="{{ $isClickable ? route('crew.details', ['staff' => $staff->id, 'year' => $date->year, 'month' => $date->month]) : '#' }}" 
                         class="block p-6 rounded-xl border shadow-lg transition duration-300 ease-in-out {{ $isClickable 
                             ? 'bg-gradient-to-br from-white to-gray-100 border-gray-200 hover:shadow-xl hover:-translate-y-1 transform' 
