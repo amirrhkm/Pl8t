@@ -137,7 +137,7 @@
     <!-- Demo Section (New) -->
     <section id="demo" class="py-20">
         <div class="max-w-7xl mx-auto px-4">
-            <h2 class="text-4xl font-bold mb-12 text-center gradient-text">Experience TallyUp in Action</h2>
+            <h2 class="text-4xl font-bold mb-12 text-center gradient-text">Take a Tour of Our Dashboard</h2>
             
             <div x-data="{ 
                 currentIndex: 0,
