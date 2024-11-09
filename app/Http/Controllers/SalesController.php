@@ -322,7 +322,16 @@ class SalesController extends Controller
     public function updateDailySales($date, $amount, $type)
     {
         $salesDaily = SalesDaily::firstOrNew(['date' => $date]);
-        $salesDaily->$type = $amount;
+        if($type == "total_expenses") {
+            $salesDaily->total_expenses = $salesDaily->total_expenses + $amount;
+        } elseif($type == "total_earning") {
+            $salesDaily->total_earning = $salesDaily->total_earning + $amount;
+        } elseif($type == "total_bankin") {
+            $salesDaily->total_bankin = $amount;
+        } elseif($type == "total_eod") {
+            $salesDaily->total_eod = $amount;
+        }
+
         $salesDaily->total_balance = $salesDaily->total_eod - $salesDaily->total_bankin - $salesDaily->total_expenses + $salesDaily->total_earning;
         $salesDaily->save();
     }
@@ -366,14 +375,14 @@ class SalesController extends Controller
     public function destroyExpense(SalesExpense $expense)
     {
         $expense->delete();
-        $this->updateDailySales($expense->date, 0, 'total_expenses');
+        $this->updateDailySales($expense->date, -$expense->amount, 'total_expenses');
         return redirect()->back()->with('success', 'Expense record deleted successfully');
     }
 
     public function destroyEarning(SalesEarning $earning)
     {
         $earning->delete();
-        $this->updateDailySales($earning->date, 0, 'total_earning');
+        $this->updateDailySales($earning->date, -$earning->amount, 'total_earning');
         return redirect()->back()->with('success', 'Earning record deleted successfully');
     }
 }
