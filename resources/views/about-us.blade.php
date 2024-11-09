@@ -73,13 +73,15 @@
 <body class="bg-[conic-gradient(at_bottom_left,_var(--tw-gradient-stops))] from-pink-900 via-red-900 to-yellow-900 text-white min-h-screen">
 
     <!-- Hero Section -->
-    <section class="relative pt-32 pb-20 px-4 overflow-hidden">
+    <section class="relative pt-32 pb-20 px-4 overflow-visible">
+        <!-- Diagonal Background -->
+        <div class="absolute inset-0 bg-gradient-to-r from-indigo-900/50 to-purple-900/50 transform -skew-y-3 -z-10"></div>
+        
         <!-- Decorative Elements -->
         <div class="absolute inset-0">
             <!-- Abstract shapes and particles -->
             <div class="particle absolute top-20 left-1/4 w-32 h-32 rounded-full bg-gradient-secondary opacity-20 blur-2xl"></div>
             <div class="particle absolute top-40 right-1/4 w-40 h-40 rounded-full bg-gradient-accent opacity-20 blur-2xl"></div>
-            <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-indigo-900/50 to-transparent"></div>
             
             <!-- Code snippets floating -->
             <div class="random-float top-24 right-12 p-4 bg-gray-800/30 backdrop-blur-sm rounded-lg border border-gray-700 hidden lg:block">
@@ -133,24 +135,87 @@
     </section>
 
     <!-- Demo Section (New) -->
-    <!-- <section id="demo" class="py-20">
+    <section id="demo" class="py-20">
         <div class="max-w-7xl mx-auto px-4">
-            <h2 class="text-4xl font-bold mb-12 text-center gradient-text">See TallyUp in Action</h2>
-            <div class="relative rounded-2xl overflow-hidden bg-indigo-800/20 backdrop-blur-sm p-8">
-                <div class="aspect-video">
-                    <img src="/img/app-demo.png" alt="TallyUp Demo" class="rounded-lg shadow-2xl" />
+            <h2 class="text-4xl font-bold mb-12 text-center gradient-text">Take a Tour of Our Dashboard</h2>
+            
+            <div x-data="{ 
+                currentIndex: 0,
+                images: [
+                    { src: '/img/dashboards/home.png', title: 'Business Analytics', description: 'Real-time insights into your business performance' },
+                    { src: '/img/dashboards/shift.png', title: 'Shift Management', description: 'Integrated shifts with payroll' },
+                    { src: '/img/dashboards/sales.png', title: 'Sales Report', description: 'Track daily sales performance and trends' },
+                    { src: '/img/dashboards/staff.png', title: 'Staff Management', description: 'Effortlessly manage your team details' },
+                    { src: '/img/dashboards/shift-payroll-details.png', title: 'Payroll Processing', description: 'Automated salary calculations and payment tracking' },
+                    { src: '/img/dashboards/inventory.png', title: 'Inventory Management', description: 'Track stock levels and manage suppliers' },
+                    { src: '/img/dashboards/summary.png', title: 'Summary Report', description: 'Analyse Real-Time Monthly Performance' }
+                ]
+            }" 
+            class="relative rounded-2xl overflow-hidden bg-indigo-800/20 backdrop-blur-sm p-8">
+                <!-- Main Image Display -->
+                <div class="relative aspect-[16/9] overflow-hidden rounded-xl">
+                    <!-- Images -->
+                    <template x-for="(image, index) in images" :key="index">
+                        <div x-show="currentIndex === index"
+                             x-transition:enter="transition ease-out duration-300"
+                             x-transition:enter-start="opacity-0 transform translate-x-full"
+                             x-transition:enter-end="opacity-100 transform translate-x-0"
+                             x-transition:leave="transition ease-in duration-300"
+                             x-transition:leave-start="opacity-100 transform translate-x-0"
+                             x-transition:leave-end="opacity-0 transform -translate-x-full"
+                             class="absolute inset-0">
+                            <img :src="image.src" 
+                                 :alt="image.title"
+                                 class="w-full h-full object-cover object-center">
+                            <!-- Caption -->
+                            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
+                                <h3 class="text-xl font-bold" x-text="image.title"></h3>
+                                <p class="text-sm text-gray-200" x-text="image.description"></p>
+                            </div>
+                        </div>
+                    </template>
                 </div>
-                <div class="absolute inset-0 bg-gradient-to-t from-indigo-900/80 to-transparent flex items-end justify-center pb-8">
-                    <a href="#" class="inline-flex items-center gap-2 bg-white text-indigo-900 px-6 py-3 rounded-full font-medium hover:bg-indigo-100 transition">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" />
-                        </svg>
-                        Watch Full Demo
-                    </a>
+
+                <!-- Navigation Buttons -->
+                <button @click="currentIndex = (currentIndex - 1 + images.length) % images.length"
+                        class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+                
+                <button @click="currentIndex = (currentIndex + 1) % images.length"
+                        class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+
+                <!-- Dots Navigation -->
+                <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                    <template x-for="(image, index) in images" :key="index">
+                        <button @click="currentIndex = index"
+                                :class="{'bg-white': currentIndex === index, 'bg-white/50': currentIndex !== index}"
+                                class="w-2 h-2 rounded-full transition-all duration-300">
+                        </button>
+                    </template>
                 </div>
             </div>
+
+            <!-- Thumbnails -->
+            <div class="flex justify-center space-x-4 mt-6">
+                <template x-for="(image, index) in images" :key="index">
+                    <button @click="currentIndex = index"
+                            :class="{'ring-2 ring-indigo-500': currentIndex === index}"
+                            class="w-20 h-20 rounded-lg overflow-hidden transition-all duration-300 hover:opacity-75">
+                        <img :src="image.src" 
+                             :alt="image.title"
+                             class="w-full h-full object-cover">
+                    </button>
+                </template>
+            </div>
         </div>
-    </section> -->
+    </section>
 
     <!-- Transforming F&B Section - Diagonal with offset grid -->
     <section class="py-20 relative">
@@ -237,8 +302,8 @@
     </section>
 
     <!-- Features Section - Hexagon Grid -->
-    <section class="py-20 relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-r from-indigo-900/50 to-purple-900/50 transform skew-y-3"></div>
+    <section class="py-20 relative overflow-visible">
+        <div class="absolute inset-0 bg-gradient-to-r from-indigo-900/50 to-purple-900/50 transform skew-y-3 -z-10"></div>
         <div class="max-w-7xl mx-auto px-4 relative">
             <h2 class="text-4xl font-bold mb-20 text-center">Powering Your Success</h2>
             <div class="grid md:grid-cols-2 gap-16">
@@ -344,7 +409,7 @@
     <!-- Footer -->
     <footer class="py-8 bg-indigo-900/50 backdrop-blur-sm">
         <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
-            <p class="text-indigo-200">© 2024 TallyUp. All rights reserved.</p>
+            <p class="text-indigo-200">Crafted by Amir Nurhakim (ﾉ◕ヮ◕)ﾉ*:・ﾟ✧</p>
             <div class="flex space-x-4">
                 <a href="https://www.linkedin.com/in/mrnrhkm/" class="text-indigo-200 hover:text-white transition duration-150">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
