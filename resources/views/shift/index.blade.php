@@ -50,10 +50,22 @@
 
             <!-- Shift Overview by Month -->
             <div class="bg-white rounded-lg shadow-md p-6 transition duration-300 ease-in-out hover:shadow-xl">
-                <h3 class="text-lg font-semibold mb-4 text-gray-700">Month Overview</h3>
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold text-gray-700">Month Overview</h3>
+                    <div class="flex space-x-2">
+                        <button onclick="setYear(2024)" class="px-3 py-1 rounded text-sm font-medium transition-colors duration-200 
+                            {{ request()->input('year', date('Y')) == '2024' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300' }}">
+                            2024
+                        </button>
+                        <button onclick="setYear(2025)" class="px-3 py-1 rounded text-sm font-medium transition-colors duration-200
+                            {{ request()->input('year', date('Y')) == '2025' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300' }}">
+                            2025
+                        </button>
+                    </div>
+                </div>
                 <div class="grid grid-cols-3 gap-2">
                     @foreach (range(1, 12) as $month)
-                        <a href="{{ route('shift.month', ['year' => date('Y'), 'month' => $month]) }}" 
+                        <a href="{{ route('shift.month', ['year' => request()->input('year', date('Y')), 'month' => $month]) }}" 
                         class="text-white font-bold py-2 px-3 rounded flex items-center justify-center 
                                 text-sm transition duration-300 ease-in-out hover:bg-opacity-90 shadow-md
                                 {{ $month % 2 == 0 ? 'bg-blue-500' : 'bg-blue-600' }}">
@@ -133,7 +145,20 @@
 
         <!-- Staff Off-Day Record -->
         <div class="bg-white bg-opacity-90 p-6 rounded-lg shadow-md w-full">
-            <h2 class="text-xl font-bold mb-4 text-gray-700">Staff on Off-Day</h2>
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-gray-700">Staff on Off-Day</h2>
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <span class="w-3 h-3 rounded-full bg-pink-100 border border-pink-800"></span>
+                        <span class="text-xs text-gray-600">Full-time</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="w-3 h-3 rounded-full bg-indigo-100 border border-indigo-800"></span>
+                        <span class="text-xs text-gray-600">Part-time</span>
+                    </div>
+                </div>
+            </div>
+            
             <div class="grid grid-cols-7 gap-2">
                 @php
                     $startOfWeek = now()->startOfWeek();
@@ -143,30 +168,66 @@
                         $currentDay = $startOfWeek->copy()->addDays($dayOffset);
                         $dateKey = $currentDay->format('Y-m-d');
                         $offDayStaff = $offDayRecords[$dateKey] ?? collect();
+                        $isToday = $currentDay->isToday();
                     @endphp
-                    <div class="text-center py-2 px-1 bg-gray-100 rounded">
-                        <span class="block text-sm font-semibold text-gray-700">{{ $currentDay->format('D') }}</span>
-                        <span class="block text-xs text-gray-500">{{ $currentDay->format('d M') }}</span>
-                        @if($offDayStaff->isNotEmpty())
-                            <ul class="space-y-1 mt-2">
-                                @foreach($offDayStaff as $staffMember)
-                                    @php
-                                        $bgColor = $staffMember->employment_type == 'full_time' ? 'bg-pink-100' : 'bg-indigo-100';
-                                        $textColor = $staffMember->employment_type == 'full_time' ? 'text-pink-800' : 'text-indigo-800';
-                                    @endphp
-                                    <li class="flex justify-center">
-                                        <span class="text-xs font-medium {{ $bgColor }} {{ $textColor }} px-2 py-0.5 rounded-full">
-                                            {{ $staffMember->nickname }}
-                                        </span>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        @else
-                            <span class="block text-xs font-medium text-gray-600 mt-2">No off-day staff</span>
-                        @endif
+                    <div class="relative {{ $isToday ? 'ring-2 ring-blue-400' : '' }}">
+                        <div class="text-center py-3 px-2 bg-gray-50 rounded-lg hover:shadow-md transition-all duration-200">
+                            <!-- Date Header -->
+                            <div class="mb-2 {{ $isToday ? 'bg-blue-50 -mt-3 py-1 rounded-t-lg' : '' }}">
+                                <span class="block text-sm font-bold text-gray-700">{{ $currentDay->format('D') }}</span>
+                                <span class="block text-xs text-gray-500">{{ $currentDay->format('d M') }}</span>
+                            </div>
+                            
+                            <!-- Staff Count Badge -->
+                            @if($offDayStaff->isNotEmpty())
+                                <span class="absolute -top-2 -right-2 bg-gray-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                                    {{ $offDayStaff->count() }}
+                                </span>
+                            @endif
+                            
+                            <!-- Staff List -->
+                            <div class="min-h-[80px] flex items-center justify-center">
+                                @if($offDayStaff->isNotEmpty())
+                                    <div class="space-y-1.5 w-full">
+                                        @php
+                                            $fullTimeStaff = $offDayStaff->filter(fn($staff) => $staff->employment_type === 'full_time');
+                                            $partTimeStaff = $offDayStaff->filter(fn($staff) => $staff->employment_type !== 'full_time');
+                                        @endphp
+                                        
+                                        {{-- Full-time staff first --}}
+                                        @foreach($fullTimeStaff as $staffMember)
+                                            <div class="flex justify-center">
+                                                <span class="text-xs font-medium bg-pink-100 text-pink-800 px-3 py-1 rounded-full border border-pink-200 w-full truncate">
+                                                    {{ $staffMember->nickname }}
+                                                </span>
+                                            </div>
+                                        @endforeach
+                                        
+                                        {{-- Part-time staff second --}}
+                                        @foreach($partTimeStaff as $staffMember)
+                                            <div class="flex justify-center">
+                                                <span class="text-xs font-medium bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full border border-indigo-200 w-full truncate">
+                                                    {{ $staffMember->nickname }}
+                                                </span>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <span class="text-xs text-gray-400 italic">No off-day staff</span>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                 @endforeach
             </div>
         </div>
     </div>
 </x-layout>
+
+<script>
+    function setYear(year) {
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('year', year);
+        window.location.search = urlParams.toString();
+    }
+</script>
