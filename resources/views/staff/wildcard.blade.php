@@ -4,13 +4,21 @@
 
     <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         @php
-            $currentYear = now()->year;
-            $months = collect(range(1, 12))->map(function($month) use ($currentYear) {
-                return \Carbon\Carbon::create($currentYear, $month, 1);
+            $years = [2024, 2025];
+            $months = collect($years)->flatMap(function($year) {
+                return collect(range(1, 12))->map(function($month) use ($year) {
+                    return \Carbon\Carbon::create($year, $month, 1);
+                });
             });
+            $previousYear = null;
         @endphp
 
         @foreach ($months as $date)
+            @if ($previousYear !== null && $previousYear !== $date->year)
+                <div class="col-span-full h-8"></div>
+            @endif
+            @php $previousYear = $date->year; @endphp
+
             @php
                 $yearMonth = $date->format('Y-m');
                 $data = $monthlyData[$yearMonth] ?? null;
