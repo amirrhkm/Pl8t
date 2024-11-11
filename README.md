@@ -1,93 +1,129 @@
-# Admin Dashboard for F&B Business
+# TallyUp - F&B Business Admin Dashboard
 
-### Modules included:
+## Overview
+TallyUp is a comprehensive administrative dashboard designed specifically for F&B businesses, offering integrated modules for staff management, payroll processing, inventory control, and sales tracking.
 
-1. **Staff** (Employee Management and Role-Based Access Control)
-2. **Payroll** (Auto-calculate based on working hours and rate)
-3. **Shift** (Working Hours and Schedule)
-4. **Inventory** (Stock, Delivery Order and Wastage)
-5. **Sales** (POS, Daily Sales Report, Monthly Sales Report, Expenses and EOD)
-6. **Report** (Earning and Loss, Stock Turnover, etc.)
+## Core Modules
 
-### Highlighted Features:
+### 1. Staff Management
+- Employee information management
+- Role-based access control (RBAC)
+- Staff scheduling and shift assignment
 
-- Assign shift to staff which directly update staff payroll
-- Auto-calculate payroll based on working hours and rate
-- Track inventory stock, delivery order and wastage
-- Sales cash tracking and report
-- Dashboard with simple metrics for monitoring overview
+### 2. Payroll Processing
+- Automated salary calculations
+- Working hours integration
+- Rate-based compensation management
 
-### Tech Stack:
+### 3. Shift Management
+- Dynamic schedule creation
+- Working hours tracking
+- Real-time shift updates
 
-- Laravel 11 (PHP 8.1 and Composer 2)
-- MySQL
-- Blade
-- Tailwind CSS
-- Nginx & PHP-FPM
+### 4. Inventory Control
+- Stock level monitoring
+- Delivery order management
+- Wastage tracking and reporting
 
-### Production Environment:
+### 5. Sales Management
+- Daily sales reporting
+- Monthly performance analytics
+- Expense tracking
+- End-of-day (EOD) reconciliation
 
-- Setup Nginx server block in `/etc/nginx/sites-available/tallyup-server.conf`
-- Setup PHP-FPM pool in `/etc/php/8.1/fpm/pool.d/laravel.conf`
-- Server running on `http://tallyup.click`
-- Server hosted on VPS with Hostinger
-- DNS and HostedZone managed by AWS Route 53
-- Database on VPS local disk (SSD)
+### 6. Business Intelligence
+- Profit and loss analysis
+- Stock turnover metrics
+- Performance dashboards
+- Custom reporting tools
 
-## Environment Overview
-TallyUp is a VPS service. Domain name is managed by AWS Route 53 with A Record pointing to Hostinger VPS Public IP and Nginx redirect to PHP-FPM for managing process and script execution.
+## Key Features
+- Integrated shift-payroll automation
+- Real-time inventory tracking
+- Comprehensive sales analytics
+- Centralized dashboard metrics
+- Automated financial calculations
 
-![tallyup-env-overview-dark](https://github.com/user-attachments/assets/a6e37c6d-3bea-43a0-af2c-b98498f43cd8)
+## Technical Architecture
 
-## Development Environment Setup
+### Technology Stack
+- **Backend Framework:** Laravel 11
+- **PHP Version:** 8.1
+- **Package Manager:** Composer 2
+- **Database:** MySQL
+- **Frontend:** 
+  - Blade templating engine
+  - Tailwind CSS
+- **Server:** 
+  - Nginx
+  - PHP-FPM
 
-To set up the development environment for this project, follow these steps:
+### Production Environment
+- **Domain Management:** AWS Route 53
+- **Hosting:** Hostinger VPS
+- **Server Configuration:**
+  - Nginx config: `/etc/nginx/sites-available/tallyup-server.conf`
+  - PHP-FPM pool: `/etc/php/8.1/fpm/pool.d/laravel.conf`
+- **Production URL:** `http://tallyup.click`
+- **Database:** Local VPS SSD storage
+
+## Infrastructure Overview
+![Infrastructure Diagram](https://github.com/user-attachments/assets/a6e37c6d-3bea-43a0-af2c-b98498f43cd8)
+
+TallyUp operates on a VPS infrastructure with AWS Route 53 managing DNS, directing traffic to Hostinger VPS via A Records. Nginx handles request routing with PHP-FPM managing process execution.
+
+## Development Setup
 
 ### Prerequisites
-
-- PHP 8.1 or higher
+- PHP 8.1+
 - Composer 2
 - SQLite
 
-### Installation
+### Installation Steps
 
-1. Clone the repository:
-   ```
+1. **Clone Repository**
+   ```bash
    git clone https://github.com/amirrhkm/tally-up.git
    cd tally-up
    ```
 
-2. Install PHP dependencies:
-   ```
+2. **Install Dependencies**
+   ```bash
    composer install
    ```
 
-3. Create a copy of the `.env.example` file and rename it to `.env`, and make sure to set the correct database configuration to use `sqlite`:
-   ```
+3. **Environment Configuration**
+   ```bash
    cp .env.example .env
    ```
-   ```.env
+   Configure SQLite database:
+   ```env
    DB_CONNECTION=sqlite
    ```
 
-4. Run database migrations, to view the database, setup `TablePlus` and import the `database.sqlite` file from the `database` folder:
-   ```
+4. **Database Setup**
+   ```bash
    php artisan migrate:fresh
    ```
 
-6. Seed the database with sample data, this will create shift handler for the UI interface (required):
-   ```
+5. **Seed Initial Data**
+   ```bash
    php artisan db:seed
    ```
 
-7. Generate a new application key:
-   ```
+6. **Application Key**
+   ```bash
    php artisan key:generate
    ```
 
-8. Start the development server:
-    ```
-    php artisan serve
-    ```
+7. **Launch Development Server**
+   ```bash
+   php artisan serve
+   ```
 
-The application should now be accessible at `http://localhost:8000`.
+Access the development environment at `http://localhost:8000`
+
+## Database Management
+For database visualization and management, use TablePlus and import the `database.sqlite` file from the `database` directory.
+
+
