@@ -46,16 +46,30 @@ class HomeController extends Controller
                 ->exists();
 
             // Sales Performance
-            $todaySales = (SalesDaily::whereDate('date', Carbon::today())->value('total_eod') ?? 0);
-            $yesterdaySales = (SalesDaily::whereDate('date', now()->subDay())->value('total_eod') ?? 0);
-            if ($yesterdaySales == 0) {
+            $dailyTarget = 3500;
+            $todaySales = (SalesEod::latest()->value('total_sales') ?? 0);
+            // Get all-time high sales for current month
+            $allTimeHighSales = SalesEod::whereYear('date', now()->year)
+                ->whereMonth('date', now()->month)
+                ->max('total_sales') ?? 0;
+            
+            if ($allTimeHighSales == 0) {
                 $salesTrend = 0;
             } else {
-                $salesTrend = round((($todaySales - $yesterdaySales) / $yesterdaySales) * 100, 1);
+                $salesTrend = round((($todaySales - $allTimeHighSales) / $allTimeHighSales) * 100, 1);
             }
             $monthToDateSales = SalesEod::whereYear('date', now()->year)->whereMonth('date', now()->month)
                 ->sum('total_sales');
             $salesTargetProgress = ($monthToDateSales / 100000) * 100;
+            
+            // Calculate probability of meeting monthly target
+            $daysInMonth = Carbon::now()->daysInMonth;
+            $daysPassed = Carbon::now()->day;
+            $daysRemaining = $daysInMonth - $daysPassed;
+            
+            $averageDailySales = $daysPassed > 0 ? $monthToDateSales / $daysPassed : 0;
+            $projectedMonthTotal = $monthToDateSales + ($averageDailySales * $daysRemaining);
+            $probabilityOfMeetingTarget = min(100, round(($projectedMonthTotal / 100000) * 100));
 
             // Inventory & Wastage
             $pendingInvoices = Invoice::whereNull('receive_date')->count();
@@ -108,7 +122,8 @@ class HomeController extends Controller
                 'monthlyInvoiceTotal',
                 'topStaffByHours',
                 'upcomingLeaves',
-                'upcomingHolidays'
+                'upcomingHolidays',
+                'probabilityOfMeetingTarget'
             ));
 
         } catch (\Exception $e) {
