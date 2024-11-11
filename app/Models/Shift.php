@@ -19,6 +19,11 @@ class Shift extends Model
         'is_public_holiday' => 'boolean',
     ];
 
+    public function isPublicHoliday(): bool
+    {
+        return $this->is_public_holiday;
+    }
+
     public function staff()
     {
         return $this->belongsTo(Staff::class);
