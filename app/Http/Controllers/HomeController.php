@@ -115,6 +115,7 @@ class HomeController extends Controller
                 'isPublicHoliday',
                 'todaySales',
                 'salesTrend',
+                'allTimeHighSales',
                 'monthToDateSales',
                 'salesTargetProgress',
                 'pendingInvoices',
