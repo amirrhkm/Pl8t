@@ -56,9 +56,13 @@
 
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl">
                 <h3 class="text-lg font-semibold mb-2 text-blue-600">Sales Performance</h3>
-                <p class="text-3xl font-bold text-gray-800">RM {{ number_format($todaySales, 2) }}</p>
+                <p class="text-3xl font-bold {{ $probabilityOfMeetingTarget < 80 ? 'text-red-600' : 'text-green-600' }}"
+                   title="Probability to achieve this month RM 100,000 target">
+                    {{ number_format($probabilityOfMeetingTarget, 2) }}%
+                </p>
+                
                 <div class="mt-2 text-sm">
-                    <p>📊 vs Yesterday: <span class="{{ $salesTrend >= 0 ? 'text-green-500' : 'text-red-500' }}">{{ $salesTrend }}%</span></p>
+                    <p>📊 vs ATH: <span class="{{ $salesTrend >= 0 ? 'text-green-500' : 'text-red-500' }}">{{ $salesTrend }}%</span></p>
                     <p>💰 MTD: RM {{ number_format($monthToDateSales, 2) }}</p>
                     <p>📈 Target: {{ number_format($salesTargetProgress, 2) }}%</p>
                 </div>
@@ -77,7 +81,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-4 text-indigo-800">Upcoming {{ now()->format('Y') }} Public Holidays</h3>
+                <h3 class="text-xl font-semibold mb-4 text-indigo-800">Upcoming Public Holidays</h3>
                 <ul class="space-y-3">
                     @foreach($upcomingHolidays as $holiday)
                         <li class="flex items-center bg-gradient-to-r from-indigo-50 to-blue-50 p-3 rounded-lg justify-center">
