@@ -62,7 +62,7 @@
                 </p>
                 
                 <div class="mt-2 text-sm">
-                    <p>📊 vs ATH: <span class="{{ $salesTrend >= 0 ? 'text-green-500' : 'text-red-500' }}">{{ $salesTrend }}%</span></p>
+                    <p>📊 vs ATH (RM {{ number_format($allTimeHighSales, 2) }}): <span class="{{ $salesTrend >= 0 ? 'text-green-500' : 'text-red-500' }}">{{ $salesTrend }}%</span></p>
                     <p>💰 MTD: RM {{ number_format($monthToDateSales, 2) }}</p>
                     <p>📈 Target: {{ number_format($salesTargetProgress, 2) }}%</p>
                 </div>
