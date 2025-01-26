@@ -82,7 +82,7 @@ Pl8t is a comprehensive administrative dashboard designed specifically for F&B b
 ## Infrastructure Overview
 ![Infrastructure Diagram](https://github.com/user-attachments/assets/a6e37c6d-3bea-43a0-af2c-b98498f43cd8)
 
-Pl8t operates on a VPS infrastructure with AWS Route 53 managing DNS, directing traffic to Hostinger VPS via A Records. Nginx handles request routing with PHP-FPM managing process execution.
+Pl8t (Formerly TallyUp) operates on a VPS infrastructure with AWS Route 53 managing DNS, directing traffic to Hostinger VPS via A Records. Nginx handles request routing with PHP-FPM managing process execution.
 
 ## Development Setup
 
