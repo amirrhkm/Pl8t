@@ -27,7 +27,7 @@
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
                             <p class="text-3xl font-bold text-white hover:text-gray-200 transition duration-150 ease-in-out">
-                                <a href="/">TallyUp</a>
+                                <a href="/">Pl8t</a>
                             </p>
                             </div>
                             <div class="hidden md:block">

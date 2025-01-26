@@ -143,7 +143,7 @@
                     
                     <!-- Information Panel - Hidden on mobile, visible on desktop -->
                     <div class="hidden md:block w-full md:w-1/2 bg-green-600 p-8 text-white">
-                        <h2 class="text-3xl font-bold mb-6">Welcome to TallyUp</h2>
+                        <h2 class="text-3xl font-bold mb-6">Welcome to Pl8t</h2>
                         <p class="mb-4">Your all-in-one solution for streamlining staff management, payroll processing, sales metrics, and more.</p>
                         <ul class="space-y-3">
                             <li class="flex items-start">
@@ -163,7 +163,7 @@
                                 <span class="text-sm">Efficiently track stock delivery invoices and total sales, with analytical insights for better business understanding</span>
                             </li>
                         </ul>
-                        <p class="mt-6">Got a problem managing your staff? Time to <strong>TallyUp</strong> and simplify your workflow!</p>
+                        <p class="mt-6">Got a problem managing your staff? Time to <strong>Pl8t</strong> and simplify your workflow!</p>
                     </div>
                 </div>
             </div>

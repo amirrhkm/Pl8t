@@ -134,10 +134,10 @@
     <!-- About Section -->
     <section class="py-20 bg-gradient-to-b from-black to-[#1a1a1a]">
         <div class="max-w-3xl mx-auto px-4">
-            <h2 class="text-3xl font-bold mb-8 text-center">About TallyUp</h2>
+            <h2 class="text-3xl font-bold mb-8 text-center">About Pl8t</h2>
             <div class="prose prose-lg mx-auto prose-invert">
                 <p class="text-white/80">
-                    TallyUp began as a solution to streamline payroll calculations for F&B businesses. Created by Amir Nurhakim, it has evolved into a comprehensive management system that helps businesses automate their operations and make data-driven decisions.
+                    Pl8t <i>(pronounced "Plate")</i> began as a solution to streamline payroll calculations for F&B businesses. It has evolved into a comprehensive management system that helps businesses automate their operations and make data-driven decisions.
                 </p>
             </div>
         </div>
