@@ -32,7 +32,7 @@
                                     $dateKey = $currentDay->format('Y-m-d');
                                     $isToday = $currentDay->isToday();
                                 @endphp
-                                <tr class="hover:bg-green-50 transition-colors {{ $isToday ? 'bg-green-100' : ($loop->even ? 'bg-gray-50' : '') }} cursor-pointer"
+                                <tr class="hover:bg-green-100 transition-colors {{ $isToday ? 'bg-green-50' : ($loop->even ? 'bg-gray-50' : '') }} cursor-pointer"
                                     onclick="window.location.href='{{ route('shift.details', ['date' => $dateKey]) }}'">
                                     <td class="py-2 px-3 font-semibold {{ $isToday ? 'text-green-600' : 'text-gray-800' }}">
                                         {{ $currentDay->format('D') }}

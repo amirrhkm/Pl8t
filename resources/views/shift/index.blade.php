@@ -114,7 +114,7 @@
                             $currentDay = $weekStart->copy()->addDays($dayOffset);
                             $dateKey = $currentDay->format('Y-m-d');
                         @endphp
-                        <div class="text-center py-2 px-1 {{ $currentDay->isToday() ? 'bg-green-500 bg-opacity-20' : 'bg-gray-100' }} rounded">
+                        <div class="text-center py-2 px-1 {{ $currentDay->isToday() ? 'bg-green-100' : 'bg-gray-100' }} rounded">
                             <span class="block text-sm font-semibold text-gray-700">{{ $currentDay->format('D') }}</span>
                             <span class="block text-xs text-gray-500">{{ $currentDay->format('d M') }}</span>
                             @if(isset($weeklyShifts[$dateKey]))
