@@ -41,7 +41,7 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-medium font-medium text-gray-900 text-center">
-                                    <a href="{{ route('wastages.edit', $wastage) }}" class="text-indigo-600 hover:text-indigo-900 mr-3 inline-flex items-center">
+                                    <a href="{{ route('wastages.edit', $wastage) }}" class="text-gray-800 hover:text-green-600 mr-3 inline-flex items-center">
                                         Edit
                                     </a>
                                     <form action="{{ route('wastages.destroy', $wastage) }}" method="POST" class="inline">
@@ -60,7 +60,7 @@
         </div>
     </div>
     <div class="mt-2 flex justify-center">
-        <a href="{{ route('invoices.index') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition duration-300 ease-in-out shadow-md hover:shadow-lg text-center text-sm">
+        <a href="{{ route('invoices.index') }}" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition duration-300 ease-in-out shadow-md hover:shadow-lg text-center text-sm">
             Back to Invoices
         </a>
     </div>

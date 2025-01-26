@@ -6,7 +6,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
             <!-- Earnings Report -->
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-4 text-indigo-800">Earnings</h3>
+                <h3 class="text-xl font-semibold mb-4 text-gray-800">Earnings</h3>
                 <div class="space-y-4">
                     <div>
                         <p class="text-gray-600">Total Earnings:</p>
@@ -22,7 +22,7 @@
                             compared to last month
                         </p>
                     </div>
-                    <h4 class="text-lg font-semibold text-indigo-700 mt-6 mb-2">Breakdown</h4>
+                    <h4 class="text-lg font-semibold text-gray-700 mt-6 mb-2">Breakdown</h4>
                     <ul class="space-y-2">
                         <li class="flex justify-between">
                             <span class="text-gray-600">Banked-in Sales cash:</span>
@@ -31,7 +31,7 @@
                                 <!-- <span class="text-sm {{ $data['salesBankins']['percentageDiff'] > 0 ? 'text-green-500' : ($data['salesBankins']['percentageDiff'] < 0 ? 'text-red-500' : 'text-gray-500') }}">
                                     ({{ $data['salesBankins']['percentageDiff'] > 0 ? '+' : '' }}{{ number_format($data['salesBankins']['percentageDiff'], 2) }}%)
                                 </span> -->
-                                <span class="text-xs text-blue-700 ml-1">({{ number_format($data['earningsDistribution']['salesBankins'], 1) }}%)</span>
+                                <span class="text-xs text-green-600 ml-1">({{ number_format($data['earningsDistribution']['salesBankins'], 1) }}%)</span>
                             </span>
                         </li>
                         <li class="flex justify-between">
@@ -41,7 +41,7 @@
                                 <!-- <span class="text-sm {{ $data['otherEarnings']['percentageDiff'] > 0 ? 'text-green-500' : ($data['otherEarnings']['percentageDiff'] < 0 ? 'text-red-500' : 'text-gray-500') }}">
                                     ({{ $data['otherEarnings']['percentageDiff'] > 0 ? '+' : '' }}{{ number_format($data['otherEarnings']['percentageDiff'], 2) }}%)
                                 </span> -->
-                                <span class="text-xs text-blue-700 ml-1">({{ number_format($data['earningsDistribution']['otherEarnings'], 1) }}%)</span>
+                                <span class="text-xs text-green-600 ml-1">({{ number_format($data['earningsDistribution']['otherEarnings'], 1) }}%)</span>
                             </span>
                         </li>
                     </ul>
@@ -50,7 +50,7 @@
 
             <!-- Expenses Report -->
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-4 text-indigo-800">Expenses</h3>
+                <h3 class="text-xl font-semibold mb-4 text-gray-800">Expenses</h3>
                 <div class="space-y-4">
                     <div>
                         <p class="text-gray-600">Total Expenses:</p>
@@ -66,7 +66,7 @@
                             compared to last month
                         </p>
                     </div>
-                    <h4 class="text-lg font-semibold text-indigo-700 mt-6 mb-2">Breakdown</h4>
+                    <h4 class="text-lg font-semibold text-gray-700 mt-6 mb-2">Breakdown</h4>
                     <ul class="space-y-2">
                         <li class="flex justify-between">
                             <span class="text-gray-600">Expenses recorded on Sales' cash:</span>
@@ -75,7 +75,7 @@
                                 <!-- <span class="text-sm {{ $data['salesExpenses']['percentageDiff'] > 0 ? 'text-red-500' : ($data['salesExpenses']['percentageDiff'] < 0 ? 'text-green-500' : 'text-gray-500') }}">
                                     ({{ $data['salesExpenses']['percentageDiff'] > 0 ? '+' : '' }}{{ number_format($data['salesExpenses']['percentageDiff'], 2) }}%)
                                 </span> -->
-                                <span class="text-xs text-blue-700 ml-1">({{ number_format($data['expensesDistribution']['salesExpenses'], 1) }}%)</span>
+                                <span class="text-xs text-green-600 ml-1">({{ number_format($data['expensesDistribution']['salesExpenses'], 1) }}%)</span>
                             </span>
                         </li>
                         <li class="flex justify-between">
@@ -85,7 +85,7 @@
                                 <!-- <span class="text-sm {{ $data['eodExpenses']['percentageDiff'] > 0 ? 'text-red-500' : ($data['eodExpenses']['percentageDiff'] < 0 ? 'text-green-500' : 'text-gray-500') }}">
                                     ({{ $data['eodExpenses']['percentageDiff'] > 0 ? '+' : '' }}{{ number_format($data['eodExpenses']['percentageDiff'], 2) }}%)
                                 </span> -->
-                                <span class="text-xs text-blue-700 ml-1">({{ number_format($data['expensesDistribution']['eodExpenses'], 1) }}%)</span>
+                                <span class="text-xs text-green-600 ml-1">({{ number_format($data['expensesDistribution']['eodExpenses'], 1) }}%)</span>
                             </span>
                         </li>
                         <li class="flex justify-between">
@@ -95,7 +95,7 @@
                                 <!-- <span class="text-sm {{ $data['invoicesTotal']['percentageDiff'] > 0 ? 'text-red-500' : ($data['invoicesTotal']['percentageDiff'] < 0 ? 'text-green-500' : 'text-gray-500') }}">
                                     ({{ $data['invoicesTotal']['percentageDiff'] > 0 ? '+' : '' }}{{ number_format($data['invoicesTotal']['percentageDiff'], 2) }}%)
                                 </span> -->
-                                <span class="text-xs text-blue-700 ml-1">({{ number_format($data['expensesDistribution']['invoicesTotal'], 1) }}%)</span>
+                                <span class="text-xs text-green-600 ml-1">({{ number_format($data['expensesDistribution']['invoicesTotal'], 1) }}%)</span>
                             </span>
                         </li>
                     </ul>
@@ -106,7 +106,7 @@
         <!-- Part-Time Staff and Wastage Summary -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-4 text-indigo-800">Part-Time Staff Summary</h3>
+                <h3 class="text-xl font-semibold mb-4 text-gray-800">Part-Time Staff Summary</h3>
                 <div class="space-y-4">
                     <div>
                         <p class="text-gray-600">Total Hours:</p>
@@ -138,13 +138,13 @@
                     </div>
                 </div>
                 <div class="mt-6">
-                    <a href="{{ route('reports.part-time-details') }}" class="inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300">
+                    <a href="{{ route('reports.part-time-details') }}" class="inline-block bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-green-600 transition duration-300">
                         View Part-Time Details
                     </a>
                 </div>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-4 text-indigo-800">Wastage Summary</h3>
+                <h3 class="text-xl font-semibold mb-4 text-gray-800">Wastage Summary</h3>
                 @if($wastages->isNotEmpty())
                     <ul class="space-y-2">
                         @foreach($wastages as $item => $totals)
