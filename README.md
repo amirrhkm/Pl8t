@@ -3,6 +3,18 @@
 ## Overview
 Pl8t is a comprehensive administrative dashboard designed specifically for F&B businesses, offering integrated modules for staff management, payroll processing, inventory control, and sales tracking.
 
+| **Admin Dashboard** |
+|-----------------------|
+| ![Admin Dashboard](https://github.com/user-attachments/assets/f7ac6b4f-b135-4f67-bcc9-707cee49b2f0) |
+
+| **Report Dashboard** | **Inventory Dashboard** | **Payroll Dashboard** |
+|----------------------|-------------------------|------------------------|
+| ![Report Dashboard](https://github.com/user-attachments/assets/b4b37059-3c40-41d7-8d74-af0c42ad6398) | ![Inventory Dashboard](https://github.com/user-attachments/assets/03f53edc-ba1f-4897-9fa4-2a65d5d643a5) | ![Payroll Dashboard](https://github.com/user-attachments/assets/8dc0c402-f450-4001-a0cf-666ada2dc5b6) |
+
+| **Sales Dashboard** | **Shift Dashboard** | **Staff Dashboard** |
+|----------------------|---------------------|----------------------|
+| ![Sales Dashboard](https://github.com/user-attachments/assets/0825d532-6591-4ec0-b22c-ef62f63b313f) | ![Shift Dashboard](https://github.com/user-attachments/assets/b1c6f77b-e953-4838-aab7-eda0c9941e47) | ![Staff Dashboard](https://github.com/user-attachments/assets/49b33759-d9c6-4180-97aa-784cd1af4397) |
+
 ## Core Modules
 
 ### 1. Staff Management
