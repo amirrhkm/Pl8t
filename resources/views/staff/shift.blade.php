@@ -67,7 +67,7 @@
                     @else
                         <tr>
                             <td class="py-2 px-4 border-b text-center">{{ $currentDate->format('d/m') }}</td>
-                            <td colspan="6" class="py-2 px-4 border-b text-center bg-yellow-100 text-yellow-800 font-semibold rounded-lg">
+                            <td colspan="6" class="py-2 px-4 border-b text-center bg-gray-800 text-white font-semibold rounded-lg">
                                 Off Day
                             </td>
                         </tr>
@@ -94,7 +94,7 @@
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-2xl font-bold">Payslip for {{ $staff->name }}</h2>
             <a href="{{ route('staff.payslip.download', ['staff' => $staff->id, 'month' => $monthShifts->first()->date->format('Y-m')]) }}" 
-               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+               class="bg-gray-800 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
                 Download Payslip
             </a>
         </div>

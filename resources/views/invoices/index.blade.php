@@ -5,24 +5,24 @@
 
     <div class="bg-gradient-to-br from-indigo-50 to-blue-100 p-8 rounded-xl shadow-lg">
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-3xl font-bold text-indigo-800">DO Invoices Overview</h2>
+            <h2 class="text-3xl font-bold text-gray-800">DO Invoices Overview</h2>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col items-center justify-center">
-                <h3 class="text-lg font-semibold mb-2 text-indigo-600">Total Stock Orders</h3>
+                <h3 class="text-lg font-semibold mb-2 text-gray-800">Total Stock Orders</h3>
                 <p class="text-6xl font-bold text-gray-800">{{ $totalInvoices }}</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col items-center justify-center">
-                <h3 class="text-lg font-semibold mb-2 text-green-600">Delivery Received</h3>
+                <h3 class="text-lg font-semibold mb-2 text-gray-800">Delivery Received</h3>
                 <p class="text-6xl font-bold text-gray-800">{{ $receivedInvoices }}</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col items-center justify-center">
-                <h3 class="text-lg font-semibold mb-2 text-orange-600">Delivery Pending</h3>
+                <h3 class="text-lg font-semibold mb-2 text-gray-800">Delivery Pending</h3>
                 <p class="text-6xl font-bold text-gray-800">{{ $pendingInvoices }}</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col items-center justify-center">
-                <h3 class="text-lg font-semibold mb-2 text-red-600">Delivery Overdue</h3>
+                <h3 class="text-lg font-semibold mb-2 text-gray-800">Delivery Overdue</h3>
                 <p class="text-6xl font-bold text-gray-800">{{ $overdueInvoices }}</p>
             </div>
         </div>
@@ -30,19 +30,19 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
             <div class="space-y-6">
                 <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-semibold mb-4 text-indigo-800">Total Spent in Stock Orders</h3>
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Total Spent in Stock Orders</h3>
                     <p class="text-4xl font-bold text-gray-800">RM {{ number_format($totalAmount, 2) }}</p>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-xl font-semibold text-indigo-800">Total Wastages in {{ now()->monthName }}</h3>
+                        <h3 class="text-xl font-semibold text-gray-800">Total Wastages in {{ now()->monthName }}</h3>
                         <div class="flex space-x-2">
-                            <a href="{{ route('wastages.create') }}" class="bg-green-500 hover:bg-green-600 text-white p-2 rounded-lg transition duration-300 ease-in-out shadow-md hover:shadow-lg text-center">
+                            <a href="{{ route('wastages.create') }}" class="bg-gray-800 hover:bg-green-600 text-white p-2 rounded-lg transition duration-300 ease-in-out shadow-md hover:shadow-lg text-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                                 </svg>
                             </a>
-                            <a href="{{ route('wastages.details', ['year' => now()->year, 'month' => now()->month]) }}" class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg transition duration-300 ease-in-out shadow-md hover:shadow-lg text-center">
+                            <a href="{{ route('wastages.details', ['year' => now()->year, 'month' => now()->month]) }}" class="bg-gray-800 hover:bg-green-600 text-white p-2 rounded-lg transition duration-300 ease-in-out shadow-md hover:shadow-lg text-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
                                     <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
@@ -80,13 +80,13 @@
                 </div>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold mb-4 text-indigo-800">Delivery On-Time Rates</h3>
+                <h3 class="text-xl font-semibold mb-4 text-gray-800">Delivery On-Time Rates</h3>
                 <ul class="space-y-2">
                 @inject('invoiceController', 'App\Http\Controllers\InvoiceController')
                     @foreach($deliveryRates as $type => $rate)
                         <li class="flex items-center justify-between">
                             <span class="text-gray-800">{{ $invoiceController->formatType($type) }}</span>
-                            <span class="text-indigo-600 font-medium">{{ $rate }}%</span>
+                            <span class="text-gray-600 font-medium">{{ $rate }}%</span>
                         </li>
                     @endforeach
                 </ul>
@@ -152,9 +152,9 @@
                             </svg>
                         </div>
                     </div>
-                    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition duration-300 ease-in-out shadow-md hover:shadow-lg text-center text-sm">Apply Filter</button>
+                    <button type="submit" class="bg-gray-800 hover:bg-green-600 text-white py-2 px-4 rounded-lg transition duration-300 ease-in-out shadow-md hover:shadow-lg text-center text-sm">Apply Filter</button>
                 </div>
-                <a href="{{ route('invoices.create') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition duration-300 ease-in-out shadow-md hover:shadow-lg text-center text-sm">
+                <a href="{{ route('invoices.create') }}" class="bg-gray-800 hover:bg-green-600 text-white py-2 px-4 rounded-lg transition duration-300 ease-in-out shadow-md hover:shadow-lg text-center text-sm">
                     Create New Invoice
                 </a>
             </form>
@@ -199,7 +199,7 @@
                                 @endif
                             </td>
                             <td class="px-2 py-2 whitespace-nowrap text-center">
-                                <a href="{{ route('invoices.edit', $invoice) }}" class="text-indigo-600 hover:text-indigo-900">
+                                <a href="{{ route('invoices.edit', $invoice) }}" class="text-gray-800 hover:text-green-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" viewBox="0 0 20 20" fill="currentColor">
                                         <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                                     </svg>

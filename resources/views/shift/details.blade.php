@@ -70,11 +70,11 @@
                                         </span>
                                     </td>
                                     <td class="py-2 px-4 border-b text-center">
-                                        <a href="{{ route('shift.edit', ['shift' => $shift->id, 'redirect' => 'details']) }}" class="text-blue-500 hover:underline mr-2">Edit</a>
+                                        <a href="{{ route('shift.edit', ['shift' => $shift->id, 'redirect' => 'details']) }}" class="text-gray-800 hover:text-green-600 mr-2">Edit</a>
                                         <form action="{{ route('shift.destroy', $shift->id) }}" method="POST" class="inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="text-red-500 hover:underline" onclick="return confirm('Are you sure you want to remove {{ $shift->staff->nickname }} from this shift?')">Remove</button>
+                                            <button type="submit" class="text-red-500 hover:text-red-600" onclick="return confirm('Are you sure you want to remove {{ $shift->staff->nickname }} from this shift?')">Remove</button>
                                         </form>
                                         </td>
                                     </tr>
@@ -87,9 +87,9 @@
     </div>
 
     <div class="mt-8 flex justify-center space-x-4">
-        <a href="{{ route('shift.week', ['date' => $date]) }}" class="bg-white bg-opacity-30 p-6 rounded-lg text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition duration-300 ease-in-out font-semibold">Back to Week</a>
-        <a href="{{ route('shift.month', ['year' => Carbon\Carbon::parse($date)->year, 'month' => Carbon\Carbon::parse($date)->month]) }}" class="bg-white bg-opacity-30 p-6 rounded-lg text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition duration-300 ease-in-out font-semibold">Back to Month</a>
-        <a href="{{ route('shift.create', ['date' => $date, 'is_public_holiday' => $isPublicHoliday]) }}" class="bg-amber-500 text-white px-6 py-2 rounded-lg hover:bg-amber-600 transition duration-300 ease-in-out font-semibold">Add Staff</a>
+        <a href="{{ route('shift.week', ['date' => $date]) }}" class="bg-white bg-opacity-30 p-6 rounded-lg text-white px-6 py-2 rounded-lg hover:bg-green-600 transition duration-300 ease-in-out font-semibold">Back to Week</a>
+        <a href="{{ route('shift.month', ['year' => Carbon\Carbon::parse($date)->year, 'month' => Carbon\Carbon::parse($date)->month]) }}" class="bg-white bg-opacity-30 p-6 rounded-lg text-white px-6 py-2 rounded-lg hover:bg-green-600 transition duration-300 ease-in-out font-semibold">Back to Month</a>
+        <a href="{{ route('shift.create', ['date' => $date, 'is_public_holiday' => $isPublicHoliday]) }}" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-800 transition duration-300 ease-in-out font-semibold">Add Staff</a>
     </div>
 </x-layout>
 

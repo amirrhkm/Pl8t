@@ -53,7 +53,7 @@
 
                 <div class="flex justify-end mt-4">
                     <a href="{{ route('shift.details', ['date' => $date]) }}" class="text-white px-4 py-2 rounded transition duration-300 ease-in-out">Cancel</a>
-                    <button type="submit" class="bg-indigo-500 shadow text-white px-4 py-2 rounded {{ $availableStaff === 0 ? 'opacity-50 cursor-not-allowed' : '' }}" {{ $availableStaff === 0 ? 'disabled' : '' }}>Add Shift</button>
+                    <button type="submit" class="bg-gray-800 hover:bg-green-600 shadow text-white px-4 py-2 rounded {{ $availableStaff === 0 ? 'opacity-50 cursor-not-allowed' : '' }}" {{ $availableStaff === 0 ? 'disabled' : '' }}>Add Shift</button>
                 </div>
             </form>
         </div>

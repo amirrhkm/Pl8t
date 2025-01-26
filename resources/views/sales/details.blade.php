@@ -6,7 +6,7 @@
     <div class="bg-gradient-to-br from-indigo-50 to-blue-100 p-8 rounded-xl shadow-lg">
         <!-- Back Button -->
         <div class="mb-6">
-            <a href="{{ route('sales.index') }}" class="inline-flex items-center text-indigo-600 hover:text-indigo-800">
+            <a href="{{ route('sales.index') }}" class="inline-flex items-center text-gray-800 hover:text-green-600">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                 </svg>
@@ -17,19 +17,19 @@
         <!-- Daily Summary -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-lg font-semibold mb-2 text-blue-600">Total EOD</h3>
+                <h3 class="text-lg font-semibold mb-2 text-gray-800">Total EOD</h3>
                 <p class="text-3xl font-bold text-gray-800">RM {{ number_format($dailySummary->total_eod ?? 0, 2) }}</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-lg font-semibold mb-2 text-green-600">Total Bank-in</h3>
+                <h3 class="text-lg font-semibold mb-2 text-gray-800">Total Bank-in</h3>
                 <p class="text-3xl font-bold text-gray-800">RM {{ number_format($dailySummary->total_bankin ?? 0, 2) }}</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-lg font-semibold mb-2 text-red-600">Total Expenses</h3>
+                <h3 class="text-lg font-semibold mb-2 text-gray-800">Total Expenses</h3>
                 <p class="text-3xl font-bold text-gray-800">RM {{ number_format($dailySummary->total_expenses ?? 0, 2) }}</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-lg font-semibold mb-2 text-yellow-600">Total Earnings</h3>
+                <h3 class="text-lg font-semibold mb-2 text-gray-800">Total Earnings</h3>
                 <p class="text-3xl font-bold text-gray-800">RM {{ number_format($dailySummary->total_earning ?? 0, 2) }}</p>
             </div>
         </div>
@@ -80,13 +80,13 @@
                                     <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-600 uppercase">Cash Difference</th>
                                     <td class="px-4 py-2.5 text-sm text-gray-700">RM {{ number_format($eod->cash_difference, 2) }}</td>
                                 </tr>
-                                <tr class="bg-blue-50">
-                                    <th class="px-4 py-2.5 text-left text-xs font-medium text-blue-700 uppercase">Sales Cash</th>
-                                    <td class="px-4 py-2.5 text-sm font-medium text-blue-700">RM {{ number_format($eod->amount_to_bank_in, 2) }}</td>
+                                <tr class="bg-green-50">
+                                    <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-700 uppercase">Sales Cash</th>
+                                    <td class="px-4 py-2.5 text-sm font-medium text-gray-700">RM {{ number_format($eod->amount_to_bank_in, 2) }}</td>
                                 </tr>
-                                <tr class="bg-blue-50">
-                                    <th class="px-4 py-2.5 text-left text-xs font-medium text-blue-700 uppercase">Total Day Sales</th>
-                                    <td class="px-4 py-2.5 text-sm font-medium text-blue-700">
+                                <tr class="bg-green-50">
+                                    <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-700 uppercase">Total Day Sales</th>
+                                    <td class="px-4 py-2.5 text-sm font-medium text-gray-700">
                                         RM {{ number_format($eod->total_sales ?? 0, 2) }}
                                     </td>
                                 </tr>
@@ -112,9 +112,9 @@
                                     <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-600 uppercase">Visa</th>
                                     <td class="px-4 py-2.5 text-sm text-gray-700">RM {{ number_format($eod->visa ?? 0, 2) }}</td>
                                 </tr>
-                                <tr class="bg-blue-50">
-                                    <th class="px-4 py-2.5 text-left text-xs font-medium text-blue-700 uppercase">Total Cards</th>
-                                    <td class="px-4 py-2.5 text-sm font-medium text-blue-700">
+                                <tr class="bg-green-50">
+                                    <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-700 uppercase">Total Cards</th>
+                                    <td class="px-4 py-2.5 text-sm font-medium text-gray-700">
                                         RM {{ number_format(($eod->debit ?? 0) + ($eod->master ?? 0) + ($eod->visa ?? 0), 2) }}
                                     </td>
                                 </tr>
@@ -137,9 +137,9 @@
                                     <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-600 uppercase">Shopeefood</th>
                                     <td class="px-4 py-2.5 text-sm text-gray-700">RM {{ number_format($eod->shopeefood ?? 0, 2) }}</td>
                                 </tr>
-                                <tr class="bg-blue-50">
-                                    <th class="px-4 py-2.5 text-left text-xs font-medium text-blue-700 uppercase">Total Delivery</th>
-                                    <td class="px-4 py-2.5 text-sm font-medium text-blue-700">
+                                <tr class="bg-green-50">
+                                    <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-700 uppercase">Total Delivery</th>
+                                    <td class="px-4 py-2.5 text-sm font-medium text-gray-700">
                                         RM {{ number_format(($eod->foodpanda ?? 0) + ($eod->grabfood ?? 0) + ($eod->shopeefood ?? 0), 2) }}
                                     </td>
                                 </tr>

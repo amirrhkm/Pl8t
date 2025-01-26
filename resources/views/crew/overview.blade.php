@@ -9,9 +9,7 @@
         <style>
             body {
                 font-family: 'Poppins', sans-serif;
-                background-image: url('https://images.unsplash.com/photo-1557682250-33bd709cbe85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2029&q=80');
-                background-size: cover;
-                background-position: center;
+                background: linear-gradient(to top, #000000, #1a1a1a);
                 background-attachment: fixed;
             }
         </style>
@@ -67,7 +65,7 @@
                                 <div class="space-y-2">
                                     <p class="font-medium {{ $isClickable ? 'text-gray-700' : 'text-gray-500' }}">
                                         <span class="block text-sm {{ $isClickable ? 'text-gray-500' : 'text-gray-400' }}">Total Hours</span>
-                                        <span class="text-xl {{ $isClickable ? 'text-blue-600' : 'text-gray-600' }}">{{ number_format($totalHours, 1) }}</span>
+                                        <span class="text-xl {{ $isClickable ? 'text-gray-600' : 'text-gray-600' }}">{{ number_format($totalHours, 1) }}</span>
                                     </p>
                                     <p class="font-medium {{ $isClickable ? 'text-gray-700' : 'text-gray-500' }}">
                                         <span class="block text-sm {{ $isClickable ? 'text-gray-500' : 'text-gray-400' }}">Salary</span>

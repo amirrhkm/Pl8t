@@ -9,9 +9,7 @@
         <style>
             body {
                 font-family: 'Poppins', sans-serif;
-                background-image: url('https://images.unsplash.com/photo-1557682250-33bd709cbe85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2029&q=80');
-                background-size: cover;
-                background-position: center;
+                background: linear-gradient(to top, #000000, #1a1a1a);
                 background-attachment: fixed;
             }
         </style>
@@ -72,15 +70,15 @@
                                 </div>
 
                                 <div class="flex items-center justify-between">
-                                    <button type="submit" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                    <button type="submit" class="bg-gray-800 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                                         Update
                                     </button>
                                     @if ($name != 'admin')
-                                        <a href="{{ route('crew.dashboard', ['staff' => $name]) }}" class="inline-block align-baseline font-bold text-sm text-indigo-500 hover:text-indigo-800">
+                                        <a href="{{ route('crew.dashboard', ['staff' => $name]) }}" class="inline-block align-baseline font-bold text-sm text-gray-800 hover:text-green-600">
                                             Back to Dashboard
                                         </a>
                                     @else
-                                        <a href="{{ route('home') }}" class="inline-block align-baseline font-bold text-sm text-indigo-500 hover:text-indigo-800">
+                                        <a href="{{ route('home') }}" class="inline-block align-baseline font-bold text-sm text-gray-800 hover:text-green-600">
                                             Back to Dashboard
                                         </a>
                                     @endif

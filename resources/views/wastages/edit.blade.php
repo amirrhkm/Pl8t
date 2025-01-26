@@ -62,7 +62,7 @@
                 <textarea class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="reason" name="reason" rows="3">{{ $wastage->reason }}</textarea>
             </div>
             <div class="flex justify-end">
-                <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" type="submit">
+                <button class="bg-gray-800 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" type="submit">
                     Update Wastage Record
                 </button>
             </div>
