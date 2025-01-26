@@ -5,14 +5,14 @@
 
     <div class="bg-gradient-to-br from-indigo-50 to-blue-100 p-8 rounded-xl shadow-lg">
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-3xl font-bold text-indigo-800">{{ $staff->name }}'s Leaves</h2>
+            <h2 class="text-3xl font-bold text-gray-800">{{ $staff->name }}'s Leaves</h2>
             <p class="text-lg font-semibold text-gray-600">{{ now()->format('d M Y (l)') }}</p>
         </div>
 
         <!-- Leave Summary -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl">
-                <h3 class="text-lg font-semibold mb-2 text-blue-600">Sick Leave (MC)</h3>
+                <h3 class="text-lg font-semibold mb-2 text-gray-800">Sick Leave (MC)</h3>
                 @if ($mc_used >= 8)
                     <p class="text-4xl font-bold text-red-500">{{ $mc_used }}<span class="text-2xl text-gray-600">/12</span></p>
                 @else
@@ -20,7 +20,7 @@
                 @endif
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl">
-                <h3 class="text-lg font-semibold mb-2 text-green-600">Annual Leave (AL)</h3>
+                <h3 class="text-lg font-semibold mb-2 text-gray-800">Annual Leave (AL)</h3>
                 @if ($staff->nickname == 'azlin')
                     @if ($al_used >= 10)
                         <p class="text-4xl font-bold text-red-500">{{ $al_used }}<span class="text-2xl text-gray-600">/14</span></p>
@@ -36,7 +36,7 @@
                 @endif
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl">
-                <h3 class="text-lg font-semibold mb-2 text-yellow-600">Unpaid Leave (UL)</h3>
+                <h3 class="text-lg font-semibold mb-2 text-gray-800">Unpaid Leave (UL)</h3>
                 <p class="text-4xl font-bold text-gray-800">{{ $ul_used }}</p>
             </div>
         </div>
@@ -95,7 +95,7 @@
 
         <!-- New Leave Application Form -->
         <div class="bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
-            <h2 class="text-xl font-semibold mb-4 text-indigo-800">Apply for Leave</h2>
+            <h2 class="text-xl font-semibold mb-4 text-gray-800">Leave Application Form</h2>
             <form action="{{ route('staff.leave.store') }}" method="POST" class="space-y-4">
                 @csrf
                 <input type="hidden" name="staff_id" value="{{ $staff->id }}">
@@ -124,7 +124,7 @@
                     </div>
                 </div>
                 <div class="flex justify-end">
-                    <button type="submit" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 ease-in-out">
+                    <button type="submit" class="bg-gray-800 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 ease-in-out">
                         Apply
                     </button>
                 </div>

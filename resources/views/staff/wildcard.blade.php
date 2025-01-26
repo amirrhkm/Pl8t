@@ -35,7 +35,7 @@
                     <div class="space-y-2">
                         <p class="font-medium {{ $isClickable ? 'text-gray-700' : 'text-gray-500' }}">
                             <span class="block text-sm {{ $isClickable ? 'text-gray-500' : 'text-gray-400' }}">Total Hours</span>
-                            <span class="text-xl {{ $isClickable ? 'text-blue-600' : 'text-gray-600' }}">{{ number_format($totalHours, 1) }}</span>
+                            <span class="text-xl {{ $isClickable ? 'text-gray-800' : 'text-gray-600' }}">{{ number_format($totalHours, 1) }}</span>
                         </p>
                         <p class="font-medium {{ $isClickable ? 'text-gray-700' : 'text-gray-500' }}">
                             <span class="block text-sm {{ $isClickable ? 'text-gray-500' : 'text-gray-400' }}">Salary</span>
