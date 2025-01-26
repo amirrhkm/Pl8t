@@ -5,8 +5,8 @@
     <div class="flex justify-center">
         <div class="bg-gradient-to-br from-blue-50 to-indigo-100 p-4 sm:p-6 rounded-xl shadow-lg w-1/2">
             <div class="flex flex-col sm:flex-row justify-between items-center mb-4">
-                <h2 class="text-2xl font-bold text-indigo-800 mb-2 sm:mb-0">This Week's Shifts</h2>
-                <p class="text-sm font-semibold text-indigo-600 bg-white px-3 py-1 rounded-full shadow-sm">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2 sm:mb-0">This Week's Shifts</h2>
+                <p class="text-sm font-semibold text-gray-800 bg-white px-3 py-1 rounded-full shadow-sm">
                     {{ Carbon\Carbon::parse($date)->startOfWeek()->format('d M') }} - {{ Carbon\Carbon::parse($date)->endOfWeek()->format('d M Y') }}
                 </p>
             </div>
@@ -15,7 +15,7 @@
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm">
                         <thead>
-                            <tr class="bg-indigo-600 text-white">
+                            <tr class="bg-gray-800 text-white">
                                 <th class="py-2 px-3 text-left">Day</th>
                                 <th class="py-2 px-3 text-left">Date</th>
                                 <th class="py-2 px-3 text-left">Shifts</th>
@@ -32,12 +32,12 @@
                                     $dateKey = $currentDay->format('Y-m-d');
                                     $isToday = $currentDay->isToday();
                                 @endphp
-                                <tr class="hover:bg-indigo-50 transition-colors {{ $isToday ? 'bg-indigo-100' : ($loop->even ? 'bg-gray-50' : '') }} cursor-pointer"
+                                <tr class="hover:bg-green-50 transition-colors {{ $isToday ? 'bg-green-100' : ($loop->even ? 'bg-gray-50' : '') }} cursor-pointer"
                                     onclick="window.location.href='{{ route('shift.details', ['date' => $dateKey]) }}'">
-                                    <td class="py-2 px-3 font-semibold {{ $isToday ? 'text-indigo-700' : 'text-gray-800' }}">
+                                    <td class="py-2 px-3 font-semibold {{ $isToday ? 'text-green-600' : 'text-gray-800' }}">
                                         {{ $currentDay->format('D') }}
                                     </td>
-                                    <td class="py-2 px-3 {{ $isToday ? 'text-indigo-700' : 'text-gray-600' }}">
+                                    <td class="py-2 px-3 {{ $isToday ? 'text-green-600' : 'text-gray-600' }}">
                                         {{ $currentDay->format('d M') }}
                                     </td>
                                     <td class="py-2 px-3">
@@ -79,7 +79,7 @@
                                                     @endphp
                                                     <li class="flex items-center justify-between">
                                                         <span class="text-gray-800 flex items-center">
-                                                            <span class="w-1.5 h-1.5 bg-indigo-500 rounded-full mr-1.5"></span>
+                                                            <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-1.5"></span>
                                                             {{ $shift->staff->name }}
                                                         </span>
                                                         <span class="ml-2 text-xs {{ $bgColor }} {{ $textColor }} px-1.5 py-0.5 rounded-full">
