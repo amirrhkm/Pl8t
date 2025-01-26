@@ -1,7 +1,7 @@
-# TallyUp - F&B Business Admin Dashboard
+# Pl8t: F&B Business Admin Dashboard
 
 ## Overview
-TallyUp is a comprehensive administrative dashboard designed specifically for F&B businesses, offering integrated modules for staff management, payroll processing, inventory control, and sales tracking.
+Pl8t is a comprehensive administrative dashboard designed specifically for F&B businesses, offering integrated modules for staff management, payroll processing, inventory control, and sales tracking.
 
 ## Core Modules
 
@@ -62,15 +62,15 @@ TallyUp is a comprehensive administrative dashboard designed specifically for F&
 - **Domain Management:** AWS Route 53
 - **Hosting:** Hostinger VPS
 - **Server Configuration:**
-  - Nginx config: `/etc/nginx/sites-available/tallyup-server.conf`
+  - Nginx config: `/etc/nginx/sites-available/pl8t-server.conf`
   - PHP-FPM pool: `/etc/php/8.1/fpm/pool.d/laravel.conf`
-- **Production URL:** `http://tallyup.click`
+- **Production URL:** `http://pl8t.click`
 - **Database:** Local VPS SSD storage
 
 ## Infrastructure Overview
 ![Infrastructure Diagram](https://github.com/user-attachments/assets/a6e37c6d-3bea-43a0-af2c-b98498f43cd8)
 
-TallyUp operates on a VPS infrastructure with AWS Route 53 managing DNS, directing traffic to Hostinger VPS via A Records. Nginx handles request routing with PHP-FPM managing process execution.
+Pl8t operates on a VPS infrastructure with AWS Route 53 managing DNS, directing traffic to Hostinger VPS via A Records. Nginx handles request routing with PHP-FPM managing process execution.
 
 ## Development Setup
 
@@ -83,8 +83,8 @@ TallyUp operates on a VPS infrastructure with AWS Route 53 managing DNS, directi
 
 1. **Clone Repository**
    ```bash
-   git clone https://github.com/amirrhkm/tally-up.git
-   cd tally-up
+   git clone https://github.com/amirrhkm/Pl8t.git
+   cd Pl8t
    ```
 
 2. **Install Dependencies**
