@@ -128,13 +128,13 @@
                     </div>
                 </div>
             </div>
-            <button type="button" id="add-expense" class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            <button type="button" id="add-expense" class="mt-2 bg-gray-800 hover:bg-green-600 text-xs text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                 +
             </button>
             </div>
             <div class="flex items-center justify-end pt-5">
-                <a href="{{ route('sales.index') }}" class="text-indigo-600 hover:text-indigo-800 font-medium pr-8">Cancel</a>
-                <button class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline" type="submit">
+                <a href="{{ route('sales.index') }}" class="text-gray-800 hover:text-green-600 font-medium pr-8">Cancel</a>
+                <button class="bg-gray-800 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline" type="submit">
                     Submit
                 </button>
             </div>
