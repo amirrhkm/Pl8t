@@ -21,7 +21,7 @@
 
     <body class="h-full">
         <div class="min-h-full pb-20">
-            <nav class="bg-transparent">
+            <nav class="bg-transparent fixed top-0 w-full z-50 backdrop-blur-sm bg-black">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="flex h-16 items-center justify-between">
                         <div class="flex items-center">
@@ -45,18 +45,20 @@
                 </div>
             </nav>
         
-            <header class="bg-transparent">
-                <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                    <h1 class="text-4xl font-bold text-white text-center drop-shadow-lg">{{ $heading }}</h1>
-                    <p class="text-xl text-white text-center mt-2 drop-shadow-md">{{ $description ?? '' }}</p>
-                </div>
-            </header>
-            
-            <main>
-                <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                    {{ $slot }}
-                </div>
-            </main>
+            <div class="pt-16">
+                <header class="bg-transparent">
+                    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                        <h1 class="text-4xl font-bold text-white text-center drop-shadow-lg">{{ $heading }}</h1>
+                        <p class="text-xl text-white text-center mt-2 drop-shadow-md">{{ $description ?? '' }}</p>
+                    </div>
+                </header>
+                
+                <main>
+                    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                        {{ $slot }}
+                    </div>
+                </main>
+            </div>
         </div>
 
         <footer class="bg-transparent py-4">
