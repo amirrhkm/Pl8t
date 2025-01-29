@@ -1,0 +1,69 @@
+name: Sims Deployment CI
+
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PAT_TOKEN }}
+          
+      - name: Get tag
+        id: get_tag
+        run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+      
+      - name: Configure Git
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+      - name: Commit and push changes
+        run: |
+          # Fetch production branch or create if it doesn't exist
+          git fetch origin production || git checkout -b production
+          git checkout production
+      
+          # Merge the tagged commit into production
+          git merge ${{ steps.get_tag.outputs.TAG }} --strategy-option ours --no-ff -m "Merge tag ${{ steps.get_tag.outputs.TAG }} into production"
+
+          # Push to production
+          git push origin production
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Deploy to production server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            cd /var/www/sims
+            git fetch origin production
+            git reset --hard origin/production
+            
+            # Configure git to avoid divergent branch issues
+            git config pull.rebase false
+
+            # Pull changes (should be clean now)
+            git pull origin production
+
+            # Update APP_VERSION in .env file with the tag version
+            sed -i "s/^APP_VERSION=.*$/APP_VERSION=${{ github.ref_name }}/" .env
+
+            # Clear Laravel configuration cache
+            php artisan config:clear
+            php artisan config:cache
