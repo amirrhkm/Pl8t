@@ -21,7 +21,7 @@
 
     <body class="h-full">
         <div class="min-h-full pb-20">
-            <nav class="bg-transparent fixed top-0 w-full z-50 backdrop-blur-sm bg-black">
+            <nav class="fixed top-0 w-full z-50 backdrop-blur-sm bg-[#181818]">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="flex h-16 items-center justify-between">
                         <div class="flex items-center">
@@ -40,6 +40,9 @@
                                     <a href="/reports" class="text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium">Summary</a>
                                 </div>
                             </div>
+                        </div>
+                        <div class="text-gray-400 text-sm">
+                            ver {{ config('app.version') }}
                         </div>
                     </div>
                 </div>
