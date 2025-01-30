@@ -12,6 +12,7 @@ use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\WastageController;
+use App\Http\Controllers\HolidayController;
 
 // Public routes
 Route::get('/', function () { return view('about-us'); });
@@ -115,5 +116,8 @@ Route::middleware([AuthenticationHandler::class])->group(function () {
     Route::get('/crew/dashboard/{staff}', [CrewController::class, 'show'])->name('crew.dashboard');
     Route::get('/crew/overview/{staff}', [CrewController::class, 'overview'])->name('crew.overview');
     Route::get('/crew/details/{staff}/{year}/{month}', [CrewController::class, 'details'])->name('crew.details');
+
+    Route::get('/holidays', [HolidayController::class, 'index'])->name('holidays.index');
+    Route::post('/holidays/toggle', [HolidayController::class, 'toggle'])->name('holidays.toggle');
 });
 
