@@ -35,8 +35,8 @@
                 <input class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="amount" type="number" step="0.01" name="amount" required>
             </div>
             <div class="flex items-center justify-end pt-5">
-                <a href="{{ route('sales.index') }}" class="text-indigo-600 hover:text-indigo-800 font-medium pr-8">Cancel</a>
-                <button class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline" type="submit">
+                <a href="{{ route('sales.index') }}" class="text-gray-800 hover:text-green-600 font-medium pr-8">Cancel</a>
+                <button class="bg-gray-800 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline" type="submit">
                     Submit
                 </button>
             </div>

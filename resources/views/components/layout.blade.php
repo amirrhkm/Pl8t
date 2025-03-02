@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
-<head>
+    <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>TallyUp</title>
@@ -11,9 +11,7 @@
         <style>
             body {
                 font-family: 'Poppins', sans-serif;
-                background-image: url('https://images.unsplash.com/photo-1557682250-33bd709cbe85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2029&q=80');
-                background-size: cover;
-                background-position: center;
+                background: linear-gradient(to top, #000000, #1a1a1a);
                 background-attachment: fixed;
             }
         </style>
@@ -23,13 +21,13 @@
 
     <body class="h-full">
         <div class="min-h-full pb-20">
-            <nav class="bg-transparent">
+            <nav class="fixed top-0 w-full z-50 backdrop-blur-sm bg-[#181818]">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="flex h-16 items-center justify-between">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
                             <p class="text-3xl font-bold text-white hover:text-gray-200 transition duration-150 ease-in-out">
-                                <a href="/">TallyUp</a>
+                                <a href="/">Pl8t</a>
                             </p>
                             </div>
                             <div class="hidden md:block">
@@ -43,22 +41,27 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="text-gray-400 text-sm">
+                            ver {{ config('app.version') }}
+                        </div>
                     </div>
                 </div>
             </nav>
         
-            <header class="bg-transparent">
-                <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                    <h1 class="text-4xl font-bold text-white text-center drop-shadow-lg">{{ $heading }}</h1>
-                    <p class="text-xl text-white text-center mt-2 drop-shadow-md">{{ $description ?? '' }}</p>
-                </div>
-            </header>
-            
-            <main>
-                <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                    {{ $slot }}
-                </div>
-            </main>
+            <div class="pt-16">
+                <header class="bg-transparent">
+                    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                        <h1 class="text-4xl font-bold text-white text-center drop-shadow-lg">{{ $heading }}</h1>
+                        <p class="text-xl text-white text-center mt-2 drop-shadow-md">{{ $description ?? '' }}</p>
+                    </div>
+                </header>
+                
+                <main>
+                    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                        {{ $slot }}
+                    </div>
+                </main>
+            </div>
         </div>
 
         <footer class="bg-transparent py-4">

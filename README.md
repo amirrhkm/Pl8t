@@ -1,7 +1,27 @@
-# TallyUp - F&B Business Admin Dashboard
+# Pl8t: F&B Business Admin Dashboard
 
 ## Overview
-TallyUp is a comprehensive administrative dashboard designed specifically for F&B businesses, offering integrated modules for staff management, payroll processing, inventory control, and sales tracking.
+Pl8t is a comprehensive administrative dashboard designed specifically for F&B businesses, offering integrated modules for staff management, payroll processing, inventory control, and sales tracking.
+
+| **Login Page** |
+|----------------|
+| ![Login Page](https://github.com/user-attachments/assets/a1e4eff7-a171-4a1d-88fb-94dd1a04b8f1) |
+
+| **Admin Dashboard** | **Sales Dashboard** |
+|---------------------|---------------------|
+| ![Admin Dashboard](https://github.com/user-attachments/assets/c662edb9-b000-49e7-b750-2416ec19f42a) | ![Sales Dashboard](https://github.com/user-attachments/assets/0825d532-6591-4ec0-b22c-ef62f63b313f) |
+
+| **Report Summary** | **Inventory and Invoices** | 
+|--------------------|----------------------------|
+| ![Report Summary](https://github.com/user-attachments/assets/b4b37059-3c40-41d7-8d74-af0c42ad6398) | ![Inventory and Invoices](https://github.com/user-attachments/assets/03f53edc-ba1f-4897-9fa4-2a65d5d643a5) |
+
+| **Payroll Automation** | **Outlet Holidays** |
+|------------------------|---------------------|
+![Payroll Automation](https://github.com/user-attachments/assets/8dc0c402-f450-4001-a0cf-666ada2dc5b6) | ![Outlet Holiday](https://github.com/user-attachments/assets/d1d8ea7a-c3fe-4f79-989e-f8330e85de7e) |
+
+| **Shift Central** | **Team Hub** |
+|-------------------|--------------|
+| ![Shift Central](https://github.com/user-attachments/assets/b1c6f77b-e953-4838-aab7-eda0c9941e47) | ![Staff Dashboard](https://github.com/user-attachments/assets/49b33759-d9c6-4180-97aa-784cd1af4397) |
 
 ## Core Modules
 
@@ -32,10 +52,7 @@ TallyUp is a comprehensive administrative dashboard designed specifically for F&
 - End-of-day (EOD) reconciliation
 
 ### 6. Business Intelligence
-- Profit and loss analysis
-- Stock turnover metrics
-- Performance dashboards
-- Custom reporting tools
+- _(to be enhanced)_
 
 ## Key Features
 - Integrated shift-payroll automation
@@ -62,15 +79,15 @@ TallyUp is a comprehensive administrative dashboard designed specifically for F&
 - **Domain Management:** AWS Route 53
 - **Hosting:** Hostinger VPS
 - **Server Configuration:**
-  - Nginx config: `/etc/nginx/sites-available/tallyup-server.conf`
+  - Nginx config: `/etc/nginx/sites-available/pl8t-server.conf`
   - PHP-FPM pool: `/etc/php/8.1/fpm/pool.d/laravel.conf`
-- **Production URL:** `http://tallyup.click`
+- **Production URL:** `http://pl8t.click`
 - **Database:** Local VPS SSD storage
 
 ## Infrastructure Overview
 ![Infrastructure Diagram](https://github.com/user-attachments/assets/a6e37c6d-3bea-43a0-af2c-b98498f43cd8)
 
-TallyUp operates on a VPS infrastructure with AWS Route 53 managing DNS, directing traffic to Hostinger VPS via A Records. Nginx handles request routing with PHP-FPM managing process execution.
+Pl8t (Formerly TallyUp) operates on a VPS infrastructure with AWS Route 53 managing DNS, directing traffic to Hostinger VPS via A Records. Nginx handles request routing with PHP-FPM managing process execution.
 
 ## Development Setup
 
@@ -83,8 +100,8 @@ TallyUp operates on a VPS infrastructure with AWS Route 53 managing DNS, directi
 
 1. **Clone Repository**
    ```bash
-   git clone https://github.com/amirrhkm/tally-up.git
-   cd tally-up
+   git clone https://github.com/amirrhkm/Pl8t.git
+   cd Pl8t
    ```
 
 2. **Install Dependencies**
@@ -119,9 +136,13 @@ TallyUp operates on a VPS infrastructure with AWS Route 53 managing DNS, directi
 7. **Launch Development Server**
    ```bash
    php artisan serve
-   ```
+   # access app on http://localhost:8000
+   
+   # or create a symlink with valet
 
-Access the development environment at `http://localhost:8000`
+   valet link
+   # access app on http://pl8t.test
+   ```
 
 ## Database Management
 For database visualization and management, use TablePlus and import the `database.sqlite` file from the `database` directory.

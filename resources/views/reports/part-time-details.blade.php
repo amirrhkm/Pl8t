@@ -3,7 +3,7 @@
     <x-slot:description>{{ $selectedMonth->format('F Y') }}</x-slot:description>
 
     <div class="bg-white p-8 rounded-xl shadow-lg">
-        <h3 class="text-xl font-semibold mb-4 text-indigo-800">Part-Time Staff Details</h3>
+        <h3 class="text-xl font-semibold mb-4 text-gray-800">Part-Time Staff Details</h3>
         <div class="mb-6">
             <form action="{{ route('reports.part-time-details') }}" method="GET" class="flex items-center space-x-4">
                 <div class="relative">
@@ -23,7 +23,7 @@
                         </svg>
                     </div>
                 </div>
-                <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition duration-300 ease-in-out shadow-md hover:shadow-lg text-center text-sm">
+                <button type="submit" class="bg-gray-800 hover:bg-green-600 text-white py-2 px-4 rounded-lg transition duration-300 ease-in-out shadow-md hover:shadow-lg text-center text-sm">
                     Filter
                 </button>
             </form>
@@ -31,7 +31,7 @@
 
         <div class="overflow-x-auto">
             <table class="min-w-full bg-white border border-gray-300 shadow-md rounded-lg">
-                <thead class="bg-indigo-600 text-white">
+                <thead class="bg-gray-800 text-white">
                     <tr>
                         <th class="py-3 px-5 border-b text-center font-medium">Name</th>
                         <th class="py-3 px-5 border-b text-center font-medium">Rate (RM)</th>

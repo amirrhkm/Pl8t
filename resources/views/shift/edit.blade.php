@@ -33,7 +33,7 @@
                 <div class="flex-grow"></div>
 
                 <div class="flex justify-end mt-4">
-                    <button type="submit" class="bg-indigo-500 shadow text-white px-4 py-2 rounded">Update Shift</button>
+                    <button type="submit" class="bg-gray-800 hover:bg-green-600 shadow text-white px-4 py-2 rounded">Update Shift</button>
                 </div>
             </form>
         </div>

@@ -9,9 +9,7 @@
         <style>
             body {
                 font-family: 'Poppins', sans-serif;
-                background-image: url('https://images.unsplash.com/photo-1557682250-33bd709cbe85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2029&q=80');
-                background-size: cover;
-                background-position: center;
+                background: linear-gradient(to top, #000000, #1a1a1a);
                 background-attachment: fixed;
             }
         </style>
@@ -30,14 +28,14 @@
                 <div class="min-h-full pb-5 sm:pb-10">
                     <div class="bg-gradient-to-br from-indigo-50 to-blue-100 p-4 sm:p-8 rounded-xl shadow-lg">
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 space-y-2 sm:space-y-0">
-                            <h2 class="text-2xl sm:text-3xl font-bold text-indigo-800">{{ $staff->nickname }}'s Dashboard</h2>
+                            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">{{ $staff->nickname }}'s Dashboard</h2>
                             <div class="flex items-center space-x-6">
-                                <a href="{{ route('crew.overview', ['staff' => $staff->id]) }}" class="text-blue-500 hover:text-blue-600">
+                                <a href="{{ route('crew.overview', ['staff' => $staff->id]) }}" class="text-gray-800 hover:text-green-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                                     </svg>
                                 </a>
-                                <a href="{{ route('account.settings') }}" class="text-indigo-500 hover:text-indigo-600">
+                                <a href="{{ route('account.settings') }}" class="text-gray-800 hover:text-green-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -56,24 +54,24 @@
         
                         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-10">
                             <div class="bg-white p-3 sm:p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col items-center justify-center">
-                                <h3 class="text-sm sm:text-lg font-semibold mb-1 sm:mb-2 text-indigo-600">Regular Hours</h3>
+                                <h3 class="text-sm sm:text-lg font-semibold mb-1 sm:mb-2 text-gray-800">Regular Hours</h3>
                                 <p class="text-3xl sm:text-5xl font-bold text-gray-800">{{ number_format($month_reg_hours, 2) }}</p>
                                 <p class="text-lg sm:text-2xl font-semibold text-green-600 mt-1 sm:mt-2">+{{ number_format($month_reg_ot_hours, 2) }} OT</p>
                             </div>
                             <div class="bg-white p-3 sm:p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col items-center justify-center">
-                                <h3 class="text-sm sm:text-lg font-semibold mb-1 sm:mb-2 text-yellow-600">PH Hours</h3>
+                                <h3 class="text-sm sm:text-lg font-semibold mb-1 sm:mb-2 text-gray-800">PH Hours</h3>
                                 <p class="text-3xl sm:text-5xl font-bold text-gray-800">{{ number_format($month_ph_hours, 2) }}</p>
                                 <p class="text-lg sm:text-2xl font-semibold text-green-600 mt-1 sm:mt-2">+{{ number_format($month_ph_ot_hours, 2) }} OT</p>
                             </div>
                             <div class="bg-white p-3 sm:p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col items-center justify-center">
-                                <h3 class="text-sm sm:text-lg font-semibold mb-1 sm:mb-2 text-orange-800 text-center">{{ now()->format('M') }} Total</h3>
+                                <h3 class="text-sm sm:text-lg font-semibold mb-1 sm:mb-2 text-gray-800 text-center">{{ now()->format('M') }} Total</h3>
                                 <p class="text-2xl sm:text-4xl font-bold text-gray-800">RM {{ number_format($this_month_salary, 2) }}</p>
                                 <p class="text-base sm:text-xl font-semibold {{ $percentage_diff_last_month >= 0 ? 'text-green-600' : 'text-red-600' }} mt-1 sm:mt-2">
                                     {{ $percentage_diff_last_month >= 0 ? '+' : '' }}{{ number_format($percentage_diff_last_month, 2) }}%
                                 </p>
                             </div>
                             <div class="bg-white p-3 sm:p-6 rounded-lg shadow-md transition duration-300 ease-in-out hover:shadow-xl flex flex-col items-center justify-center">
-                                <h3 class="text-sm sm:text-lg font-semibold mb-1 sm:mb-2 text-indigo-600">Previous</h3>
+                                <h3 class="text-sm sm:text-lg font-semibold mb-1 sm:mb-2 text-gray-800">Previous</h3>
                                 <div class="text-center space-y-1">
                                     <div class="text-center">
                                         <p class="text-xs sm:text-md font-semibold text-gray-700">{{ $lastMonthName }}: RM {{ number_format($last_month_salary, 2) }}</p>
@@ -99,8 +97,8 @@
 
                         <div class="bg-white p-3 sm:p-6 rounded-lg shadow-md mb-2">
                             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3 space-y-2 sm:space-y-0">
-                                <h3 class="text-lg sm:text-xl font-semibold text-indigo-800">This Week's Timetable</h3>
-                                <p class="text-xs sm:text-sm font-semibold text-indigo-600 px-2 sm:px-3 py-1 rounded-full shadow-sm bg-indigo-50">
+                                <h3 class="text-lg sm:text-xl font-semibold text-gray-800">This Week's Timetable</h3>
+                                <p class="text-xs sm:text-sm font-semibold text-gray-800 px-2 sm:px-3 py-1 rounded-full shadow-sm bg-gray-50">
                                     {{ Carbon\Carbon::parse($date)->startOfWeek()->format('d M') }} - {{ Carbon\Carbon::parse($date)->endOfWeek()->format('d M Y') }}
                                 </p>
                             </div>
@@ -108,7 +106,7 @@
                                 <div class="overflow-x-auto">
                                     <table class="w-full text-sm">
                                         <thead>
-                                            <tr class="bg-indigo-600 text-white">
+                                            <tr class="bg-gray-800 text-white">
                                                 <th class="py-2 px-3 text-left">Day</th>
                                                 <th class="py-2 px-3 text-left">Date</th>
                                                 <th class="py-2 px-3 text-left">Shifts</th>
@@ -126,11 +124,11 @@
                                                     $isToday = $currentDay->isToday();
                                                     $shifts = $weeklyShifts[$dateKey] ?? collect();
                                                 @endphp
-                                                <tr class="hover:bg-indigo-50 transition-colors {{ $isToday ? 'bg-indigo-100' : ($loop->even ? 'bg-gray-50' : '') }}">
-                                                    <td class="py-2 px-3 font-semibold {{ $isToday ? 'text-indigo-700' : 'text-gray-800' }}">
+                                                <tr class="hover:bg-green-10 transition-colors {{ $isToday ? 'bg-green-100' : ($loop->even ? 'bg-gray-50' : '') }}">
+                                                    <td class="py-2 px-3 font-semibold {{ $isToday ? 'text-green-700' : 'text-gray-800' }}">
                                                         {{ $currentDay->format('D') }}
                                                     </td>
-                                                    <td class="py-2 px-3 {{ $isToday ? 'text-indigo-700' : 'text-gray-600' }}">
+                                                    <td class="py-2 px-3 {{ $isToday ? 'text-green-700' : 'text-gray-600' }}">
                                                         {{ $currentDay->format('d M') }}
                                                     </td>
                                                     <td class="py-2 px-3">
@@ -172,7 +170,7 @@
                                                                     @endphp
                                                                     <li class="flex items-center justify-between">
                                                                         <span class="text-gray-800 flex items-center">
-                                                                            <span class="w-1.5 h-1.5 bg-indigo-500 rounded-full mr-1.5"></span>
+                                                                            <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-1.5"></span>
                                                                             {{ $shift->staff->nickname }}
                                                                         </span>
                                                                         <span class="ml-2 text-md {{ $bgColor }} {{ $textColor }} px-1.5 py-0.5 rounded-full">
